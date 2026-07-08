@@ -21,12 +21,12 @@
             let list = active === "Tous" ? SONGS : SONGS.filter(s => s.theme === active);
             if (query.trim()) {
                 const q = query.toLowerCase();
-                list = list.filter(s => s.titre.toLowerCase().includes(q) || s.artiste.toLowerCase().includes(q));
+                list = list.filter(s => s.title.toLowerCase().includes(q) || s.artiste.toLowerCase().includes(q));
             }
             const el = document.getElementById("list");
             el.innerHTML = list.map(s => `
                 <div class="row">
-                <span>${s.titre} — ${s.artiste}</span>
+                <span>${s.title} — ${s.artiste}</span>
                 ${s.lien ? `<a href="${s.lien}" target="_blank">↗</a>` : ""}
                 </div>
             `).join("");
