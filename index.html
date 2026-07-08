@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mes chansons</title>
+</head>
+<body>
+
+    <input id="search" type="text" placeholder="Rechercher...">
+    <nav id="nav"></nav>
+    <div id="list"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const client = supabase.createClient("https://wihxegbjecvfnmdtodvq.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo")
+        let SONGS = []
+        let active = "Tous"
+        let query = ""
+
+        function renderList() {
+            let list = active === "Tous" ? SONGS : SONGS.filter(s => s.theme === active);
+            if (query.trim()) {
+                const q = query.toLowerCase();
+                list = list.filter(s => s.titre.toLowerCase().includes(q) || s.artiste.toLowerCase().includes(q));
+            }
+            const el = document.getElementById("list");
+            el.innerHTML = list.map(s => `
+                <div class="row">
+                <span>${s.titre} — ${s.artiste}</span>
+                ${s.lien ? `<a href="${s.lien}" target="_blank">↗</a>` : ""}
+                </div>
+            `).join("");
+        }
+
+        function renderNav() {
+            const themes = ["Tous", ...new Set(SONGS.map(s => s.theme))];
+            const nav = document.getElementById("nav");
+            nav.innerHTML = themes.map(t => {
+                const count = t === "Tous" ? SONGS.length : SONGS.filter(s => s.theme === t).length;
+                return `<button class="theme-btn" data-theme="${t}">${t} (${count})</button>`;
+            }).join("");
+        }
+
+        async function loadSongs () {
+            const {data, error} = await client.from('songs').select('*');
+            if (error) {
+                console.error(error);
+                return;
+            }
+            SONGS = data;
+            renderNav();
+            renderList();
+        }
+
+        document.getElementById("nav").addEventListener("click", (e) => {
+        if (e.target.dataset.theme) {
+            active = e.target.dataset.theme;
+            renderList();
+        }
+        });
+
+        document.getElementById("search").addEventListener("input", (e) => {
+        query = e.target.value;
+        renderList();
+        });
+
+        chargerChansons();
+    </script>
+</body>
+</html>
