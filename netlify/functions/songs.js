@@ -1,4 +1,4 @@
-const DEFAULT_SELECT = "id,title,year,artist,theme,link,created_at";
+const DEFAULT_SELECT = "id,title,year,artist_id,artists(id,name),theme,link,created_at";
 
 exports.handler = async () => {
   const supabaseUrl = process.env.SUPABASE_URL;
