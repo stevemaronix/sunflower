@@ -352,7 +352,7 @@
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
         const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
         const link = song.link || song.lien;
-        const album = song.albums?.album ? `<span class="pill">${escapeHtml(song.album)}</span>` : "";
+        const album = song.albums?.album ? `<span class="pill">${escapeHtml(song.albums?.album)}</span>` : "";
 
         return `
           <article class="song">
