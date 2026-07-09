@@ -1,0 +1,1 @@
+delete from songs where title='test3';

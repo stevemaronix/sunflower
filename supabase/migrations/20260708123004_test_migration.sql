@@ -1,0 +1,1 @@
+insert into songs(title,year,artiste) VALUES ('test3',2002,'va te faire foutre');

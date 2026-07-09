@@ -1,0 +1,10 @@
+CREATE TABLE public.artist_group (artist_id bigint, group_id bigint, created_at timestamp with time zone DEFAULT now());
+ALTER TABLE public.artist_group ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.artist_group ADD CONSTRAINT fkey_ag1 FOREIGN KEY (artist_id) REFERENCES public.artists(id);
+ALTER TABLE public.artist_group ADD CONSTRAINT fkey_ag2 FOREIGN KEY (group_id) REFERENCES public.groups(id);
+ALTER TABLE public.artist_group ADD CONSTRAINT artist_group_pkey PRIMARY KEY (artist_id,group_id);
+GRANT ALL ON public.artist_group TO anon;
+GRANT ALL ON public.artist_group TO authenticated;
+GRANT ALL ON public.artist_group TO service_role;
+CREATE POLICY "public insert" ON public.artist_group FOR INSERT WITH CHECK (true);
+CREATE POLICY "public read" ON public.artist_group FOR SELECT USING (true);
