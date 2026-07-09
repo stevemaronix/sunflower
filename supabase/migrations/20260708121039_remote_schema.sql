@@ -17,3 +17,4 @@ GRANT ALL ON public.songs TO authenticated;
 GRANT ALL ON public.songs TO service_role;
 CREATE POLICY "public insert" ON public.songs FOR INSERT WITH CHECK (true);
 CREATE POLICY "public read" ON public.songs FOR SELECT USING (true);
+INSERT INTO songs(title,year,artiste) VALUES ('Test1',2002,'Shakira');

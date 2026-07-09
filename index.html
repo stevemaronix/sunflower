@@ -2,69 +2,413 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Mes chansons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hummingbird</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #241f1b;
+      --muted: #6f675f;
+      --paper: #fbf7ef;
+      --panel: #fffdf8;
+      --line: #ded3c5;
+      --accent: #9d3f2f;
+      --accent-dark: #64291f;
+      --moss: #53634c;
+      --shadow: 0 18px 50px rgba(70, 55, 39, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(83, 99, 76, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(157, 63, 47, 0.07) 1px, transparent 1px),
+        var(--paper);
+      background-size: 42px 42px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 44px 0;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.5rem, 7vw, 6.8rem);
+      line-height: 0.87;
+      letter-spacing: 0;
+      max-width: 720px;
+    }
+
+    .intro {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 1.03rem;
+      line-height: 1.65;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) 170px 170px;
+      gap: 12px;
+      padding: 14px;
+      background: rgba(255, 253, 248, 0.88);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 12px;
+      z-index: 3;
+      backdrop-filter: blur(10px);
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    input,
+    select {
+      min-height: 44px;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 10px 12px;
+      color: var(--ink);
+      background: #fffaf1;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(157, 63, 47, 0.14);
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin: 22px 0 12px;
+      color: var(--muted);
+    }
+
+    .reset {
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 8px 13px;
+      color: var(--accent-dark);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .reset:hover {
+      background: rgba(157, 63, 47, 0.08);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .song {
+      display: grid;
+      min-height: 190px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      box-shadow: 0 8px 26px rgba(70, 55, 39, 0.08);
+    }
+
+    .song h2 {
+      margin: 0 0 10px;
+      font-size: 1.55rem;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .artist {
+      margin: 0;
+      color: var(--accent-dark);
+      font-size: 1.05rem;
+    }
+
+    .details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-self: end;
+      margin-top: 24px;
+    }
+
+    .pill {
+      border: 1px solid rgba(83, 99, 76, 0.32);
+      border-radius: 999px;
+      padding: 6px 9px;
+      color: var(--moss);
+      background: rgba(83, 99, 76, 0.08);
+      font-size: 0.88rem;
+    }
+
+    .listen {
+      justify-self: start;
+      align-self: end;
+      margin-top: 18px;
+      color: var(--panel);
+      background: var(--ink);
+      border-radius: 999px;
+      padding: 9px 13px;
+      text-decoration: none;
+    }
+
+    .notice {
+      padding: 28px;
+      border: 1px dashed var(--line);
+      color: var(--muted);
+      background: rgba(255, 253, 248, 0.72);
+    }
+
+    .skeleton {
+      min-height: 190px;
+      border-radius: 6px;
+      background: linear-gradient(110deg, rgba(255, 253, 248, 0.78), rgba(222, 211, 197, 0.46), rgba(255, 253, 248, 0.78));
+      background-size: 220% 100%;
+      animation: load 1.2s ease-in-out infinite;
+      border: 1px solid var(--line);
+    }
+
+    @keyframes load {
+      to {
+        background-position: -220% 0;
+      }
+    }
+
+    @media (max-width: 820px) {
+      header,
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .shell {
+        width: min(100% - 24px, 1180px);
+        padding: 26px 0;
+      }
+
+      .toolbar {
+        position: static;
+      }
+    }
+  </style>
 </head>
 <body>
+  <main class="shell">
+    <header>
+      <h1>Hummingbird</h1>
+    </header>
 
-    <input id="search" type="text" placeholder="Rechercher...">
-    <nav id="nav"></nav>
-    <div id="list"></div>
+    <section class="toolbar" aria-label="Filtres de recherche">
+      <div class="field">
+        <label for="search">Recherche</label>
+        <input id="search" type="search" placeholder="Titre, artiste, mot-clé, année...">
+      </div>
+      <div class="field">
+        <label for="theme">Thème</label>
+        <select id="theme">
+          <option value="">Tous les thèmes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="artist">Artiste</label>
+        <select id="artist">
+          <option value="">Tous les artistes</option>
+        </select>
+      </div>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const client = supabase.createClient("https://wihxegbjecvfnmdtodvq.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo")
-        let SONGS = []
-        let active = "Tous"
-        let query = ""
+    <div class="meta">
+      <p id="count">Chargement du catalogue...</p>
+      <button class="reset" id="reset" type="button">Réinitialiser</button>
+    </div>
 
-        function renderList() {
-            let list = active === "Tous" ? SONGS : SONGS.filter(s => s.theme === active);
-            if (query.trim()) {
-                const q = query.toLowerCase();
-                list = list.filter(s => s.title.toLowerCase().includes(q) || s.artiste.toLowerCase().includes(q));
-            }
-            const el = document.getElementById("list");
-            el.innerHTML = list.map(s => `
-                <div class="row">
-                <span>${s.title} — ${s.artiste}</span>
-                ${s.lien ? `<a href="${s.lien}" target="_blank">↗</a>` : ""}
-                </div>
-            `).join("");
+    <section class="grid" id="list" aria-live="polite">
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      songs: [],
+      query: "",
+      theme: "",
+      artist: "",
+    };
+
+    const nodes = {
+      search: document.getElementById("search"),
+      theme: document.getElementById("theme"),
+      artist: document.getElementById("artist"),
+      count: document.getElementById("count"),
+      list: document.getElementById("list"),
+      reset: document.getElementById("reset"),
+    };
+
+    const normalize = (value) => String(value || "").toLocaleLowerCase("fr").trim();
+
+    function escapeHtml(value) {
+      return String(value || "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[char]));
+    }
+
+    function getSearchText(song) {
+      return normalize([
+        song.title,
+        song.artists?.name,
+        song.theme,
+        song.keywords,
+        song.year,
+      ].join(" "));
+    }
+
+    function getFilteredSongs() {
+      const q = normalize(state.query);
+
+      return state.songs.filter((song) => {
+        const artist = song.artists?.name || "";
+        const matchesQuery = !q || getSearchText(song).includes(q);
+        const matchesTheme = !state.theme || song.theme === state.theme;
+        const matchesArtist = !state.artist || artist === state.artist;
+        return matchesQuery && matchesTheme && matchesArtist;
+      });
+    }
+
+    function fillSelect(select, values, placeholder) {
+      const currentValue = select.value;
+      select.innerHTML = `<option value="">${placeholder}</option>` + values
+        .map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`)
+        .join("");
+      select.value = values.includes(currentValue) ? currentValue : "";
+    }
+
+    function renderFilters() {
+      const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
+      const artists = [...new Set(state.songs.map((song) => song.artists?.name).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
+
+      fillSelect(nodes.theme, themes, "Tous les thèmes");
+      fillSelect(nodes.artist, artists, "Tous les artistes");
+    }
+
+    function renderList() {
+      const songs = getFilteredSongs();
+      const total = state.songs.length;
+      nodes.count.textContent = `${songs.length} chanson${songs.length > 1 ? "s" : ""} affichée${songs.length > 1 ? "s" : ""} sur ${total}`;
+
+      if (!songs.length) {
+        nodes.list.innerHTML = '<div class="notice">Aucune chanson ne correspond à ces filtres.</div>';
+        return;
+      }
+
+      nodes.list.innerHTML = songs.map((song) => {
+        const artist = song.artists?.name || "Artiste inconnu";
+        const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
+        const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
+        const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
+        const link = song.link || song.lien;
+
+        return `
+          <article class="song">
+            <div>
+              <h2>${escapeHtml(song.title || "Sans titre")}</h2>
+              <p class="artist">${escapeHtml(artist)}</p>
+            </div>
+            <div class="details">${theme}${year}${keywords}</div>
+            ${link ? `<a class="listen" href="${escapeHtml(link)}" target="_blank" rel="noreferrer">Écouter</a>` : ""}
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function loadSongs() {
+      try {
+        const response = await fetch("/.netlify/functions/songs");
+        const payload = await response.json();
+
+        if (!response.ok) {
+          throw new Error(payload.error || "Impossible de charger les chansons.");
         }
 
-        function renderNav() {
-            const themes = ["Tous", ...new Set(SONGS.map(s => s.theme))];
-            const nav = document.getElementById("nav");
-            nav.innerHTML = themes.map(t => {
-                const count = t === "Tous" ? SONGS.length : SONGS.filter(s => s.theme === t).length;
-                return `<button class="theme-btn" data-theme="${t}">${t} (${count})</button>`;
-            }).join("");
-        }
-
-        async function loadSongs () {
-            const {data, error} = await client.from('songs').select('*');
-            if (error) {
-                console.error(error);
-                return;
-            }
-            SONGS = data;
-            renderNav();
-            renderList();
-        }
-
-        document.getElementById("nav").addEventListener("click", (e) => {
-        if (e.target.dataset.theme) {
-            active = e.target.dataset.theme;
-            renderList();
-        }
-        });
-
-        document.getElementById("search").addEventListener("input", (e) => {
-        query = e.target.value;
+        state.songs = Array.isArray(payload.songs) ? payload.songs : [];
+        renderFilters();
         renderList();
-        });
+      } catch (error) {
+        nodes.count.textContent = "Catalogue indisponible";
+        nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
+      }
+    }
 
-        loadSongs();
-    </script>
+    nodes.search.addEventListener("input", (event) => {
+      state.query = event.target.value;
+      renderList();
+    });
+
+    nodes.theme.addEventListener("change", (event) => {
+      state.theme = event.target.value;
+      renderList();
+    });
+
+    nodes.artist.addEventListener("change", (event) => {
+      state.artist = event.target.value;
+      renderList();
+    });
+
+    nodes.reset.addEventListener("click", () => {
+      state.query = "";
+      state.theme = "";
+      state.artist = "";
+      nodes.search.value = "";
+      nodes.theme.value = "";
+      nodes.artist.value = "";
+      renderList();
+    });
+
+    loadSongs();
+  </script>
 </body>
 </html>
