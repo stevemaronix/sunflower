@@ -347,7 +347,7 @@
       }
 
       nodes.list.innerHTML = songs.map((song) => {
-        const artist = song.artists?.name || "Artiste inconnu";
+        const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
         const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
         const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
@@ -369,7 +369,7 @@
 
     async function loadSongs() {
       try {
-        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,year,artists(id,name),albums(id,album),theme,link,created_at&order=title.asc";
+        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,year,artists(id,name),albums(id,album),theme,link,groups(id,name),created_at&order=title.asc";
         const response = await fetch(url, {
           headers: {
             apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo",
