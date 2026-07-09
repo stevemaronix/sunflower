@@ -301,8 +301,7 @@
     function getSearchText(song) {
       return normalize([
         song.title,
-        song.artiste,
-        song.artist,
+        song.artists?.name,
         song.theme,
         song.keywords,
         song.year,
@@ -313,7 +312,7 @@
       const q = normalize(state.query);
 
       return state.songs.filter((song) => {
-        const artist = song.artiste || song.artist || "";
+        const artist = song.artists?.name || "";
         const matchesQuery = !q || getSearchText(song).includes(q);
         const matchesTheme = !state.theme || song.theme === state.theme;
         const matchesArtist = !state.artist || artist === state.artist;
@@ -331,7 +330,7 @@
 
     function renderFilters() {
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
-      const artists = [...new Set(state.songs.map((song) => song.artiste || song.artist).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
+      const artists = [...new Set(state.songs.map((song) => song.artists?.name).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
 
       fillSelect(nodes.theme, themes, "Tous les thèmes");
       fillSelect(nodes.artist, artists, "Tous les artistes");
@@ -348,7 +347,7 @@
       }
 
       nodes.list.innerHTML = songs.map((song) => {
-        const artist = song.artiste || song.artist || "Artiste inconnu";
+        const artist = song.artists?.name || "Artiste inconnu";
         const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
         const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
