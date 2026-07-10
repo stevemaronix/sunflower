@@ -127,6 +127,14 @@
       color: var(--muted);
     }
 
+    .align_cover_txt {
+      display:flex;
+    }
+
+    .container_txt {
+      flex : 2;
+    }
+
     .reset {
       border: 1px solid var(--accent);
       border-radius: 999px;
@@ -179,6 +187,7 @@
       color: var(--ink);
     }
     .modal-cover {
+      flex : 1;
       width: 100%;
       aspect-ratio: 1;
       background: var(--line);
@@ -318,10 +327,15 @@
   <div class="overlay" id="overlay">
     <div class="modal">
       <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
-      <div class="modal-cover" id="modalCover"></div>
-      <a id="modalTitle"><h2></h2></a>
-      <p class="artist" id="modalArtist"></p>
-      <div class="details" id="modalDetails"></div>
+      <div class="align_cover_txt">
+        <div class="modal-cover" id="modalCover"></div>
+        <div class="container_txt">
+          <a id="modalTitle"><h2></h2></a>
+          <p class="artist" id="modalArtist"></p>
+          <p class="description" id="modalDescription"></p>
+          <div class="details" id="modalDetails"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -433,6 +447,7 @@
     document.getElementById("modalTitle").innerHTML = song.title ? `<h2>${song.title}</h2>` : "<h2>Sans titre</h2>";
     document.getElementById("modalTitle").href = song.link || "#";
     document.getElementById("modalArtist").textContent = artist;
+    document.getElementById("modalDescription").textContent = song.description || "";
     document.getElementById("modalDetails").innerHTML = [
       song.albums?.album, song.year,song.theme 
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
