@@ -198,6 +198,13 @@
       overflow-wrap: anywhere;
     }
 
+    #modalTitle h2{
+      margin: 0 0 10px;
+      font-size: 1.55rem;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
     .artist {
       margin: 0;
       color: var(--accent-dark);
@@ -420,7 +427,7 @@
     document.getElementById("modalTitle").href = song.link || "#";
     document.getElementById("modalArtist").textContent = artist;
     document.getElementById("modalDetails").innerHTML = [
-      song.theme, song.year, song.albums?.album
+      song.albums?.album, song.year,song.theme 
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
 
     const cover = document.getElementById("modalCover");
@@ -436,7 +443,7 @@
 
     async function loadSongs() {
       try {
-        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,year,artists(id,name),albums(id,album,pochette),theme,link,groups(id,name),created_at&order=title.asc";
+        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),albums(id,album,pochette),theme,link,groups(id,name),created_at&order=title.asc";
         const response = await fetch(url, {
           headers: {
             apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo",
