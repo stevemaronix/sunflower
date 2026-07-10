@@ -299,6 +299,16 @@
       <div class="skeleton"></div>
     </section>
   </main>
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
+      <div class="modal-cover" id="modalCover"></div>
+      <h2 id="modalTitle"></h2>
+      <p class="artist" id="modalArtist"></p>
+      <div class="details" id="modalDetails"></div>
+      <a class="listen" id="modalLink" target="_blank" rel="noreferrer">Écouter</a>
+    </div>
+  </div>
 
   <script>
     const state = {
@@ -422,17 +432,6 @@
     document.getElementById("overlay").classList.remove("open");
   }
 
-  nodes.list.addEventListener("click", (event) => {
-    const card = event.target.closest(".song");
-    if (!card) return;
-    const index = Number(card.dataset.index);
-    openModal(currentFilteredSongs[index]);
-  });
-
-  document.getElementById("modalClose").addEventListener("click", closeModal);
-  document.getElementById("overlay").addEventListener("click", (event) => {
-    if (event.target.id === "overlay") closeModal();
-  });
 
     async function loadSongs() {
       try {
@@ -482,17 +481,19 @@
       renderList();
     });
 
+    nodes.list.addEventListener("click", (event) => {
+      const card = event.target.closest(".song");
+      if (!card) return;
+      const index = Number(card.dataset.index);
+      openModal(currentFilteredSongs[index]);
+    });
+
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    document.getElementById("overlay").addEventListener("click", (event) => {
+      if (event.target.id === "overlay") closeModal();
+    });
+
     loadSongs();
   </script>
-  <div class="overlay" id="overlay">
-  <div class="modal">
-    <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
-    <div class="modal-cover" id="modalCover"></div>
-    <h2 id="modalTitle"></h2>
-    <p class="artist" id="modalArtist"></p>
-    <div class="details" id="modalDetails"></div>
-    <a class="listen" id="modalLink" target="_blank" rel="noreferrer">Écouter</a>
-  </div>
-</div>
 </body>
 </html>
