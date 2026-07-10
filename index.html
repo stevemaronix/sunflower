@@ -423,7 +423,7 @@
 
   function openModal(song) {
     const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
-    document.getElementById("modalTitle").textContent = song.title || "Sans titre";
+    document.getElementById("modalTitle").innerHTML = song.title ? "<h2>${song.title}</h2>" : "<h2>Sans titre</h2>";
     document.getElementById("modalTitle").href = song.link || "#";
     document.getElementById("modalArtist").textContent = artist;
     document.getElementById("modalDetails").innerHTML = [
