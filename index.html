@@ -268,6 +268,7 @@
     const state = {
       songs: [],
       query: "",
+      title : "",
       theme: "",
       artist: "",
     };
@@ -294,27 +295,29 @@
     }
 
     function getSearchText(song) {
-      return normalize([
-        song.albums?.album,
-        song.title,
-        song.artists?.name,
-        song.groups?.name,
-        song.theme,
-        song.keywords,
-        song.year,
-      ].join(" "));
+      return {
+        album : normalize(song.albums?.album),
+        title : normalize(song.title),
+        artist : normalize(song.artists?.name),
+        groupe: normalize(song.groups?.name),
+        theme : normalize(song.theme),
+        keyword : normalize(song.keywords),
+        year : normalize(song.year),
+      }
     }
 
     function getFilteredSongs() {
-      const q = normalize(state.query);
+      const q_art = normalize(state.artist);
+      const q_tit = normalize(state.title);
 
       return state.songs.filter((song) => {
         const artist = song.artists?.name || "";
         const groupe = song.groups?.name || "";
-        const matchesQuery = !q || getSearchText(song).includes(q);
+        const titre = song.title || "";
+        const matchesQueryArtist = !q_art || getSearchText(song).groupe.includes(q_art) || getSearchText(song).artist.includes(q_art);
         const matchesTheme = !state.theme || song.theme === state.theme;
-        const matchesArtist = !state.artist || artist === state.artist || groupe.includes(state.artist);
-        return matchesQuery && matchesTheme && matchesArtist;
+        const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
+        return matchesQueryArtist && matchesTheme && matchesQueryTitle;
       });
     }
 
@@ -387,10 +390,12 @@
       }
     }
 
-    nodes.search.addEventListener("input", (event) => {
+    nodes.artist.addEventListener("input", (event) => {
       state.query = event.target.value;
       renderList();
     });
+
+    nodes.title.addEventListener("input",(event) => {state.title = event.target.value; renderList();});
 
     nodes.theme.addEventListener("change", (event) => {
       state.theme = event.target.value;
