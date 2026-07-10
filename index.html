@@ -382,6 +382,7 @@
 
     function renderList() {
       const songs = getFilteredSongs();
+      currentFilteredSongs = songs;
       const total = state.songs.length;
       nodes.count.textContent = `${songs.length} chanson${songs.length > 1 ? "s" : ""} affichée${songs.length > 1 ? "s" : ""} sur ${total}`;
 
