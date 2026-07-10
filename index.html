@@ -348,7 +348,7 @@
       <div class="align_cover_txt">
         <div class="modal-cover" id="modalCover"></div>
         <div class="container_txt">
-          <a class = "link_title" id="modalTitle" target="_blank"></a>
+          <a class = "link_title" id="modalTitle"></a>
           <p class="artist" id="modalArtist"></p>
           <p class="description" id="modalDescription"></p>
           <div class="details" id="modalDetails"></div>
@@ -464,6 +464,7 @@
     const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
     document.getElementById("modalTitle").textContent = song.title || "Sans titre";
     document.getElementById("modalTitle").href = song.link || "#";
+    document.getElementById("modalTitle").target = "_blank";
     document.getElementById("modalArtist").textContent = artist;
     document.getElementById("modalDescription").textContent = song.description || "";
     document.getElementById("modalDetails").innerHTML = [
