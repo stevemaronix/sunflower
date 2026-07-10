@@ -273,9 +273,9 @@
     };
 
     const nodes = {
-      search: document.getElementById("search"),
+      title: document.getElementById("title_search"),
       theme: document.getElementById("theme"),
-      artist: document.getElementById("artist"),
+      artist: document.getElementById("art_search"),
       count: document.getElementById("count"),
       list: document.getElementById("list"),
       reset: document.getElementById("reset"),
@@ -328,10 +328,8 @@
 
     function renderFilters() {
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
-      const artists = [...new Set(state.songs.map((song) => song.artists?.name).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
 
       fillSelect(nodes.theme, themes, "Tous les thèmes");
-      fillSelect(nodes.artist, artists, "Tous les artistes");
     }
 
     function renderList() {
