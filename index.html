@@ -424,7 +424,7 @@
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
 
     const cover = document.getElementById("modalCover");
-    cover.style.backgroundImage = song.pochette ? `url(${song.pochette})` : "none";
+    cover.style.backgroundImage = song.albums?.pochette ? `url(${song.albums?.pochette})` : "none";
 
     document.getElementById("overlay").classList.add("open");
   }
