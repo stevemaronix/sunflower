@@ -214,7 +214,7 @@
       overflow-wrap: anywhere;
     }
 
-    .overlay h2{
+    .link_title a {
       margin: 0 0 10px;
       font-size: 1.55rem;
       line-height: 1.05;
@@ -444,7 +444,7 @@
 
   function openModal(song) {
     const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
-    document.getElementById("modalTitle").innerHTML = song.title ? `<h2>${song.title}</h2>` : "<h2>Sans titre</h2>";
+    document.getElementById("modalTitle").textContent = song.title || "Sans titre";
     document.getElementById("modalTitle").href = song.link || "#";
     document.getElementById("modalArtist").textContent = artist;
     document.getElementById("modalDescription").textContent = song.description || "";
@@ -522,6 +522,7 @@
     document.getElementById("overlay").addEventListener("click", (event) => {
       if (event.target.id === "overlay") closeModal();
     });
+
 
     loadSongs();
   </script>
