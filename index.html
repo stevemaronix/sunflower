@@ -305,10 +305,9 @@
     <div class="modal">
       <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
       <div class="modal-cover" id="modalCover"></div>
-      <h2 id="modalTitle"></h2>
+      <a id="modalTitle"><h2></h2></a>
       <p class="artist" id="modalArtist"></p>
       <div class="details" id="modalDetails"></div>
-      <a class="listen" id="modalLink" target="_blank" rel="noreferrer">Écouter</a>
     </div>
   </div>
 
@@ -408,7 +407,6 @@
               <p class="artist">${escapeHtml(artist)}</p>
             </div>
             <div class="details">${album}${year}</div>
-            ${link ? `<a class="listen" href="${escapeHtml(link)}" target="_blank" rel="noreferrer">Écouter</a>` : ""}
           </article>
         `;
       }).join("");
@@ -419,8 +417,8 @@
   function openModal(song) {
     const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
     document.getElementById("modalTitle").textContent = song.title || "Sans titre";
+    document.getElementById("modalTitle").href = song.link || "#";
     document.getElementById("modalArtist").textContent = artist;
-    document.getElementById("modalLink").href = song.link || song.lien || "#";
     document.getElementById("modalDetails").innerHTML = [
       song.theme, song.year, song.albums?.album
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
