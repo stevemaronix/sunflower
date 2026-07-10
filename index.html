@@ -133,7 +133,7 @@
     }
 
     .container_txt {
-      flex : 2;
+      flex : 65%;
     }
 
     .reset {
@@ -187,13 +187,32 @@
       color: var(--ink);
     }
     .modal-cover {
-      flex : 1;
+      flex : 35%;
       aspect-ratio: 1;
       background: var(--line);
       background-size: cover;
       padding : 10px;
       border-radius: 6px;
       margin-bottom: 16px;
+    }
+
+    #modalTitle {
+        display: block;
+        font-size: clamp(2rem, 4vw, 4.5rem);
+        font-weight: bold;
+        line-height: 1;
+        margin-bottom: 0.3em;
+    }
+
+    #modalArtist {
+        font-size: clamp(1.3rem, 2vw, 2.2rem);
+        margin: 0 0 1em 0;
+        opacity: 0.8;
+    }
+
+    #modalDescription {
+        font-size: clamp(1rem, 1.2vw, 1.4rem);
+        line-height: 1.6;
     }
 
     .song {
@@ -215,7 +234,7 @@
 
     .link_title a {
       margin: 0 0 10px;
-      font-size: inherit /*1.55rem*/;
+      font-size: 1.55rem;
       line-height: 1.05;
       overflow-wrap: anywhere;
     }
