@@ -140,6 +140,44 @@
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 14px;
     }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      padding: 20px;
+    }
+    .overlay.open {
+      display: flex;
+    }
+    .modal {
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 24px;
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .modal-cover {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--line);
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
 
     .song {
       display: grid;
@@ -342,7 +380,7 @@
         return;
       }
 
-      nodes.list.innerHTML = songs.map((song) => {
+      nodes.list.innerHTML = songs.map((song,index) => {
         const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
         const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
@@ -351,7 +389,7 @@
         const album = song.albums?.album ? `<span class="pill">${escapeHtml(song.albums?.album)}</span>` : "";
 
         return `
-          <article class="song">
+          <article class="song" data-index="${index}">
             <div>
               <h2>${escapeHtml(song.title || "Sans titre")}</h2>
               <p class="artist">${escapeHtml(artist)}</p>
@@ -363,9 +401,42 @@
       }).join("");
     }
 
+  let currentFilteredSongs = [];
+
+  function openModal(song) {
+    const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
+    document.getElementById("modalTitle").textContent = song.title || "Sans titre";
+    document.getElementById("modalArtist").textContent = artist;
+    document.getElementById("modalLink").href = song.link || song.lien || "#";
+    document.getElementById("modalDetails").innerHTML = [
+      song.theme, song.year, song.albums?.album
+    ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
+
+    const cover = document.getElementById("modalCover");
+    cover.style.backgroundImage = song.pochette ? `url(${song.pochette})` : "none";
+
+    document.getElementById("overlay").classList.add("open");
+  }
+
+  function closeModal() {
+    document.getElementById("overlay").classList.remove("open");
+  }
+
+  nodes.list.addEventListener("click", (event) => {
+    const card = event.target.closest(".song");
+    if (!card) return;
+    const index = Number(card.dataset.index);
+    openModal(currentFilteredSongs[index]);
+  });
+
+  document.getElementById("modalClose").addEventListener("click", closeModal);
+  document.getElementById("overlay").addEventListener("click", (event) => {
+    if (event.target.id === "overlay") closeModal();
+  });
+
     async function loadSongs() {
       try {
-        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,year,artists(id,name),albums(id,album),theme,link,groups(id,name),created_at&order=title.asc";
+        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,year,artists(id,name),albums(id,album,pochette),theme,link,groups(id,name),created_at&order=title.asc";
         const response = await fetch(url, {
           headers: {
             apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo",
@@ -413,5 +484,15 @@
 
     loadSongs();
   </script>
+  <div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
+    <div class="modal-cover" id="modalCover"></div>
+    <h2 id="modalTitle"></h2>
+    <p class="artist" id="modalArtist"></p>
+    <div class="details" id="modalDetails"></div>
+    <a class="listen" id="modalLink" target="_blank" rel="noreferrer">Écouter</a>
+  </div>
+</div>
 </body>
 </html>
