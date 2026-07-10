@@ -172,7 +172,7 @@
       border-radius: 8px;
       padding: 24px;
       /*max-width: 420px;*/
-      width: 45%;
+      width: clamp(320,70%,800);
       position: relative;
     }
     .modal-close {
@@ -214,7 +214,7 @@
 
     .link_title a {
       margin: 0 0 10px;
-      font-size: 1.55rem;
+      font-size: inherit /*1.55rem*/;
       line-height: 1.05;
       overflow-wrap: anywhere;
     }
