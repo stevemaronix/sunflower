@@ -391,19 +391,15 @@
     }
 
     nodes.artist.addEventListener("input", (event) => {
-      state.query = event.target.value;
+      state.artist = event.target.value;
       renderList();
     });
 
-    nodes.title.addEventListener("input",(event) => {state.title = event.target.value; renderList();});
+    nodes.title.addEventListener("input",(event) => 
+    {state.title = event.target.value; renderList();});
 
     nodes.theme.addEventListener("change", (event) => {
       state.theme = event.target.value;
-      renderList();
-    });
-
-    nodes.artist.addEventListener("change", (event) => {
-      state.artist = event.target.value;
       renderList();
     });
 
