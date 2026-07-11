@@ -627,10 +627,10 @@
         state.theme= pill.dataset.origin;
         state.category = pill.textContent;
         nodes.theme.value = state.theme;
-        nodes.category.value = pill.textContent;
         nodes.categoryWrap.classList.remove("close");
         document.getElementById("overlay").classList.remove("open");
         renderFilters();
+        nodes.category.value = pill.textContent;
         renderList();
       }
       }
