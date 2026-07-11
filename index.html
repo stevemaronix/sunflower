@@ -590,13 +590,14 @@
     nodes.reset.addEventListener("click", () => {
       state.title = "";
       state.theme = "";
+      state.category = "";
       state.artist = "";
       nodes.title.value = "";
       nodes.theme.value = "";
       nodes.category.value = "";
       nodes.artist.value = "";
-      renderList();
       renderFilters()
+      renderList();
     });
 
     nodes.list.addEventListener("click", (event) => {
