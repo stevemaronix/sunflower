@@ -88,6 +88,10 @@
       backdrop-filter: blur(10px);
     }
 
+    .details .pill{
+      cursor: pointer;
+    }
+
     .field {
       display: grid;
       gap: 6px;
@@ -613,6 +617,8 @@
       const type = pill.dataset.type;
       if (type === "theme"){
         state.theme = pill.textContent;
+        nodes.theme.value = pill.textContent;
+        nodes.categoryWrap.classList.remove("close");
         document.getElementById("overlay").classList.remove("open");
         renderFilters();
         renderList();
