@@ -406,6 +406,16 @@
       reset: document.getElementById("reset"),
     };
 
+    const modals = {
+      title: document.getElementById("modalTitle"),
+      artist: document.getElementById("modalArtist"),
+      description: document.getElementById("modalDescription"),
+      details: document.getElementById("modalDetails"),
+      details2: document.getElementById("modalDetails2"),
+      cover: document.getElementById("modalCover"),
+      close: document.getElementById("modalClose")
+    }
+
     const normalize = (value) => String(value || "").toLocaleLowerCase("fr").trim();
 
     function escapeHtml(value) {
@@ -498,19 +508,19 @@
 
   function openModal(song) {
     const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
-    document.getElementById("modalTitle").textContent = song.title || "Sans titre";
-    document.getElementById("modalTitle").href = song.link || "#";
-    document.getElementById("modalTitle").target = "_blank";
-    document.getElementById("modalArtist").textContent = artist;
-    document.getElementById("modalDescription").textContent = song.description || "";
-    document.getElementById("modalDetails").innerHTML = [
+    modals.title.textContent = song.title || "Sans titre";
+    modals.title.href = song.link || "#";
+    modals.title.target = "_blank";
+    modals.artist.textContent = artist;
+    modals.description.textContent = song.description || "";
+    modals.details.innerHTML = [
       song.theme, song.categories?.name
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
-    document.getElementById("modalDetails2").innerHTML = [
+    modals.details2.innerHTML = [
       song.albums?.album, song.year
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join(""); 
 
-    const cover = document.getElementById("modalCover");
+    const cover = modals.cover;
     cover.style.backgroundImage = song.albums?.pochette ? `url(${song.albums?.pochette})` : "none";
     cover.href = song.albums?.link || "";
 
@@ -592,7 +602,7 @@
       openModal(currentFilteredSongs[index]);
     });
 
-    document.getElementById("modalClose").addEventListener("click", closeModal);
+    modals.close.addEventListener("click", closeModal);
     document.getElementById("overlay").addEventListener("click", (event) => {
       if (event.target.id === "overlay") closeModal();
     });
