@@ -538,6 +538,11 @@
       renderList();
     });
 
+    nodes.category.addEventListener("change", (event) => {
+      state.category = event.target.value;
+      renderList();
+    })
+
     nodes.reset.addEventListener("click", () => {
       state.title = "";
       state.theme = "";
