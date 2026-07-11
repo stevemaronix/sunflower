@@ -518,8 +518,8 @@
     modals.artist.textContent = artist;
     modals.description.textContent = song.description || "";
     modals.details.innerHTML = [
-      {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category"}
-    ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
+      {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category", origin: song.theme}
+    ].filter(item => item.value).map(v => `<span class="pill" data-origin=${v?.origin} data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
     modals.details2.innerHTML = [
       song.albums?.album, song.year
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join(""); 
@@ -618,6 +618,16 @@
       if (type === "theme"){
         state.theme = pill.textContent;
         nodes.theme.value = pill.textContent;
+        nodes.categoryWrap.classList.remove("close");
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        renderList();
+      }
+      else if(type==="category"){
+        state.theme= pill.dataset.origin;
+        state.category = pill.textContent;
+        nodes.theme.value = state.theme;
+        nodes.category.value = pill.textContent;
         nodes.categoryWrap.classList.remove("close");
         document.getElementById("overlay").classList.remove("open");
         renderFilters();
