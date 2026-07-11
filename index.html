@@ -514,7 +514,7 @@
     modals.artist.textContent = artist;
     modals.description.textContent = song.description || "";
     modals.details.innerHTML = [
-      {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category"
+      {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category"}
     ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
     modals.details2.innerHTML = [
       song.albums?.album, song.year
