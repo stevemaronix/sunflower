@@ -425,7 +425,7 @@
         artist : normalize(song.artists?.name),
         groupe: normalize(song.groups?.name),
         theme : normalize(song.theme),
-        category : normalize(song.categorie),
+        category : normalize(song.categories?.name),
         keyword : normalize(song.keywords),
         year : normalize(song.year),
       }
@@ -441,7 +441,7 @@
         const titre = song.title || "";
         const matchesQueryArtist = !q_art || getSearchText(song).groupe.includes(q_art) || getSearchText(song).artist.includes(q_art);
         const matchesTheme = !state.theme || song.theme === state.theme;
-        const matchesCategory = !state.category || song.categorie == state.category;
+        const matchesCategory = !state.category || song.categories?.name == state.category;
         const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
         return matchesQueryArtist && matchesTheme && matchesQueryTitle && matchesCategory;
       });
@@ -457,7 +457,7 @@
 
     function renderFilters() {
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
-      const categories = [...new Set(state.songs.map((song)=>(normalize(song.theme) == normalize(state.theme)) ? song.categorie : "").filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
+      const categories = [...new Set(state.songs.map((song)=>(normalize(song.theme) == normalize(state.theme)) ? song.categories?.name : "").filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
       fillSelect(nodes.theme, themes, "Tous les thèmes");
       fillSelect(nodes.category, categories, "Toutes les catégories");
     }
@@ -480,7 +480,7 @@
         const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
         const link = song.link || song.lien;
         const album = song.albums?.album ? `<span class="pill">${escapeHtml(song.albums?.album)}</span>` : "";
-        const category = song.categorie ? `<span class="pill">${escapeHtml(song.categorie)}</span>` : "";
+        const category = song.categories?.name ? `<span class="pill">${escapeHtml(song.categories?.name)}</span>` : "";
 
         return `
           <article class="song" data-index="${index}">
@@ -504,7 +504,7 @@
     document.getElementById("modalArtist").textContent = artist;
     document.getElementById("modalDescription").textContent = song.description || "";
     document.getElementById("modalDetails").innerHTML = [
-      song.theme, song.categorie
+      song.theme, song.categories?.name
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
     document.getElementById("modalDetails2").innerHTML = [
       song.albums?.album, song.year
@@ -512,7 +512,7 @@
 
     const cover = document.getElementById("modalCover");
     cover.style.backgroundImage = song.albums?.pochette ? `url(${song.albums?.pochette})` : "none";
-    cover.href = song.albums.link || "";
+    cover.href = song.albums?.link || "";
 
     document.getElementById("overlay").classList.add("open");
   }
@@ -524,7 +524,7 @@
 
     async function loadSongs() {
       try {
-        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),albums(id,album,pochette,link),theme,link,categorie,groups(id,name),created_at&order=title.asc";
+        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),albums(id,album,pochette,link),theme,link,categories(name),groups(id,name),created_at&order=title.asc";
         const response = await fetch(url, {
           headers: {
             apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo",
