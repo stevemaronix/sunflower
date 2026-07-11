@@ -440,7 +440,6 @@
     function renderFilters() {
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
       const categories = [...new Set(state.songs.map((song)=>(normalize(song.theme) == normalize(state.theme)) ? song.categorie : "").filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
-      console.log("état actuel:", state.theme, "→ catégories trouvées:", categories);
       fillSelect(nodes.theme, themes, "Tous les thèmes");
       fillSelect(nodes.category, categories, "Toutes les catégories");
     }
@@ -463,6 +462,7 @@
         const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
         const link = song.link || song.lien;
         const album = song.albums?.album ? `<span class="pill">${escapeHtml(song.albums?.album)}</span>` : "";
+        const category = song.categorie ? `<span class="pill">${escapeHtml(song.categorie)}</span>` : "";
 
         return `
           <article class="song" data-index="${index}">
@@ -486,7 +486,7 @@
     document.getElementById("modalArtist").textContent = artist;
     document.getElementById("modalDescription").textContent = song.description || "";
     document.getElementById("modalDetails").innerHTML = [
-      song.albums?.album, song.year,song.theme 
+      song.albums?.album, song.year,song.theme, song.categorie
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
 
     const cover = document.getElementById("modalCover");
@@ -560,6 +560,7 @@
       nodes.category.value = "";
       nodes.artist.value = "";
       renderList();
+      renderFilters()
     });
 
     nodes.list.addEventListener("click", (event) => {
