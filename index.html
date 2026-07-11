@@ -373,7 +373,7 @@
     <div class="modal">
       <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
       <div class="align_cover_txt">
-        <div class="modal-cover" id="modalCover"></div>
+        <a class="modal-cover" target="_blank" id="modalCover"></a>
         <div class="container_txt">
           <div class="details" id="modalDetails"></div>
           <a class = "link_title" id="modalTitle"></a>
@@ -512,6 +512,7 @@
 
     const cover = document.getElementById("modalCover");
     cover.style.backgroundImage = song.albums?.pochette ? `url(${song.albums?.pochette})` : "none";
+    cover.href = song.albums.link || "";
 
     document.getElementById("overlay").classList.add("open");
   }
@@ -523,7 +524,7 @@
 
     async function loadSongs() {
       try {
-        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),albums(id,album,pochette),theme,link,categorie,groups(id,name),created_at&order=title.asc";
+        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),albums(id,album,pochette,link),theme,link,categorie,groups(id,name),created_at&order=title.asc";
         const response = await fetch(url, {
           headers: {
             apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo",
