@@ -440,6 +440,7 @@
     function renderFilters() {
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
       const categories = [...new Set(state.songs.map((song)=>(normalize(song.theme) == state.theme) ? song.categorie : "").filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
+      console.log("état actuel:", state.theme, "→ catégories trouvées:", categories);
       fillSelect(nodes.theme, themes, "Tous les thèmes");
       fillSelect(nodes.category, categories, "Toutes les catégories");
     }
