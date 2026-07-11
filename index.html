@@ -533,9 +533,15 @@
     nodes.title.addEventListener("input",(event) => 
     {state.title = event.target.value; renderList();});
 
+    nodes.theme.addEventListener("focus",(event) => previousTheme = event.target.value);
+
     nodes.theme.addEventListener("change", (event) => {
       state.theme = event.target.value;
-      nodes.theme.value === "" ? (nodes.categoryWrap.classList.add("close"),nodes.category.value = "",state.category="") : nodes.categoryWrap.classList.remove("close");
+      if (state.theme != previousTheme){
+        nodes.category.value = "";
+        state.category="";
+      }
+      nodes.theme.value === "" ? nodes.categoryWrap.classList.add("close") : nodes.categoryWrap.classList.remove("close");
       renderList();
       renderFilters();
     });
