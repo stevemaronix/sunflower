@@ -440,7 +440,7 @@
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
       const categories = [...new Set(state.songs.map((song)=>song.categorie).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
       fillSelect(nodes.theme, themes, "Tous les thèmes");
-      fillSelect(nodes.categorie, categories, "Toutes les catégories");
+      fillSelect(nodes.category, categories, "Toutes les catégories");
     }
 
     function renderList() {
@@ -533,7 +533,7 @@
 
     nodes.theme.addEventListener("change", (event) => {
       state.theme = event.target.value;
-      state.theme === "Tous les thèmes" ? nodes.category.classList.add("close") : nodes.category.classList.remove("close");
+      nodes.theme.value === "" ? nodes.category.classList.add("close") : nodes.category.classList.remove("close");
       renderList();
     });
 
@@ -543,6 +543,7 @@
       state.artist = "";
       nodes.title.value = "";
       nodes.theme.value = "";
+      nodes.category.value = "";
       nodes.artist.value = "";
       renderList();
     });
