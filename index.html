@@ -289,6 +289,10 @@
       border: 1px solid var(--line);
     }
 
+    .display_category.close {
+      display : none;
+    }
+
     @keyframes load {
       to {
         background-position: -220% 0;
@@ -328,6 +332,12 @@
         <select id="theme">
           <option value="">Tous les thèmes</option>
         </select>
+        <div class="display_category close" id="theme_category">
+          <label for="category">Catégorie</label>
+          <select id="category">
+            <option value="">Toutes les catégories</option>
+          </select>
+        </div>
       </div>
     </section>
 
@@ -363,12 +373,14 @@
       query: "",
       title : "",
       theme: "",
+      category: "",
       artist: "",
     };
 
     const nodes = {
       title: document.getElementById("title_search"),
       theme: document.getElementById("theme"),
+      category: document.getElementById("category"),
       artist: document.getElementById("art_search"),
       count: document.getElementById("count"),
       list: document.getElementById("list"),
@@ -394,6 +406,7 @@
         artist : normalize(song.artists?.name),
         groupe: normalize(song.groups?.name),
         theme : normalize(song.theme),
+        category : normalize(song.categorie),
         keyword : normalize(song.keywords),
         year : normalize(song.year),
       }
@@ -409,8 +422,9 @@
         const titre = song.title || "";
         const matchesQueryArtist = !q_art || getSearchText(song).groupe.includes(q_art) || getSearchText(song).artist.includes(q_art);
         const matchesTheme = !state.theme || song.theme === state.theme;
+        const matchesCategory = !state.category || song.categorie == state.category;
         const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
-        return matchesQueryArtist && matchesTheme && matchesQueryTitle;
+        return matchesQueryArtist && matchesTheme && matchesQueryTitle && matchesCategory;
       });
     }
 
@@ -424,7 +438,9 @@
 
     function renderFilters() {
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
+      const categories = [...new Set(state.songs.map((song)=>song.categorie).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
       fillSelect(nodes.theme, themes, "Tous les thèmes");
+      fillSelect(nodes.categorie, categories, "Toutes les catégories");
     }
 
     function renderList() {
@@ -517,6 +533,7 @@
 
     nodes.theme.addEventListener("change", (event) => {
       state.theme = event.target.value;
+      state.theme === "Tous les thèmes" ? nodes.category.classList.add("close") : nodes.category.classList.remove("close");
       renderList();
     });
 
