@@ -282,13 +282,13 @@
     }
 
     .search_theme{
-      display : flex;
-      gap: 12px;
+        display:flex;
+        gap:12px;
+        align-items:flex-start;
     }
 
-    .search_theme > select,
-    .search_theme > .display_category {
-      flex: 50%;
+    .search_theme .field{
+        flex:1;
     }
 
     .skeleton {
@@ -342,10 +342,12 @@
         <input id="title_search" type="search" placeholder="ex. Mamma Mia">
         <label for="theme">Thème</label>
         <div class="search_theme">
-          <select id="theme">
-            <option value="">Tous les thèmes</option>
-          </select>
-          <div class="display_category close" id="theme_category">
+          <div class="field">
+            <select id="theme">
+              <option value="">Tous les thèmes</option>
+            </select>
+          </div>
+          <div class="field display_category close" id="theme_category">
             <label for="category">Catégorie</label>
             <select id="category">
               <option value="">Toutes les catégories</option>
