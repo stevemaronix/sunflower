@@ -607,6 +607,8 @@
       if (event.target.id === "overlay") closeModal();
     });
 
+    modals.details.addEventListener("click", (event) => console.log(event.target.textContent));
+
 
     loadSongs();
   </script>
