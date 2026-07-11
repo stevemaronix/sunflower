@@ -380,7 +380,7 @@
     const nodes = {
       title: document.getElementById("title_search"),
       theme: document.getElementById("theme"),
-      category: document.getElementById("category"),
+      categoryWrap: document.getElementById("theme_category"),
       artist: document.getElementById("art_search"),
       count: document.getElementById("count"),
       list: document.getElementById("list"),
@@ -533,7 +533,7 @@
 
     nodes.theme.addEventListener("change", (event) => {
       state.theme = event.target.value;
-      nodes.theme.value === "" ? nodes.category.classList.add("close") : nodes.category.classList.remove("close");
+      nodes.theme.value === "" ? nodes.categoryWrap.classList.add("close") : nodes.categoryWrap.classList.remove("close");
       renderList();
     });
 
