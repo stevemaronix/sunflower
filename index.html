@@ -380,6 +380,7 @@
     const nodes = {
       title: document.getElementById("title_search"),
       theme: document.getElementById("theme"),
+      category: document.getElementById("category"),
       categoryWrap: document.getElementById("theme_category"),
       artist: document.getElementById("art_search"),
       count: document.getElementById("count"),
@@ -440,7 +441,7 @@
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
       const categories = [...new Set(state.songs.map((song)=>song.categorie).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
       fillSelect(nodes.theme, themes, "Tous les thèmes");
-      fillSelect(nodes.categoryWrap, categories, "Toutes les catégories");
+      fillSelect(nodes.category, categories, "Toutes les catégories");
     }
 
     function renderList() {
