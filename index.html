@@ -534,7 +534,7 @@
 
     nodes.theme.addEventListener("change", (event) => {
       state.theme = event.target.value;
-      nodes.theme.value === "" ? nodes.categoryWrap.classList.add("close") : nodes.categoryWrap.classList.remove("close");
+      nodes.theme.value === "" ? (nodes.categoryWrap.classList.add("close"),state.category.value = "") : nodes.categoryWrap.classList.remove("close");
       renderList();
     });
 
