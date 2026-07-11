@@ -358,10 +358,11 @@
       <div class="align_cover_txt">
         <div class="modal-cover" id="modalCover"></div>
         <div class="container_txt">
+          <div class="details" id="modalDetails"></div>
           <a class = "link_title" id="modalTitle"></a>
           <p class="artist" id="modalArtist"></p>
           <p class="description" id="modalDescription"></p>
-          <div class="details" id="modalDetails"></div>
+          <div class="details" id="modalDetails2"></div>
         </div>
       </div>
     </div>
@@ -486,8 +487,11 @@
     document.getElementById("modalArtist").textContent = artist;
     document.getElementById("modalDescription").textContent = song.description || "";
     document.getElementById("modalDetails").innerHTML = [
-      song.albums?.album, song.year,song.theme, song.categorie
+      song.theme, song.categorie
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
+    document.getElementById("modalDetails2").innerHTML = [
+      song.albums?.album, song.year
+    ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join(""); 
 
     const cover = document.getElementById("modalCover");
     cover.style.backgroundImage = song.albums?.pochette ? `url(${song.albums?.pochette})` : "none";
