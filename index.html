@@ -514,8 +514,8 @@
     modals.artist.textContent = artist;
     modals.description.textContent = song.description || "";
     modals.details.innerHTML = [
-      song.theme, song.categories?.name
-    ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join("");
+      {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category"
+    ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
     modals.details2.innerHTML = [
       song.albums?.album, song.year
     ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join(""); 
@@ -607,7 +607,19 @@
       if (event.target.id === "overlay") closeModal();
     });
 
-    modals.details.addEventListener("click", (event) => console.log(event.target.textContent));
+    modals.details.addEventListener("click", (event) => 
+      {const pill = event.target.closest(".pill");
+      if (!pill) return;
+      const type = pill.dataset.type;
+      if (type === "theme"){
+        state.theme = pill.textContent;
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        renderList();
+      }
+      }
+
+    );
 
 
     loadSongs();
