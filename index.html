@@ -280,6 +280,10 @@
       background: rgba(255, 253, 248, 0.72);
     }
 
+    .search_theme{
+      display : flex;
+    }
+
     .skeleton {
       min-height: 190px;
       border-radius: 6px;
@@ -329,14 +333,16 @@
         <label for="title_search">Titre</label>
         <input id="title_search" type="search" placeholder="ex. Mamma Mia">
         <label for="theme">Thème</label>
-        <select id="theme">
-          <option value="">Tous les thèmes</option>
-        </select>
-        <div class="display_category close" id="theme_category">
-          <label for="category">Catégorie</label>
-          <select id="category">
-            <option value="">Toutes les catégories</option>
+        <div class="search_theme">
+          <select id="theme">
+            <option value="">Tous les thèmes</option>
           </select>
+          <div class="display_category close" id="theme_category">
+            <label for="category">Catégorie</label>
+            <select id="category">
+              <option value="">Toutes les catégories</option>
+            </select>
+          </div>
         </div>
       </div>
     </section>
