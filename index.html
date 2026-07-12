@@ -384,9 +384,9 @@
       <p id="count">Chargement du catalogue...</p>
       <p>
         Trier par : 
-        <select id="sort_songs>
+        <select id="sort_songs">
           <option value="title">Titre</option>
-          <option value="artist">Artiste</option>
+          <option selected value="artist">Artiste</option>
           <option value="theme">Thème</option>
           <option value="year">Année</option>
         </select>
@@ -427,7 +427,7 @@
       year_filter: "equal",
       category: "",
       artist: "",
-      sort_song: "",
+      sort_song: "artist",
     };
 
     const nodes = {
