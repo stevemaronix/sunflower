@@ -468,7 +468,7 @@
       const yearValue = Number(state.year);
       if (state.year_filter === "greater") return song.year >= yearValue;
       if (state.year_filter === "less") return song.year <= yearValue;
-      return song.year === state.year;
+      return song.year === yearValue;
     }
 
     function getFilteredSongs() {
