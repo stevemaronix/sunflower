@@ -412,6 +412,7 @@
 
     const nodes = {
       title: document.getElementById("title_search"),
+      year: document.getElementById("year_search"),
       theme: document.getElementById("theme"),
       category: document.getElementById("category"),
       categoryWrap: document.getElementById("theme_category"),
@@ -581,6 +582,8 @@
 
     nodes.title.addEventListener("input",(event) => 
     {state.title = event.target.value; renderList();});
+
+    nodes.year.addEventListener("input",(event) => {state.year = event.target.value; renderList();})
 
     nodes.theme.addEventListener("focus",(event) => previousTheme = event.target.value);
 
