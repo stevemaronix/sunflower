@@ -464,7 +464,7 @@
         groupe: normalize(song.groups?.name),
         theme : normalize(song.theme),
         category : normalize(song.categories?.name),
-        keyword : normalize(song?.keywords),
+        keyword : normalize(song.keywords),
         year : normalize(song.year),
       }
     }
@@ -480,7 +480,7 @@
     function getFilteredSongs() {
       const q_art = normalize(state.artist);
       const q_tit = normalize(state.title);
-      const q_kw = state.kw.split(" ").map(v => normalize(v)); 
+      const q_kw = state.kw.split(" ").map(v => normalize(v)).filter(Boolean); 
 
       return state.songs.filter((song) => {
         const artist = song.artists?.name || "";
@@ -492,7 +492,7 @@
         const matchesCategory = !state.category || song.categories?.name == state.category;
         const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
         const matchesQueryYear = matchesYear(song);
-        const matchesQueryKw = !q_kw || q_kw.some(element => song?.keywords.includes(element));
+        const matchesQueryKw = !q_kw.length || q_kw.some(element => song.keywords?.includes(element));
         return matchesQueryArtist && matchesTheme && matchesQueryKw && matchesCategory && matchesQueryYear;
       });
     }
@@ -527,7 +527,7 @@
         const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
         const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
-        const keywords = song?.keywords ? `<span class="pill">${escapeHtml(song?.keywords)}</span>` : "";
+        const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
         const link = song.link || song.lien;
         const album = song.albums?.album ? `<span class="pill">${escapeHtml(song.albums?.album)}</span>` : "";
         const category = song.categories?.name ? `<span class="pill">${escapeHtml(song.categories?.name)}</span>` : "";
