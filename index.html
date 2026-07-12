@@ -346,14 +346,18 @@
         <label for="title_search">Titre</label>
         <input id="title_search" type="search" placeholder="ex. Mamma Mia">
         <div class="search theme">
-          <label for="year_search">Année</label>
-          <input id="year_search" type="search" placeholder="ex. 2026">
-          <label for="year_detail">Filtre</label>
-          <select id="year_detail">
-            <option value="greater">supérieure</option>
-            <option value="less">inférieure</option>
-            <option value="equal">égale</option>
-          </select>
+          <div class="field">
+            <label for="year_search">Année</label>
+            <input id="year_search" type="search" placeholder="ex. 2026">
+          </div>
+          <div class="field">
+            <label for="year_detail">Filtre</label>
+            <select id="year_detail">
+              <option value="greater">supérieure</option>
+              <option value="less">inférieure</option>
+              <option value="equal">égale</option>
+            </select>
+          </div>
         </div>
         <div class="search_theme">
           <div class="field">
@@ -470,7 +474,7 @@
         const matchesTheme = !state.theme || song.theme === state.theme;
         const matchesCategory = !state.category || song.categories?.name == state.category;
         const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
-        const matchesQueryYear = !state.year || song.year === state.year;
+        const matchesQueryYear = !state.year || song.year === Number(state.year);
         return matchesQueryArtist && matchesTheme && matchesQueryTitle && matchesCategory && matchesQueryYear;
       });
     }
