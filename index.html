@@ -354,6 +354,10 @@
               <option value="">Toutes les catégories</option>
             </select>
           </div>
+          <div class="field">
+            <label for="kw_search">Mots-clé<label> 
+            <input id="kw_search" type="search" placeholder="ex. car love sad">
+          </div>
         </div>
         <label for="title_search">Titre</label>
         <input id="title_search" type="search" placeholder="ex. Mamma Mia">
@@ -409,6 +413,7 @@
       query: "",
       title : "",
       theme: "",
+      kw: "",
       year: "",
       year_filter: "equal",
       category: "",
@@ -425,6 +430,7 @@
       artist: document.getElementById("art_search"),
       count: document.getElementById("count"),
       list: document.getElementById("list"),
+      keywords: document.getElementById("kw_search"),
       reset: document.getElementById("reset"),
     };
 
@@ -474,6 +480,7 @@
     function getFilteredSongs() {
       const q_art = normalize(state.artist);
       const q_tit = normalize(state.title);
+      const q_kw = state.keywords.split(" ").map(v => normalize(v)); 
 
       return state.songs.filter((song) => {
         const artist = song.artists?.name || "";
@@ -485,7 +492,8 @@
         const matchesCategory = !state.category || song.categories?.name == state.category;
         const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
         const matchesQueryYear = matchesYear(song);
-        return matchesQueryArtist && matchesTheme && matchesQueryTitle && matchesCategory && matchesQueryYear;
+        const matchesQueryKw = !q_kw || q_kw.some(element => song?.keywords.includes(element));
+        return matchesQueryArtist && matchesTheme && matchesQueryKw && matchesCategory && matchesQueryYear;
       });
     }
 
@@ -566,7 +574,7 @@
 
     async function loadSongs() {
       try {
-        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),albums(id,album,pochette,link),theme,link,categories(name),groups(id,name),created_at&order=title.asc";
+        const url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),keywords,albums(id,album,pochette,link),theme,link,categories(name),groups(id,name),created_at&order=title.asc";
         const response = await fetch(url, {
           headers: {
             apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo",
@@ -615,6 +623,11 @@
 
     nodes.category.addEventListener("change", (event) => {
       state.category = event.target.value;
+      renderList();
+    })
+
+    nodes.keywords.addEventListener("input", (event) => {
+      state.kw = event.target.value;
       renderList();
     })
 
