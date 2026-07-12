@@ -549,8 +549,8 @@
       {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category", origin: song.theme}
     ].filter(item => item.value).map(v => `<span class="pill" data-origin=${v?.origin} data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
     modals.details2.innerHTML = [
-      song.albums?.album, song.year
-    ].filter(Boolean).map(v => `<span class="pill">${escapeHtml(v)}</span>`).join(""); 
+      {type: "album",value: song.albums?.album}, {type: "year", value: song.year}
+    ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type}>${escapeHtml(v.value)}</span>`).join(""); 
 
     const cover = modals.cover;
     cover.style.backgroundImage = song.albums?.pochette ? `url(${song.albums?.pochette})` : "none";
@@ -670,9 +670,23 @@
         nodes.category.value = pill.textContent;
         renderList();
       }
-      }
+      });
 
-    );
+    modals.details2.addEventListener("click", (event) => 
+      {const pill = event.target.closest(".pill");
+      if (!pill) return;
+      const type = pill.dataset.type;
+      if (type === "year"){
+        state.year = pill.textContent;
+        nodes.year.value = pill.textContent;
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        renderList();
+      }
+      else if(type==="album"){
+        return;
+      }
+      });
 
 
     loadSongs();
