@@ -353,9 +353,9 @@
           <div class="field">
             <label for="year_filter">Filtre</label>
             <select id="year_filter">
+              <option selected value="equal">égale</option>
               <option value="greater">supérieure</option>
               <option value="less">inférieure</option>
-              <option selected value="equal">égale</option>
             </select>
           </div>
         </div>
@@ -410,7 +410,7 @@
       title : "",
       theme: "",
       year: "",
-      year_filter: "",
+      year_filter: "equal",
       category: "",
       artist: "",
     };
@@ -464,7 +464,7 @@
     }
 
     function matchesYear(song){
-      if (state.year.length < "equal") return false;
+      if (state.year.length < "equal") return true;
       const yearValue = Number(state.year);
       if (state.year_filter === "greater") return song.year >= state.year;
       if (state.year_filter === "less") return song.year <= state.year;
