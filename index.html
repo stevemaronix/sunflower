@@ -529,12 +529,15 @@
       return song[key] || "";
     }
 
-    function sortSongs(songs){
-      return songs.sort((a,b) => {
-        const valA = getSortValue(a,state.sort_song)
-        const valB = getSortValue(b,state.sort_song);
-        return valA.localeCompare(valB,"fr");
-      })
+    function sortSongs(songs) {
+      return songs.sort((a, b) => {
+        const valA = getSortValue(a,state.sort_song);
+        const valB = getSortValue(b,state.sort_song)
+        if (typeof valA === "number" && typeof valB === "number") {
+          return valA - valB;
+        }
+        return String(valA).localeCompare(String(valB), "fr");
+      });
     }
 
     function renderList() {
