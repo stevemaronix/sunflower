@@ -345,6 +345,8 @@
         <input id="art_search" type="search" placeholder="ex. Aitana">
         <label for="title_search">Titre</label>
         <input id="title_search" type="search" placeholder="ex. Mamma Mia">
+        <label for="year_search">Année</label>
+        <input id="year_search" type="search" placeholder="ex. 2026">
         <div class="search_theme">
           <div class="field">
             <label for="theme">Thème</label>
@@ -395,6 +397,7 @@
       query: "",
       title : "",
       theme: "",
+      year: "",
       category: "",
       artist: "",
     };
@@ -453,11 +456,13 @@
         const artist = song.artists?.name || "";
         const groupe = song.groups?.name || "";
         const titre = song.title || "";
+        const year = song.year || "";
         const matchesQueryArtist = !q_art || getSearchText(song).groupe.includes(q_art) || getSearchText(song).artist.includes(q_art);
         const matchesTheme = !state.theme || song.theme === state.theme;
         const matchesCategory = !state.category || song.categories?.name == state.category;
         const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
-        return matchesQueryArtist && matchesTheme && matchesQueryTitle && matchesCategory;
+        const matchesQueryYear = !state.year || song.year === state.year;
+        return matchesQueryArtist && matchesTheme && matchesQueryTitle && matchesCategory && matchesQueryYear;
       });
     }
 
@@ -620,6 +625,7 @@
       if (type === "theme"){
         state.theme = pill.textContent;
         nodes.theme.value = pill.textContent;
+        nodes.category.value = "";
         nodes.categoryWrap.classList.remove("close");
         document.getElementById("overlay").classList.remove("open");
         renderFilters();
