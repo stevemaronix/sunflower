@@ -569,7 +569,7 @@
   let currentFilteredSongs = [];
 
   function whatisit(song){
-    if (song[whatisit(song)]) return "albums";
+    if (song.albums) return "albums";
     if (song.single) return "singles";
     if (song.ep) return "EP";
   }
