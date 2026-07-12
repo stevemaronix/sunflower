@@ -506,7 +506,7 @@
         const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
         const matchesQueryYear = matchesYear(song);
         const matchesQueryKw = !q_kw.length || q_kw.some(element => song.keywords?.includes(element));
-        return matchesQueryArtist && matchesTheme && matchesQueryKw && matchesCategory && matchesQueryYear;
+        return matchesQueryArtist && matchesTheme && matchesQueryKw && matchesQueryTitle && matchesCategory && matchesQueryYear;
       });
     }
 
