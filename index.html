@@ -355,7 +355,7 @@
             </select>
           </div>
           <div class="field">
-            <label for="kw_search">Mots-clé<label> 
+            <label for="kw_search">Mots-clés</label> 
             <input id="kw_search" type="search" placeholder="ex. car love sad">
           </div>
         </div>
@@ -480,7 +480,7 @@
     function getFilteredSongs() {
       const q_art = normalize(state.artist);
       const q_tit = normalize(state.title);
-      const q_kw = state.keywords.split(" ").map(v => normalize(v)); 
+      const q_kw = state.kw.split(" ").map(v => normalize(v)); 
 
       return state.songs.filter((song) => {
         const artist = song.artists?.name || "";
