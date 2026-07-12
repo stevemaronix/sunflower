@@ -383,13 +383,15 @@
     <div class="meta">
       <p id="count">Chargement du catalogue...</p>
       <p>
-        Trier par : 
+        <span>Trier par :</span>
+        <span> 
         <select id="sort_songs">
           <option value="title">Titre</option>
           <option selected value="artist">Artiste</option>
           <option value="theme">Thème</option>
           <option value="year">Année</option>
         </select>
+        </span>
       </p>
       <button class="reset" id="reset" type="button">Réinitialiser</button>
     </div>
@@ -469,7 +471,7 @@
 
     function getSearchText(song) {
       return {
-        album : normalize(song.albums?.album),
+        album : normalize(song[whatisit(song)]?.name),
         title : normalize(song.title),
         artist : normalize(song.artists?.name),
         groupe: normalize(song.groups?.name),
@@ -549,7 +551,7 @@
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
         const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
         const link = song.link || song.lien;
-        const album = song.albums?.album ? `<span class="pill">${escapeHtml(song.albums?.album)}</span>` : "";
+        const album = song[whatisit(song)]?.name ? `<span class="pill">${escapeHtml(song[whatisit(song)]?.name)}</span>` : "";
         const category = song.categories?.name ? `<span class="pill">${escapeHtml(song.categories?.name)}</span>` : "";
 
         return `
@@ -566,6 +568,12 @@
 
   let currentFilteredSongs = [];
 
+  function whatisit(song){
+    if (song[whatisit(song)]) return "albums";
+    if (song.single) return "singles";
+    if (song.ep) return "EP";
+  }
+
   function openModal(song) {
     const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
     modals.title.textContent = song.title || "Sans titre";
@@ -577,12 +585,12 @@
       {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category", origin: song.theme}
     ].filter(item => item.value).map(v => `<span class="pill" data-origin=${v?.origin} data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
     modals.details2.innerHTML = [
-      {type: "album",value: song.albums?.album}, {type: "year", value: song.year}
+      {type: "album",value: song[whatisit(song)]?.name}, {type: "year", value: song.year}
     ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type}>${escapeHtml(v.value)}</span>`).join(""); 
 
     const cover = modals.cover;
-    cover.style.backgroundImage = song.albums?.pochette ? `url(${song.albums?.pochette})` : "none";
-    cover.href = song.albums?.link || "";
+    cover.style.backgroundImage = song[whatisit(song)]?.pochette ? `url(${song[whatisit(song)]?.pochette})` : "none";
+    cover.href = song[whatisit(song)]?.link || "";
 
     document.getElementById("overlay").classList.add("open");
   }
