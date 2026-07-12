@@ -524,11 +524,15 @@
       fillSelect(nodes.theme, themes, "Tous les thèmes");
       fillSelect(nodes.category, categories, "Toutes les catégories");
     }
+    function getSortValue(song, key){
+      if (key === "artist") return song.artists?.name || "";
+      return song[key] || "";
+    }
 
     function sortSongs(songs){
       return songs.sort((a,b) => {
-        const valA = a[state.sort_song] || "";
-        const valB = b[state.sort_song] || "";
+        const valA = getSortValue(a,state.sort_song)
+        const valB = getSortValue(b,state.sort_song);
         return valA.localeCompare(valB,"fr");
       })
     }
