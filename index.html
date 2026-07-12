@@ -620,9 +620,12 @@
 
     nodes.reset.addEventListener("click", () => {
       state.title = "";
+      state.year = "";
       state.theme = "";
       state.category = "";
       state.artist = "";
+      nodes.year.value = "";
+      nodes.year_filter.value = "equal";
       nodes.title.value = "";
       nodes.theme.value = "";
       nodes.category.value = "";
