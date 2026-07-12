@@ -464,10 +464,10 @@
     }
 
     function matchesYear(song){
-      if (state.year.length < "equal") return true;
+      if (state.year.length < 4) return true;
       const yearValue = Number(state.year);
-      if (state.year_filter === "greater") return song.year >= state.year;
-      if (state.year_filter === "less") return song.year <= state.year;
+      if (state.year_filter === "greater") return song.year >= yearValue;
+      if (state.year_filter === "less") return song.year <= yearValue;
       return song.year === state.year;
     }
 
