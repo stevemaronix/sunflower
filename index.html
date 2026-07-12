@@ -382,6 +382,15 @@
 
     <div class="meta">
       <p id="count">Chargement du catalogue...</p>
+      <p>
+        Trier par : 
+        <select id="sort_songs>
+          <option value="title">Titre</option>
+          <option value="artist">Artiste</option>
+          <option value="theme">Thème</option>
+          <option value="year">Année</option>
+        </select>
+      </p>
       <button class="reset" id="reset" type="button">Réinitialiser</button>
     </div>
 
@@ -418,6 +427,7 @@
       year_filter: "equal",
       category: "",
       artist: "",
+      sort_song: "",
     };
 
     const nodes = {
@@ -432,6 +442,7 @@
       list: document.getElementById("list"),
       keywords: document.getElementById("kw_search"),
       reset: document.getElementById("reset"),
+      sort_song: document.getElementById("sort_songs"),
     };
 
     const modals = {
@@ -512,9 +523,18 @@
       fillSelect(nodes.category, categories, "Toutes les catégories");
     }
 
+    function sortSongs(songs){
+      return songs.sort((a,b) => {
+        const valA = a[state.sort_song] || "";
+        const valB = b[state.sort_song] || "";
+        return valA.localeCompare(valB,"fr");
+      })
+    }
+
     function renderList() {
-      const songs = getFilteredSongs();
+      const songs = sortSongs(getFilteredSongs());
       currentFilteredSongs = songs;
+      sortingCriteria = nodes.sort_song.value;
       const total = state.songs.length;
       nodes.count.textContent = `${songs.length} chanson${songs.length > 1 ? "s" : ""} affichée${songs.length > 1 ? "s" : ""} sur ${total}`;
 
@@ -637,16 +657,20 @@
       state.theme = "";
       state.category = "";
       state.artist = "";
+      state.kw = "";
       nodes.year.value = "";
       nodes.year_filter.value = "equal";
       nodes.title.value = "";
       nodes.theme.value = "";
       nodes.category.value = "";
       nodes.categoryWrap.classList.add("close");
+      nodes.keywords.value="";
       nodes.artist.value = "";
       renderFilters()
       renderList();
     });
+
+    nodes.sort_song.addEventListener("change", (event) => {state.sort_song = event.target.value; renderList();})
 
     nodes.list.addEventListener("click", (event) => {
       const card = event.target.closest(".song");
