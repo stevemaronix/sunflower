@@ -219,11 +219,6 @@
 
   let currentFilteredSongs = [];
 
-  function whatisit(song){
-    if (song.albums) return "albums";
-    if (song.singles) return "singles";
-    if (song.EP) return "EP";
-  }
 
   function openModal(song) {
     const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
@@ -236,8 +231,8 @@
       {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category", origin: song.theme}
     ].filter(item => item.value).map(v => `<span class="pill" data-origin=${v?.origin} data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
     modals.details2.innerHTML = [
-      {type: "album",value: song[whatisit(song)]?.name}, {type: "year", value: song.year}
-    ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type}>${escapeHtml(v.value)}</span>`).join(""); 
+      {type: "album",value: song[whatisit(song)]?.name, id:song[whatisit(song)]?.id}, {type: "year", value: song.year}
+    ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type} data-id=${v.id || ""}>${escapeHtml(v.value)}</span>`).join(""); 
 
     const cover = modals.cover;
     cover.style.backgroundImage = song[whatisit(song)]?.pochette ? `url(${song[whatisit(song)]?.pochette})` : "none";
@@ -379,7 +374,8 @@
         renderList();
       }
       else if(type==="album"){
-        return;
+        albumId = pill.dataset.id;
+        if (albumId) window.location.href = `album.html?id=${albumId}`;
       }
       });
 

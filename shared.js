@@ -10,6 +10,12 @@ function escapeHtml(value) {
     }[char]));
 }
 
+function whatisit(song){
+    if (song.albums) return "albums";
+    if (song.singles) return "singles";
+    if (song.EP) return "EP";
+  }
+
 function renderSongCard(song,index) {
         const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
         const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
