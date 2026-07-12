@@ -88,8 +88,10 @@
       backdrop-filter: blur(10px);
     }
 
-    .details .pill{
+    .details .pill:hover{
       cursor: pointer;
+      background: var(--moss);
+      color: var(--paper);
     }
 
     .field {
@@ -147,10 +149,15 @@
       color: var(--accent-dark);
       background: transparent;
       cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
     }
 
     .reset:hover {
       background: rgba(157, 63, 47, 0.08);
+    }
+
+    .reset:active {
+      transform: scale(0.96);
     }
 
     .grid {
@@ -189,7 +196,14 @@
       font-size: 1.2rem;
       cursor: pointer;
       color: var(--ink);
+      transition: transform 0.15s ease, color 0.15s ease;
     }
+
+    .modal-close:hover {
+      transform: rotate(90deg);
+      color: var(--accent);
+    }
+
     .modal-cover {
       flex : 35%;
       aspect-ratio: 1;
@@ -198,6 +212,10 @@
       padding : 10px;
       border-radius: 6px;
       margin-bottom: 16px;
+    }
+
+    .modal-cover:hover {
+      opacity: 0.85;
     }
 
     #modalTitle {
@@ -228,6 +246,7 @@
       border-radius: 6px;
       background: var(--panel);
       box-shadow: 0 8px 26px rgba(70, 55, 39, 0.08);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .song h2 {
@@ -237,11 +256,20 @@
       overflow-wrap: anywhere;
     }
 
+    .song:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 34px rgba(70, 55, 39, 0.18);
+    }
+
     .link_title a {
       margin: 0 0 10px;
       font-size: 1.55rem;
       line-height: 1.05;
       overflow-wrap: anywhere;
+    }
+
+    .link_title a:hover {
+      color: var(--accent);
     }
 
     .artist {
@@ -264,6 +292,7 @@
       border-radius: 999px;
       padding: 6px 9px;
       color: var(--moss);
+      transition: background 0.15s ease, color 0.15s ease;
       background: rgba(83, 99, 76, 0.08);
       font-size: 0.88rem;
     }
