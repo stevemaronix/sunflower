@@ -305,6 +305,20 @@
       border: 1px solid var(--line);
     }
 
+    #sort_songs {
+      width: auto;
+      min-height: auto;
+      padding: 4px 8px;
+      font-size: 0.85rem;
+    }
+
+    .sort-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
     .display_category.close {
       display : none;
     }
@@ -382,16 +396,14 @@
 
     <div class="meta">
       <p id="count">Chargement du catalogue...</p>
-      <p>
-        <span>Trier par :</span>
-        <span> 
+      <p class="sort-inline">
+        Trier par :
         <select id="sort_songs">
           <option value="title">Titre</option>
           <option selected value="artist">Artiste</option>
           <option value="theme">Thème</option>
           <option value="year">Année</option>
         </select>
-        </span>
       </p>
       <button class="reset" id="reset" type="button">Réinitialiser</button>
     </div>
