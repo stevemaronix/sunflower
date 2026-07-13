@@ -57,7 +57,7 @@
 
     function renderAlbum(){
         nodes.albumTitle.textContent = state.album?.name;
-        nodes.artist.textContent = state.songs[0]?.artist;
+        nodes.artist.textContent = state.songs[0]?.groups?.name || state.songs[0]?.artists?.name || "";
         nodes.cover.src = state.album?.pochette;
     }
 
