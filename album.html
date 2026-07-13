@@ -63,7 +63,7 @@
 
     async function loadAlbum(){
         const type = itiswhat;
-        const response = await fetch(`${sup_url}${type}?select=id,name,sortie,pochette,link&${type}.id = eq.${albumId}`,
+        const response = await fetch(`${sup_url}${type}?select=id,name,sortie,pochette,link&${type}.id=eq.${albumId}`,
         {headers: {
             apikey: `${sup_key}`,
             Authorization: `Bearer ${sup_key}`,
