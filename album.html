@@ -36,7 +36,7 @@
         const params = new URLSearchParams(window.location.search);
         const albumId = params.get("id");
         try {
-                const response = await fetch(`https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),keywords,albums(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(name,pochette,link),singles(name,pochette,link),created_at&order=title.asc&id=${albumId}`, {
+                const response = await fetch(`${sup_url}select=id,title,description,year,artists(id,name),keywords,albums(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(name,pochette,link),singles(name,pochette,link),created_at&order=title.asc&id=eq.${albumId}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,

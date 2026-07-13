@@ -37,4 +37,4 @@ function renderSongCard(song,index) {
 }
 
 const sup_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo"
-const sup_url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?select=id,title,description,year,artists(id,name),keywords,albums(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(name,pochette,link),singles(name,pochette,link),created_at&order=title.asc"
+const sup_url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/songs?"
