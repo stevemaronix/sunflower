@@ -10,11 +10,11 @@
     <main class="shell">
         <header>
             <div class="align_cover_txt">
-                <a class="modal-cover" target="_blank" id="modalCover"></a>
+                <img class="cover-page"  id="cover">
                 <div class="container_txt">
                 <div class="details" id="modalDetails"></div>
-                <a class = "link_title" id="modalTitle"></a>
-                <p class="artist" id="modalArtist"></p>
+                <a class = "link_title" id="albumTitle"></a>
+                <p class="artist" id="artist"></p>
                 <p class="description" id="modalDescription"></p>
                 <div class="details" id="modalDetails2"></div>
                 </div>
@@ -31,12 +31,19 @@
 <script src="shared.js"></script>
 <script>
 
+    const params = new URLSearchParams(window.location.search);
+    const albumId = params.get("id");
+    const itiswhat = params.get("whatisit");
+
     state = {
         songs: [],
     }
     nodes = {
         list: document.getElementById("album_list"),
         count: document.getElementById("count"),
+        cover: document.getElementById("cover"),
+        artist: document.getElementById("artist"),
+        albumTitle: document.getElementById("albumTitle")
     }
 
     function renderListSongs(itis,id){
@@ -47,12 +54,31 @@
 
     }
 
+    function renderAlbum(){
+        nodes.albumTitle.textContent = state.album?.name;
+        nodes.cover.src = state.album?.pochette;
+    }
+
+    async function loadAlbum(){
+        const type = itiswhat;
+        const response = await fetch(`${sup_url}${type}?select=id,name,sortie,pochette,link`,
+        {headers: {
+            apikey: `${sup_key}`,
+            Authorization: `Bearer ${sup_key}`,
+        },
+        })
+
+        const data = await response.json()
+
+        if (!response.ok){
+            throw new Error(data.message || "Impossible de charger l'album");
+        }
+        state.album = Array.isArray(data) ? data[0] : undefined;
+    }
+
     async function loadSongs(){
-        const params = new URLSearchParams(window.location.search);
-        const albumId = params.get("id");
-        const itiswhat = params.get("whatisit");
         try {
-                const response = await fetch(`${sup_url}select=id,title,description,year,artists(id,name),keywords,albums(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(id,name,pochette,link),singles(id,name,pochette,link),created_at&order=title.asc&${itiswhat}.id=eq.${albumId}`, {
+                const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,albums(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(id,name,pochette,link),singles(id,name,pochette,link),created_at&order=title.asc&${itiswhat}.id=eq.${albumId}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,
@@ -67,11 +93,14 @@
 
                 state.songs = Array.isArray(data) ? data : [];
                 renderListSongs(itiswhat,albumId);
-            } catch (error) {
-                nodes.count.textContent = "Catalogue indisponible";
-                nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
-            }
+        } catch (error) {
+            nodes.count.textContent = "Catalogue indisponible";
+            nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
+        }
     }
     loadSongs();
+    loadAlbum();
+    renderAlbum();
+    renderListSongs();
 </script>
 </html>
