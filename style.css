@@ -379,13 +379,20 @@
 
     .head-index{
       display: flex;
+      align-items: center;
     }
 
     #logo{
-      width: clamp(150px,20vw, 250px);
+      width: clamp(130px,15vw, 230px);
       aspect-ratio: 1;
       object-fit: cover;
       border-radius: 50%;
+      z-index: 1;
+    }
+
+    .head-index h1{
+      margin-left: -40px;
+      z-index: 2;
     }
 
     @keyframes load {
