@@ -40,7 +40,7 @@
     }
 
     function renderListSongs(itis,id){
-        const songs=state.songs.filter(v => v[itis].id === id);
+        const songs=state.songs.filter(v => v[itis]?.id === id);
         nodes.list.innerHTML = songs.map(renderSongCard).join("");
         const total = state.songs.length;
         nodes.count.textContent = `${songs.length} chanson${songs.length > 1 ? "s" : ""} affichée${songs.length > 1 ? "s" : ""} sur ${total}`;
