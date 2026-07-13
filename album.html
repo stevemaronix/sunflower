@@ -7,12 +7,26 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p id="count">Chargement du catalogue...</p>
-    <section class="grid" id="album_list" aria-live="polite">
-      <div class="skeleton"></div>
-      <div class="skeleton"></div>
-      <div class="skeleton"></div>
-    </section>
+    <main class="shell">
+        <header>
+            <div class="align_cover_txt">
+                <a class="modal-cover" target="_blank" id="modalCover"></a>
+                <div class="container_txt">
+                <div class="details" id="modalDetails"></div>
+                <a class = "link_title" id="modalTitle"></a>
+                <p class="artist" id="modalArtist"></p>
+                <p class="description" id="modalDescription"></p>
+                <div class="details" id="modalDetails2"></div>
+                </div>
+            </div>
+        </header>
+        <p id="count">Chargement du catalogue...</p>
+        <section class="grid" id="album_list" aria-live="polite">
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        </section>
+    </main>
 </body>
 <script src="shared.js"></script>
 <script>
@@ -25,7 +39,8 @@
         count: document.getElementById("count"),
     }
 
-    function renderListSongs(songs){
+    function renderListSongs(){
+        const songs=state.songs;
         nodes.list.innerHTML = songs.map(renderSongCard).join("");
         const total = state.songs.length;
         nodes.count.textContent = `${songs.length} chanson${songs.length > 1 ? "s" : ""} affichée${songs.length > 1 ? "s" : ""} sur ${total}`;
