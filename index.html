@@ -231,7 +231,7 @@
       {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category", origin: song.theme}
     ].filter(item => item.value).map(v => `<span class="pill" data-origin=${v?.origin} data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
     modals.details2.innerHTML = [
-      {type: "album",value: song[whatisit(song)]?.name, id:song[whatisit(song)]?.id}, {type: "year", value: song.year}
+      {type: song[whatisit(song)],value: song[whatisit(song)]?.name, id:song[whatisit(song)]?.id}, {type: "year", value: song.year}
     ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type} data-id=${v.id || ""}>${escapeHtml(v.value)}</span>`).join(""); 
 
     const cover = modals.cover;
@@ -373,9 +373,9 @@
         renderFilters();
         renderList();
       }
-      else if(type==="album"){
+      else {
         albumId = pill.dataset.id;
-        if (albumId) window.location.href = `album.html?id=${albumId}`;
+        if (albumId) window.location.href = `album.html?id=${albumId},whatisit=${type}`;
       }
       });
 
