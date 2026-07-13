@@ -75,7 +75,7 @@
         if (!response.ok){
             throw new Error(data.message || "Impossible de charger l'album");
         }
-        state.album = Array.isArray(data) ? data[0] : undefined;
+        state.album = Array.isArray(data) ? data[0] : {};
     }
 
     async function loadSongs(){
