@@ -92,6 +92,7 @@
                 }
 
                 state.songs = Array.isArray(data) ? data : [];
+                console.log(state.songs);
                 renderListSongs();
         } catch (error) {
             nodes.count.textContent = "Catalogue indisponible";
