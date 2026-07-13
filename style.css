@@ -422,6 +422,10 @@
       border-radius: 6px;
     }
     
+    .lavish{
+      font-family: "Lavishly Yours";
+    }
+
     .album-title {
       display: block;
       font-size: clamp(2rem, 4vw, 4rem);
