@@ -438,13 +438,17 @@
     }
 
     .head-index{
+      top: 10px;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      min-height: 220px;
     }
 
     #logo{
-      width: clamp(130px,15vw, 230px);
+      position: absolute;
+      width: clamp(300px, 39vw, 400px);
       aspect-ratio: 1;
       object-fit: cover;
       border-radius: 50%;
@@ -452,8 +456,12 @@
     }
 
     .head-index h1{
-      margin-left: -3%;
+      position: relative;
       z-index: 2;
+      margin: 0;
+      color: #32000C;
+      -webkit-text-stroke: 0.5px var(--panel);
+      text-shadow: var(--panel) 0px 0px 9px;
     }
 
     @keyframes load {
