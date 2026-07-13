@@ -322,6 +322,7 @@
       font-size: 1.55rem;
       line-height: 1.05;
       overflow-wrap: anywhere;
+      width: fit-content;
     }
 
     .link_title:hover {
@@ -439,6 +440,7 @@
     .head-index{
       display: flex;
       align-items: center;
+      justify-content: center;
     }
 
     #logo{
