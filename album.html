@@ -8,9 +8,9 @@
 </head>
 <body>
     <main class="shell">
-        <header>
+        <header class="album-page">
             <div class="align_cover_txt">
-                <img class="cover-page"  id="cover">
+                <img class="modal-cover"  id="modalCover">
                 <div class="container_txt">
                 <div class="details" id="modalDetails"></div>
                 <a class = "link_title" id="albumTitle"></a>
@@ -47,11 +47,9 @@
     }
 
     function renderListSongs(itis,id){
-        const songs=state.songs.filter(v => v[itis]?.id === id);
-        console.table(songs);
-        nodes.list.innerHTML = songs.map(renderSongCard).join("");
+        nodes.list.innerHTML = state.songs.map(renderSongCard).join("");
         const total = state.songs.length;
-        nodes.count.textContent = `${songs.length} chanson${songs.length > 1 ? "s" : ""} affichée${songs.length > 1 ? "s" : ""} sur ${total}`;
+        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} affichée${state.songs.length > 1 ? "s" : ""} sur ${total}`;
 
     }
 
