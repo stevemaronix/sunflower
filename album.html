@@ -35,10 +35,11 @@
     const albumId = params.get("id");
     const itiswhat = params.get("whatisit");
 
-    state = {
+    const state = {
         songs: [],
     }
-    nodes = {
+
+    const nodes = {
         list: document.getElementById("album_list"),
         count: document.getElementById("count"),
         cover: document.getElementById("cover"),
