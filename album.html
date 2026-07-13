@@ -46,7 +46,7 @@
         albumTitle: document.getElementById("albumTitle")
     }
 
-    function renderListSongs(itis,id){
+    function renderListSongs(){
         nodes.list.innerHTML = state.songs.map(renderSongCard).join("");
         const total = state.songs.length;
         nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} affichée${state.songs.length > 1 ? "s" : ""} sur ${total}`;
@@ -92,7 +92,7 @@
                 }
 
                 state.songs = Array.isArray(data) ? data : [];
-                renderListSongs(itiswhat,albumId);
+                renderListSongs();
         } catch (error) {
             nodes.count.textContent = "Catalogue indisponible";
             nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
