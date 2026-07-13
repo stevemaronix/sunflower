@@ -100,8 +100,8 @@
             nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
         }
     }
-    loadSongs();
-    loadAlbum();
+    await loadSongs();
+    await loadAlbum();
     renderAlbum();
     renderListSongs();
 </script>
