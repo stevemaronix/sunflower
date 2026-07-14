@@ -106,7 +106,13 @@
 
     async function loadSongs(){
         try {
-                const response = await fetch(`${sup_url}songs?select=id,title,artist,description,year,keywords,artists(id,name,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&artist=eq.${artistId}`, {
+                const groupIds = state.groups.map(g => g.group_id);
+
+                const query = groupIds.length
+                    ? `or=(artist.eq.${artistId},groupe.in.(${groupIds.join(",")}))`
+                    : `artist=eq.${artistId}`;
+                    
+                const response = await fetch(`${sup_url}songs?select=id,title,artist,description,year,keywords,artists(id,name,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${query}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,
