@@ -28,7 +28,7 @@ function renderSongCard(song,index) {
         return `
           <article class="song" data-index="${index}">
             <div>
-              <h2>${escapeHtml(song.title || "Sans titre")}</h2>
+              <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
               <p class="artist">${escapeHtml(artist)}</p>
             </div>
             <div class="details">${album}${year}</div>

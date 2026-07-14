@@ -49,7 +49,6 @@
       top: 20px;
       left: 20px;
       z-index: 10;
-      color: var(--muted);
     }
 
     #retour:hover{
@@ -132,6 +131,8 @@
       position: relative;
       margin-top: 24px;
       z-index: 3;
+      font-family: "Clicker Script";
+      font-weight: bold;
       backdrop-filter: blur(10px);
     }
 
@@ -152,9 +153,8 @@
 
     label {
       color: #a46270;
-      font-size: 0.78rem;
+      font-size: 1.2rem;
       letter-spacing: 0.08em;
-      text-transform: uppercase;
     }
 
     input,
@@ -286,6 +286,10 @@
     #modalDescription {
         font-size: clamp(1rem, 1.2vw, 1.4rem);
         line-height: 1.6;
+    }
+
+    .titre{
+      font-family:"DynaPuff";
     }
 
     .song {
@@ -429,12 +433,11 @@
       font-weight: bold;
       line-height: 1.05;
       margin-bottom: .4rem;
-      color: var(--muted);
     }
 
     .album-artist{
       margin: 0;
-      color: var(--muted);
+      color: var(--accent-dark);
       font-size: clamp(1.05rem,2vw,3rem);
       opacity: 0.8;
     }
@@ -457,17 +460,14 @@
       z-index: 1;
     }
 
-    .loading{
-      color: var(--muted);
-    }
-
     .head-index h1{
       position: relative;
       z-index: 2;
       margin: 0;
-      color: #32000C;
-      -webkit-text-stroke: 1px #f4e16e;
-      text-shadow: #5d0317 0px 0px 12px, #000000 0px 0px 20px;
+      font-family: "Water Brush";
+      color: white;
+      /*-webkit-text-stroke: 0.5px #f4e16e;*/
+      text-shadow: var(--burgundy) 0px 0px 4px, #000000 0px 0px 20px;
     }
 
     @keyframes load {
