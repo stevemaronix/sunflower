@@ -24,7 +24,7 @@
                 <div class="container_txt">
                     <div class="details" id="modalDetails"></div>
                     <a class = "artist-title titre" id="artist"></a>
-                    <!--<p class="artist-artist" id="artist"></p>-->
+                    <p class="artist-groups" id="groups"></p>
                     <p class="description" id="modalDescription"></p>
                     <div class="details" id="modalDetails2"></div>
                 </div>
@@ -50,24 +50,25 @@
         list: document.getElementById("artistList"),
         count: document.getElementById("count"),
         photo: document.getElementById("artistPhoto"),
-        artist: document.getElementById("artist")
+        artist: document.getElementById("artist"),
+        groups: document.getElementById("groups")
     }
 
     function renderListSongs(){
         nodes.list.innerHTML = state.songs.map(renderSongCard).join("");
         const total = state.songs.length;
-        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} dans cet ${eq_col[itiswhat]}`;
+        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} de${artist}`;
 
     }
 
     function renderartist(){
         nodes.artist.textContent = state.artist?.name;
-        nodes.artist.textContent = state.songs[0]?.groups?.name || state.songs[0]?.artists?.name || "";
+        nodes.groups.textContent = state.songs[0]?.groups?.name || state.songs[0]?.artists?.name || "";
         nodes.photo.src = state.artist?.link;
     }
 
     async function loadartist(){
-        const response = await fetch(`${sup_url}artists?select=id,name,sortie,pochette,link&id=eq.${artistId}`,
+        const response = await fetch(`${sup_url}artists?select=id,name,link,genre&id=eq.${artistId}`,
         {headers: {
             apikey: `${sup_key}`,
             Authorization: `Bearer ${sup_key}`,
