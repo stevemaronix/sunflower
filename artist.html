@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="titleAlbum">Hummingbird</title>
+  <title id="title_artist">Hummingbird</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="logo.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
 <script>
     const params = new URLSearchParams(window.location.search);
     const albumId = params.get("id");
-    const itiswhat = params.get("whatisit");
+    const itiswhat = params.get("artist");
 </script>
 <body>
     <a href="index.html" id="retour"><- Retour</a>
@@ -111,7 +111,6 @@
         await loadSongs();
         await loadAlbum();
         renderAlbum();
-        document.getElementById("titleAlbum").textContent = `${document.getElementById("titleAlbum").textContent}: ${state.album?.name}`;
     }
 
     render();
