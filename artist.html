@@ -158,9 +158,9 @@
     }
 
     async function render(){
-        await loadSongs();
         await loadArtist();
         await loadGroups();
+        await loadSongs();
         renderArtist();
     }
 
