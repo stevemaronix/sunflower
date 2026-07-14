@@ -1,12 +1,14 @@
     :root {
       color-scheme: light;
-      --ink: #5d0317;
-      --muted: #5d0317;
-      --paper: #fcffd3f5;
-      --panel: #f4e16e;
-      --line: #5d0317;
+      --ink: #5e0117;
+      --muted: #980024;
+      --paper: #1d0305;
+      --panel: #DCB253;
+      --line: #32000C;
+      --burgundy: #32000C;
       --accent: #9d3f2f;
-      --accent-dark: #64291f;
+      --accent-dark: #5e0117;
+      --accent-dark-hover: rgb(94,1,23,0.6);
       --moss: #53634c;
       --shadow: 0 18px 50px #5d0317d9;
     }
@@ -20,10 +22,7 @@
       min-height: 100vh;
       font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
       color: var(--ink);
-      background:
-        linear-gradient(90deg, rgba(83, 99, 76, 0.08) 1px, transparent 1px),
-        linear-gradient(rgba(157, 63, 47, 0.07) 1px, transparent 1px),
-        var(--paper);
+      background-color: var(--paper);
       background-size: 42px 42px;
     }
 
@@ -65,27 +64,22 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-
       width: 48px;
       height: 48px;
-
       border: none;
       border-radius: 50%;
       background: var(--ink);
       color: var(--paper);
       font-size: 1.5rem;
+      font-weight: bolder;
       cursor: pointer;
-
       opacity: 0;
       visibility: hidden;
       transform: translateY(20px);
-
-      transition:
-          opacity .3s,
+      transition: opacity .3s,
           transform .3s,
-          visibility .3s
+          visibility .3s,
           scale 0.15s ease;
-
       z-index: 1000;
     }
 
@@ -131,11 +125,11 @@
       grid-template-columns: minmax(240px, 1fr) 170px 170px;
       gap: 12px;
       padding: 14px;
-      background: #5d0317;
+      background: #520214;
       border: 1px solid #000000;
-      box-shadow: var(--shadow);
+      /* box-shadow: var(--shadow); */
       position: relative;
-      top: 12px;
+      margin-top: 24px;
       z-index: 3;
       backdrop-filter: blur(10px);
     }
@@ -146,8 +140,8 @@
 
     .details .pill:hover{
       cursor: pointer;
-      background: var(--moss);
-      color: var(--paper);
+      background: var(--accent-dark-hover);
+      color: var(--burgundy);
     }
 
     .field {
@@ -156,7 +150,7 @@
     }
 
     label {
-      color: #fa9fb2;
+      color: #a46270;
       font-size: 0.78rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -349,8 +343,8 @@
       border: 1px solid rgba(83, 99, 76, 0.32);
       border-radius: 999px;
       padding: 6px 9px;
-      color: var(--moss);
-      background: rgba(83, 99, 76, 0.08);
+      color: var(--burgundy);
+      background: rgb(164, 98, 112,0.3);
       font-size: 0.88rem;
     }
 
@@ -423,7 +417,9 @@
     }
     
     .lavish{
-      font-family: "Lavishly Yours";
+      font-family: "Niconne";
+      font-weight: 300;
+      font-size: 5rem;
     }
 
     .album-title {
@@ -445,9 +441,9 @@
       top: 10px;
       position: relative;
       display: flex;
+      min-height: clamp(300px, 39vw, 400px);
       align-items: center;
       justify-content: center;
-      min-height: 220px;
     }
 
     #logo{
@@ -464,8 +460,8 @@
       z-index: 2;
       margin: 0;
       color: #32000C;
-      -webkit-text-stroke: 0.5px var(--panel);
-      text-shadow: var(--panel) 0px 0px 9px;
+      -webkit-text-stroke: 1px #f4e16e;
+      text-shadow: #5d0317 0px 0px 12px, #000000 0px 0px 20px;
     }
 
     @keyframes load {
