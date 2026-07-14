@@ -57,19 +57,15 @@
     function renderListSongs(){
         nodes.list.innerHTML = state.songs.map(renderSongCard).join("");
         const total = state.songs.length;
-        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} de${artist}`;
+        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} de ${capitalize(artist)}`;
 
     }
 
     function renderArtist(){
         nodes.artist.textContent = state.artist?.name;
-        nodes.groups.textContent = state.groups.map((group,index) => {
-            const prev = nodes.groups.textContent;
-            if (index === groups.length - 1){
-                return `${group.groups?.name}`;
-            }
+        nodes.groups.textContent = state.groups.map(group => {
             return `${group.groups?.name},`;
-        })
+        }).join(", ")
         nodes.photo.src = state.artist?.link || "";
     }
 
