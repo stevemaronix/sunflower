@@ -390,6 +390,7 @@
 
     .modal .artist :hover{
       color: var(--accent-dark);
+      cursor: pointer;
     }
 
     .details {
