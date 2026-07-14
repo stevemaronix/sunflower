@@ -320,6 +320,10 @@
       margin-bottom: 20px;
     }
 
+    .artist-groups{
+      color: var(--accent-dark);
+    }
+
     .artist-photo {
         width: 250px;
         aspect-ratio: 1;
@@ -333,6 +337,7 @@
         font-size: clamp(2.5rem, 5vw, 5rem);
         font-weight: bold;
         line-height: 1;
+        color: var(--muted);
     }
 
     .titre{
