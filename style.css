@@ -304,6 +304,7 @@
     }
 
     .align_photo_txt {
+        margin-top: 20px;
         display: flex;
         gap: 48px;
         align-items: center;
