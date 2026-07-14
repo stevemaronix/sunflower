@@ -64,7 +64,7 @@
     function renderArtist(){
         nodes.artist.textContent = state.artist?.name;
         nodes.groups.textContent = state.groups.map(group => {
-            return `${group.groups?.name},`;
+            return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name}`;
         }).join(", ")
         nodes.photo.src = state.artist?.link || "";
     }

@@ -11,7 +11,7 @@ function escapeHtml(value) {
 }
 
 function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    return str.split(" ").map(s => s.charAt(0).toUpperCase()).join("");
 }
 
 function whatisit(song){
