@@ -145,7 +145,7 @@
     font-family: "Clicker Script";
   }
 
-    .details .pill{
+    .modal .details .pill{
       transition: background 0.15s ease, color 0.15s ease;
     }
 

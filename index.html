@@ -387,7 +387,7 @@
       });
 
       modals.artist.addEventListener("click",(event) =>
-      {const artiste = event.target.closest("artiste");
+      {const artiste = event.target.closest(".artist");
       if (!artiste) return;
       if (artiste.dataset.id) window.location.href = `artist.html?id=${artiste.dataset.id}&artist=${artiste.textContent}`; 
       })
