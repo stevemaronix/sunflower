@@ -63,7 +63,7 @@
 
     function renderArtist(){
         nodes.artist.textContent = state.artist?.name;
-        nodes.groups.textContent = nodes.groups.map((group,index) => {
+        nodes.groups.textContent = state.groups.map((group,index) => {
             const prev = nodes.groups.textContent;
             if (index === groups.length - 1){
                 return `${group.groups?.name}`;
