@@ -389,7 +389,7 @@
       modals.artist.addEventListener("click",(event) =>
       {const artiste = event.target.closest("artiste");
       if (!artiste) return;
-      if (artiste.dataset.id) window.location.href = `artiste.html?id=${artiste.dataset.id}&artist=${artiste.textContent}`; 
+      if (artiste.dataset.id) window.location.href = `artist.html?id=${artiste.dataset.id}&artist=${artiste.textContent}`; 
       })
 
     const up = document.getElementById("up");
