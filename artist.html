@@ -82,6 +82,7 @@
           <article class="song" data-index="${index}">
             <div>
               <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
+              ${song.groups?.name ? `<p class="artist">${song.groups.name}</p>` : ""}
             </div>
             <div class="details">${album}${year}${theme}</div>
           </article>
