@@ -91,7 +91,7 @@
 
     async function loadSongs(){
         try {
-                const response = await fetch(`${sup_url}songs?select=id,title,description,year,keywords,artists(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${artistId}`, {
+                const response = await fetch(`${sup_url}songs?select=id,title,description,year,keywords,artists(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&artist=eq.${artistId}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,

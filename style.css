@@ -45,6 +45,7 @@
 
   .album-page .align_cover_txt{
     color: var(--muted);
+    margin-top: 20px;
   }
 
     #retour{
