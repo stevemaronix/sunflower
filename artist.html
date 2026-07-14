@@ -70,6 +70,24 @@
         nodes.photo.src = state.artist?.link || "";
     }
 
+    function renderSongCard(song,index) {
+        const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
+        const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
+        const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
+        const link = song.link || song.lien;
+        const album = song[whatisit(song)]?.name ? `<span class="pill">${escapeHtml(song[whatisit(song)]?.name)}</span>` : "";
+        const category = song.categories?.name ? `<span class="pill">${escapeHtml(song.categories?.name)}</span>` : "";
+
+        return `
+          <article class="song" data-index="${index}">
+            <div>
+              <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
+            </div>
+            <div class="details">${album}${year}${theme}</div>
+          </article>
+        `;
+    }
+
     async function loadArtist(){
         const response = await fetch(`${sup_url}artists?select=id,name,link,genre&id=eq.${artistId}`,
         {headers: {
@@ -140,6 +158,18 @@
         renderArtist();
     }
 
+
     render();
+
+    nodes.list.addEventListener("click", (event) => {
+      const card = event.target.closest(".song");
+      if (!card) return;
+      const index = Number(card.dataset.index);
+      const song=state.songs[index];
+      if (song.link){
+        window.open(song.link,"_blank");
+      }
+    });
+
 </script>
 </html>
