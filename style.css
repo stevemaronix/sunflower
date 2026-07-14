@@ -149,7 +149,7 @@
       transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .details .pill:hover{
+    .modal .details .pill:hover{
       cursor: pointer;
       background: var(--accent-dark-hover);
       color: var(--burgundy);
