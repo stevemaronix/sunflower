@@ -307,13 +307,17 @@
       display: flex;
       justify-content: center;
       margin-bottom: 20px;
-      margin-top: 20px;
     }
 
     .align_photo_txt {
         display: flex;
         gap: 48px;
         align-items: center;
+    }
+
+    .artist-global{
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
     .artist-photo {
