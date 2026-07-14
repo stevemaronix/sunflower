@@ -298,6 +298,11 @@
         opacity: 0.8;
     }
 
+    #modalArtist:hover{
+      color: var(--accent-dark);
+      cursor: pointer;
+    }
+
     #modalDescription {
         font-size: clamp(1rem, 1.2vw, 1.4rem);
         line-height: 1.6;
@@ -386,11 +391,6 @@
       color: var(--accent-dark);
       font-size: 1.05rem;
       opacity: 0.8;
-    }
-
-    .modal .artist :hover{
-      color: var(--accent-dark);
-      cursor: pointer;
     }
 
     .details {
