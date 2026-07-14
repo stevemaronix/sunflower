@@ -303,6 +303,11 @@
         line-height: 1.6;
     }
 
+    .artist-page{
+      display: flex;
+      justify-content: center;
+    }
+
     .align_photo_txt {
         margin-top: 20px;
         display: flex;
