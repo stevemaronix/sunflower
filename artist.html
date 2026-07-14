@@ -61,13 +61,19 @@
 
     }
 
-    function renderartist(){
+    function renderArtist(){
         nodes.artist.textContent = state.artist?.name;
-        nodes.groups.textContent = state.songs[0]?.groups?.name || state.songs[0]?.artists?.name || "";
+        nodes.groups.textContent = nodes.groups.map((group,index) => {
+            const prev = nodes.groups.textContent;
+            if (index === groups.length - 1){
+                return `${group.groups?.name}`;
+            }
+            return `${group.groups?.name},`;
+        })
         nodes.photo.src = state.artist?.link;
     }
 
-    async function loadartist(){
+    async function loadArtist(){
         const response = await fetch(`${sup_url}artists?select=id,name,link,genre&id=eq.${artistId}`,
         {headers: {
             apikey: `${sup_key}`,
@@ -85,7 +91,7 @@
 
     async function loadSongs(){
         try {
-                const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,artists(id,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${artistId}`, {
+                const response = await fetch(`${sup_url}songs?select=id,title,description,year,keywords,artists(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${artistId}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,
@@ -107,10 +113,34 @@
         }
     }
 
+    async function loadGroups(){
+        try {
+                const response = await fetch(`${sup_url}artist_group?select=artist_id,group_id,artists(id,name),groups(id,name)&artist_id=eq.${artistId}`, {
+                headers: {
+                    apikey: `${sup_key}`,
+                    Authorization: `Bearer ${sup_key}`,
+                },
+                });
+
+                const data = await response.json()
+
+                if (!response.ok) {
+                throw new Error(data.message || "Impossible de charger les chansons.");
+                }
+
+                state.groups = Array.isArray(data) ? data : [];
+                console.log(state.groups);
+        } catch (error) {
+            nodes.count.textContent = "Catalogue indisponible";
+            nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
+        }
+    }
+
     async function render(){
         await loadSongs();
-        await loadartist();
-        renderartist();
+        await loadArtist();
+        await loadGroups();
+        renderArtist();
     }
 
     render();
