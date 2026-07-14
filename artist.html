@@ -57,7 +57,7 @@
     function renderListSongs(){
         nodes.list.innerHTML = state.songs.map(renderSongCard).join("");
         const total = state.songs.length;
-        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} de ${capitalize(artist)}`;
+        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} de ${titleCase(artist)}`;
 
     }
 

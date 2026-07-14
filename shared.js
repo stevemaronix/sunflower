@@ -11,7 +11,16 @@ function escapeHtml(value) {
 }
 
 function capitalize(str) {
-    return str.split(" ").map(s => s.charAt(0).toUpperCase()+ s.slice(1)).join("");
+    return str
+        ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+        : "";
+}
+
+function titleCase(str) {
+    return str
+        .split(" ")
+        .map(capitalize)
+        .join(" ");
 }
 
 function whatisit(song){
