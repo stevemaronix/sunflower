@@ -70,7 +70,7 @@
             }
             return `${group.groups?.name},`;
         })
-        nodes.photo.src = state.artist?.link;
+        nodes.photo.src = state.artist?.link || "";
     }
 
     async function loadArtist(){
