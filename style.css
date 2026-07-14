@@ -131,10 +131,13 @@
       position: relative;
       margin-top: 24px;
       z-index: 3;
-      font-family: "Clicker Script";
       font-weight: bold;
       backdrop-filter: blur(10px);
     }
+
+  .toolbar input, .toolbar select{
+    font-family: "Clicker Script";
+  }
 
     .details .pill{
       transition: background 0.15s ease, color 0.15s ease;
@@ -153,7 +156,7 @@
 
     label {
       color: #a46270;
-      font-size: 1.2rem;
+      font-size: 0.75rem;
       letter-spacing: 0.08em;
     }
 
@@ -183,6 +186,11 @@
       margin: 22px 0 12px;
       color: var(--muted);
     }
+
+  .meta select{
+    font-family: "Clicker Script";
+    font-weight: bold;
+  }
 
     .align_cover_txt {
       display:flex;
