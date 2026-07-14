@@ -63,9 +63,10 @@
 
     function renderArtist(){
         nodes.artist.textContent = state.artist?.name;
-        nodes.groups.textContent = state.groups.map(group => {
-            return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name}`;
-        }).join(", ")
+        nodes.groups.textContent = state.groups.map((group,index) => {
+            if (index === state.groups.length - 1) return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
+            else return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
+        }).join("");
         nodes.photo.src = state.artist?.link || "";
     }
 
