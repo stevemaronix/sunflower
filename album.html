@@ -115,5 +115,14 @@
     }
 
     render();
+    nodes.list.addEventListener("click", (event) => {
+      const card = event.target.closest(".song");
+      if (!card) return;
+      const index = Number(card.dataset.index);
+      const song=state.songs[index];
+      if (song.link){
+        window.open(song.link,"_blank");
+      }
+    });
 </script>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="title_artist">Hummingbird</title>
+  <title id="titleArtist">Hummingbird</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="logo.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -163,6 +163,7 @@
         await loadGroups();
         await loadSongs();
         renderArtist();
+        document.getElementById("titleArtist").textContent = `${document.getElementById("titleArtist").textContent}: ${state.artist?.name}`;
     }
 
 
