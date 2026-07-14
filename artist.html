@@ -12,26 +12,26 @@
 </head>
 <script>
     const params = new URLSearchParams(window.location.search);
-    const albumId = params.get("id");
-    const itiswhat = params.get("artist");
+    const artistId = params.get("id");
+    const artist = params.get("artist");
 </script>
 <body>
     <a href="index.html" id="retour"><- Retour</a>
     <main class="shell">
-        <header class="album-page">
-            <div class="align_cover_txt">
-                <img class="album-cover"  id="cover">
+        <header class="artist-page">
+            <div class="align_photo_txt">
+                <img class="artist-photo"  id="artistPhoto">
                 <div class="container_txt">
                     <div class="details" id="modalDetails"></div>
-                    <a class = "album-title titre" id="albumTitle"></a>
-                    <p class="album-artist" id="artist"></p>
+                    <a class = "artist-title titre" id="artist"></a>
+                    <!--<p class="artist-artist" id="artist"></p>-->
                     <p class="description" id="modalDescription"></p>
                     <div class="details" id="modalDetails2"></div>
                 </div>
             </div>
         </header>
         <p id="count" class="meta">Chargement du catalogue...</p>
-        <section class="grid" id="album_list" aria-live="polite">
+        <section class="grid" id="artistList" aria-live="polite">
         <div class="skeleton"></div>
         <div class="skeleton"></div>
         <div class="skeleton"></div>
@@ -43,14 +43,14 @@
 
     const state = {
         songs: [],
+        artist: {},
     }
 
     const nodes = {
-        list: document.getElementById("album_list"),
+        list: document.getElementById("artistList"),
         count: document.getElementById("count"),
-        cover: document.getElementById("cover"),
-        artist: document.getElementById("artist"),
-        albumTitle: document.getElementById("albumTitle")
+        photo: document.getElementById("artistPhoto"),
+        artist: document.getElementById("artist")
     }
 
     function renderListSongs(){
@@ -60,15 +60,14 @@
 
     }
 
-    function renderAlbum(){
-        nodes.albumTitle.textContent = state.album?.name;
+    function renderartist(){
+        nodes.artist.textContent = state.artist?.name;
         nodes.artist.textContent = state.songs[0]?.groups?.name || state.songs[0]?.artists?.name || "";
-        nodes.cover.src = state.album?.pochette;
+        nodes.photo.src = state.artist?.link;
     }
 
-    async function loadAlbum(){
-        const type = itiswhat;
-        const response = await fetch(`${sup_url}${type}?select=id,name,sortie,pochette,link&id=eq.${albumId}`,
+    async function loadartist(){
+        const response = await fetch(`${sup_url}artists?select=id,name,sortie,pochette,link&id=eq.${artistId}`,
         {headers: {
             apikey: `${sup_key}`,
             Authorization: `Bearer ${sup_key}`,
@@ -78,14 +77,14 @@
         const data = await response.json()
 
         if (!response.ok){
-            throw new Error(data.message || "Impossible de charger l'album");
+            throw new Error(data.message || "Impossible de charger l'artist");
         }
-        state.album = Array.isArray(data) ? data[0] : {};
+        state.artist = Array.isArray(data) ? data[0] : {};
     }
 
     async function loadSongs(){
         try {
-                const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,albums(id,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${albumId}`, {
+                const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,artists(id,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${artistId}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,
@@ -109,8 +108,8 @@
 
     async function render(){
         await loadSongs();
-        await loadAlbum();
-        renderAlbum();
+        await loadartist();
+        renderartist();
     }
 
     render();

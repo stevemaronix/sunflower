@@ -52,7 +52,7 @@
       position: fixed;
       font-family: inherit;
       transition: color 0.15s ease;
-      top: 20px;
+      bottom: 20px;
       left: 20px;
       z-index: 10;
     }
