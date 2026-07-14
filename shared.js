@@ -10,6 +10,10 @@ function escapeHtml(value) {
     }[char]));
 }
 
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 function whatisit(song){
     if (song.albums) return "albums";
     if (song.singles) return "singles";

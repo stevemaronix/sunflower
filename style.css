@@ -176,7 +176,6 @@
       color: var(--ink);
       background: #fffaf1;
       outline: none;
-      text-transform: capitalize;
     }
 
     input:focus,
