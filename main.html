@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hummingbird</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="logo2.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Water+Brush&family=DynaPuff&family=Clicker+Script&display=swap" rel="stylesheet">
+</head>
+<button id="up" aria-label="Retour en haut">↑</button>
+<body>
+  <main class="shell">
+    <header class="head-index">
+      <img src="logo2.png" id="logo">
+    </header>
+
+    <section class="toolbar" aria-label="Filtres de recherche">
+      <div class="field">
+        <div class="search_theme">
+          <div class="field">
+            <label for="theme">Thème</label>
+            <select id="theme">
+              <option value="">Tous les thèmes</option>
+            </select>
+          </div>
+          <div class="field display_category close" id="theme_category">
+            <label for="category">Catégorie</label>
+            <select id="category">
+              <option value="">Toutes les catégories</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="kw_search">Mots-clés</label> 
+            <input id="kw_search" type="search" placeholder="ex. car love sad">
+          </div>
+        </div>
+        <label for="title_search">Titre</label>
+        <input id="title_search" type="search" placeholder="ex. Mamma Mia">
+        <label for="art_search">Artiste</label>
+        <input id="art_search" type="search" placeholder="ex. Aitana">
+        <div class="search_theme">
+          <div class="field">
+            <label for="year_search">Année</label>
+            <input id="year_search" type="search" placeholder="ex. 2026">
+          </div>
+          <div class="field">
+            <label for="year_filter">Filtre</label>
+            <select id="year_filter">
+              <option selected value="equal">égale</option>
+              <option value="greater">supérieure</option>
+              <option value="less">inférieure</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="meta">
+      <p id="count">Chargement du catalogue...</p>
+      <p class="sort-inline">
+        Trier par :
+        <select id="sort_songs">
+          <option selected value="title">Titre</option>
+          <option value="artist">Artiste</option>
+          <option value="theme">Thème</option>
+          <option value="year">Année</option>
+        </select>
+      </p>
+      <button class="reset" id="reset" type="button">Réinitialiser</button>
+    </div>
+
+    <section class="grid" id="list" aria-live="polite">
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </section>
+  </main>
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
+      <div class="align_cover_txt">
+        <a class="modal-cover" target="_blank" id="modalCover"></a>
+        <div class="container_txt">
+          <div class="details" id="modalDetails"></div>
+          <a class = "link_title titre" id="modalTitle"></a>
+          <p class="artist" id="modalArtist"></p>
+          <p class="description" id="modalDescription"></p>
+          <div class="details" id="modalDetails2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+    const state = {
+      songs: [],
+      query: "",
+      title : "",
+      theme: "",
+      kw: "",
+      year: "",
+      year_filter: "equal",
+      category: "",
+      artist: "",
+      sort_song: "title",
+    };
+
+    const nodes = {
+      title: document.getElementById("title_search"),
+      year: document.getElementById("year_search"),
+      year_filter: document.getElementById("year_filter"),
+      theme: document.getElementById("theme"),
+      category: document.getElementById("category"),
+      categoryWrap: document.getElementById("theme_category"),
+      artist: document.getElementById("art_search"),
+      count: document.getElementById("count"),
+      list: document.getElementById("list"),
+      keywords: document.getElementById("kw_search"),
+      reset: document.getElementById("reset"),
+      sort_song: document.getElementById("sort_songs"),
+    };
+
+    const modals = {
+      title: document.getElementById("modalTitle"),
+      artist: document.getElementById("modalArtist"),
+      description: document.getElementById("modalDescription"),
+      details: document.getElementById("modalDetails"),
+      details2: document.getElementById("modalDetails2"),
+      cover: document.getElementById("modalCover"),
+      close: document.getElementById("modalClose")
+    }
+
+    
+
+    function getSearchText(song) {
+      return {
+        album : normalize(song[whatisit(song)]?.name),
+        title : normalize(song.title),
+        artist : normalize(song.artists?.name),
+        groupe: normalize(song.groups?.name),
+        theme : normalize(song.theme),
+        category : normalize(song.categories?.name),
+        keyword : normalize(song.keywords),
+        year : normalize(song.year),
+      }
+    }
+
+    function matchesYear(song){
+      if (state.year.length < 4) return true;
+      const yearValue = Number(state.year);
+      if (state.year_filter === "greater") return song.year >= yearValue;
+      if (state.year_filter === "less") return song.year <= yearValue;
+      return song.year === yearValue;
+    }
+
+    function getFilteredSongs() {
+      const q_art = normalize(state.artist);
+      const q_tit = normalize(state.title);
+      const q_kw = state.kw.split(" ").map(v => normalize(v)).filter(Boolean); 
+
+      return state.songs.filter((song) => {
+        const artist = song.artists?.name || "";
+        const groupe = song.groups?.name || "";
+        const titre = song.title || "";
+        const year = song.year || "";
+        const matchesQueryArtist = !q_art || getSearchText(song).groupe.includes(q_art) || getSearchText(song).artist.includes(q_art);
+        const matchesTheme = !state.theme || song.theme === state.theme;
+        const matchesCategory = !state.category || song.categories?.name == state.category;
+        const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
+        const matchesQueryYear = matchesYear(song);
+        const matchesQueryKw = !q_kw.length || q_kw.some(element => song.keywords?.includes(element));
+        return matchesQueryArtist && matchesTheme && matchesQueryKw && matchesQueryTitle && matchesCategory && matchesQueryYear;
+      });
+    }
+
+    function fillSelect(select, values, placeholder) {
+      const currentValue = select.value;
+      select.innerHTML = `<option value="">${placeholder}</option>` + 
+      values.map((value) => 
+      `<option value="${escapeHtml(value)}" style="font-weight: bold">${capitalize(escapeHtml(value))}</option>`).join("");
+      select.value = values.includes(currentValue) ? currentValue : "";
+    }
+
+    function renderFilters() {
+      const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
+      const categories = [...new Set(state.songs.map((song)=>(normalize(song.theme) == normalize(state.theme)) ? song.categories?.name : "").filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
+      fillSelect(nodes.theme, themes, "Tous les thèmes");
+      fillSelect(nodes.category, categories, "Toutes les catégories");
+    }
+    function getSortValue(song, key){
+      if (key === "artist") return song.artists?.name || "";
+      return song[key] || "";
+    }
+
+    function sortSongs(songs) {
+      return songs.sort((a, b) => {
+        const valA = getSortValue(a,state.sort_song);
+        const valB = getSortValue(b,state.sort_song)
+        if (typeof valA === "number" && typeof valB === "number") {
+          return valA - valB;
+        }
+        return String(valA).localeCompare(String(valB), "fr");
+      });
+    }
+
+    function renderList() {
+      const songs = sortSongs(getFilteredSongs());
+      currentFilteredSongs = songs;
+      sortingCriteria = nodes.sort_song.value;
+      const total = state.songs.length;
+      nodes.count.textContent = `${songs.length} chanson${songs.length > 1 ? "s" : ""} affichée${songs.length > 1 ? "s" : ""} sur ${total}`;
+
+      if (!songs.length) {
+        nodes.list.innerHTML = '<div class="notice">Aucune chanson ne correspond à ces filtres.</div>';
+        return;
+      }
+
+      nodes.list.innerHTML = songs.map(renderSongCard).join("");
+    }
+
+  let currentFilteredSongs = [];
+
+
+  function openModal(song) {
+    const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
+    modals.title.textContent = song.title || "Sans titre";
+    modals.title.href = song.link || "#";
+    modals.title.target = "_blank";
+    modals.artist.textContent = artist;
+    modals.artist.dataset.id = song.artists?.id || ""; 
+    modals.description.textContent = song.description || "";
+    modals.details.innerHTML = [
+      {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category", origin: song.theme}
+    ].filter(item => item.value).map(v => `<span class="pill" data-origin=${v?.origin} data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
+    modals.details2.innerHTML = [
+      {type: whatisit(song),value: song[whatisit(song)]?.name, id:song[whatisit(song)]?.id}, {type: "year", value: song.year}
+    ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type} data-id=${v.id || ""}>${escapeHtml(v.value)}</span>`).join(""); 
+
+    const cover = modals.cover;
+    cover.style.backgroundImage = song[whatisit(song)]?.pochette ? `url(${song[whatisit(song)]?.pochette})` : "none";
+    cover.href = song[whatisit(song)]?.link || "";
+
+    document.getElementById("overlay").classList.add("open");
+  }
+
+  function closeModal() {
+    document.getElementById("overlay").classList.remove("open");
+  }
+
+
+    async function loadSongs() {
+      try {
+        const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,albums(id,name,pochette,link),theme,link,categories(name),groups(id,name),EP(name,pochette,link),singles(name,pochette,link),created_at&order=title.asc`, {
+          headers: {
+            apikey: `${sup_key}`,
+            Authorization: `Bearer ${sup_key}`,
+          },
+        });
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data.message || "Impossible de charger les chansons.");
+        }
+
+        state.songs = Array.isArray(data) ? data : [];
+        renderFilters();
+        renderList();
+      } catch (error) {
+        nodes.count.textContent = "Catalogue indisponible";
+        nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
+      }
+    }
+
+    nodes.artist.addEventListener("input", (event) => {
+      state.artist = event.target.value;
+      renderList();
+    });
+
+    nodes.title.addEventListener("input",(event) => 
+    {state.title = event.target.value; renderList();});
+
+    nodes.year.addEventListener("input",(event) => {state.year = event.target.value; renderList();})
+    nodes.year_filter.addEventListener("change", (event) => {state.year_filter = event.target.value; renderList();})
+
+    nodes.theme.addEventListener("focus",(event) => previousTheme = event.target.value);
+
+    nodes.theme.addEventListener("change", (event) => {
+      state.theme = event.target.value;
+      if (state.theme != previousTheme){
+        nodes.category.value = "";
+        state.category="";
+      }
+      nodes.theme.value === "" ? nodes.categoryWrap.classList.add("close") : nodes.categoryWrap.classList.remove("close");
+      renderList();
+      renderFilters();
+    });
+
+    nodes.category.addEventListener("change", (event) => {
+      state.category = event.target.value;
+      renderList();
+    })
+
+    nodes.keywords.addEventListener("input", (event) => {
+      state.kw = event.target.value;
+      renderList();
+    })
+
+    nodes.reset.addEventListener("click", () => {
+      state.title = "";
+      state.year = "";
+      state.theme = "";
+      state.category = "";
+      state.artist = "";
+      state.kw = "";
+      nodes.year.value = "";
+      nodes.year_filter.value = "equal";
+      nodes.title.value = "";
+      nodes.theme.value = "";
+      nodes.category.value = "";
+      nodes.categoryWrap.classList.add("close");
+      nodes.keywords.value="";
+      nodes.artist.value = "";
+      renderFilters()
+      renderList();
+    });
+
+    nodes.sort_song.addEventListener("change", (event) => {state.sort_song = event.target.value; renderList();})
+
+    nodes.list.addEventListener("click", (event) => {
+      const card = event.target.closest(".song");
+      if (!card) return;
+      const index = Number(card.dataset.index);
+      openModal(currentFilteredSongs[index]);
+    });
+
+    modals.close.addEventListener("click", closeModal);
+    document.getElementById("overlay").addEventListener("click", (event) => {
+      if (event.target.id === "overlay") closeModal();
+    });
+
+    modals.details.addEventListener("click", (event) => 
+      {const pill = event.target.closest(".pill");
+      if (!pill) return;
+      const type = pill.dataset.type;
+      if (type === "theme"){
+        state.theme = pill.textContent;
+        nodes.theme.value = pill.textContent;
+        nodes.category.value = "";
+        nodes.categoryWrap.classList.remove("close");
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        renderList();
+      }
+      else if(type==="category"){
+        state.theme= pill.dataset.origin;
+        state.category = pill.textContent;
+        nodes.theme.value = state.theme;
+        nodes.categoryWrap.classList.remove("close");
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        nodes.category.value = pill.textContent;
+        renderList();
+      }
+      });
+
+    modals.details2.addEventListener("click", (event) => 
+      {const pill = event.target.closest(".pill");
+      if (!pill) return;
+      const type = pill.dataset.type;
+      if (type === "year"){
+        state.year = pill.textContent;
+        nodes.year.value = pill.textContent;
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        renderList();
+      }
+      else {
+        albumId = pill.dataset.id;
+        if (albumId) window.location.href = `album.html?id=${albumId}&whatisit=${type}`;
+      }
+      });
+
+      modals.artist.addEventListener("click",(event) =>
+      {const artiste = event.target.closest(".artist");
+      if (!artiste) return;
+      if (artiste.dataset.id) window.location.href = `artist.html?id=${artiste.dataset.id}&artist=${artiste.textContent}`; 
+      })
+
+    const up = document.getElementById("up");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+            up.classList.add("show");
+        } else {
+            up.classList.remove("show");
+        }
+    });
+
+    up.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+
+    loadSongs();
+  </script>
+</body>
+</html>

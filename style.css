@@ -538,6 +538,43 @@
       text-shadow: var(--burgundy) 0px 0px 4px, #000000 0px 0px 20px;
     }
 
+  .sign-in-page{
+    display: flex;
+    justify-content:center;
+  }
+
+    .center-rectangle{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 40vw;
+      aspect-ratio: 1/1.5;
+      height: auto;
+      margin-block: clamp(50px,20vh,400px);
+      border: 2px solid white;
+      border-radius: 25px;
+      box-shadow: var(--accent-dark) 0px 0px 69px;
+    }
+
+  .sign-in-page img{
+    width: clamp(50px,30vw,500px);
+    margin-bottom: 30px;
+  }
+
+.sign-in-page label{
+  margin-bottom: 6px;
+}
+
+.sign-in-page input{
+  margin-bottom: 10px;
+}
+
+.sign-in-page label,
+.sign-in-page input{
+  width: 80%;
+}
+
     @keyframes load {
       to {
         background-position: -220% 0;
