@@ -565,6 +565,13 @@
     margin-bottom: 30px;
   }
 
+  .sign-in-page .field {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+  }
+
 .sign-in-page label{
   margin-bottom: 6px;
 }
