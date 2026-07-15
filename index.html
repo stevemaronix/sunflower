@@ -15,26 +15,74 @@
         <img src="logo2.png">
         <div class="inputs">
             <div class="sign-field">
+                <label for="user-input">Nom d'utilisateur</label>
+                <input id="user-input" placeholder="Entrez votre pseudo">
+            </div>
+            <div class="sign-field">
                 <label for="mail-input">Addresse e-mail</label>
                 <input id="mail-input" placeholder="Entrez votre adresse e-mail">
             </div>
             <div class="sign-field">
                 <label for="pwd-input">Mot de passe</label>
-                <input id="pwd-input" placeholder="Entrez votre mot de passe">
+                <input id="pwd-input" type="password" placeholder="Entrez votre mot de passe">
+                <button type="button" id="togglePwd">👁</button>
             </div>
         </div>
         <div class="connexion-bar">
-            <button class="connexion-button" id="connection">Se connecter</button>
+            <button class="connexion-button" id="connexion">Se connecter</button>
             <button class="signing-button" id="sign">S'inscrire</button>
         </div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+    const client = supabase.createClient(sup_url,sup_key);
     state = {
         user: "",
         mail: "",
-        mdp: "",
+        mdp: ""
     }
-    document.getElementById("nothing").addEventListener("click", () => {window.location.href="page.html"});
+    nodes = {
+        mdp: document.getElementById("pwd-input"),
+        mail: document.getElementById("mail-input"),
+        user: document.getElementById("user-input")
+    }
+
+    document.getElementById("togglePwd").addEventListener("click", () => {
+        const pwd = document.getElementById("pwd-input");
+        pwd.type = pwd.type === "password" ? "text" : "password";
+    });
+
+    document.getElementById("sign").addEventListener("click", async () => {
+        const mail = nodes.mail.textContent;
+        const mdp = nodes.mdp.textContent;
+        const user = nodes.user.textContent;
+
+        const { data, error } = await client.auth.signUp({
+            mail,
+            mdp,
+            options: { data: { user } }  // stocké dans les métadonnées utilisateur
+        });
+
+        if (error) {
+            console.log(error.message);
+            return;
+        }
+    });
+
+    document.getElementById("connexion").addEventListener("click", async () => {
+        const mail = nodes.mail.textContent;
+        const mdp = nodes.mdp.textContent;
+        const user = nodes.user.textContent;
+        if (user) window.location.href = "main.html";
+        const {data, error} = await client.auth.signInWithPassword({mail,mdp});
+        if (error) {
+            console.log(error);
+            return;
+        }
+        window.location.href = "main.html";
+    })
+
+    
 </script>
 </html>
