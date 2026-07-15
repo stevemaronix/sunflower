@@ -60,8 +60,8 @@
         const user = nodes.user.value;
 
         const { data, error } = await client.auth.signUp({
-            mail,
-            mdp,
+            email: mail,
+            password: mdp,
             options: { data: { user } }  // stocké dans les métadonnées utilisateur
         });
 
@@ -76,7 +76,7 @@
         const mdp = nodes.mdp.value;
         const user = nodes.user.value;
         if (user) window.location.href = "main.html";
-        const {data, error} = await client.auth.signInWithPassword({mail,mdp});
+        const {data, error} = await client.auth.signInWithPassword({email: mail,password: mdp});
         if (error) {
             console.log(error);
             return;
