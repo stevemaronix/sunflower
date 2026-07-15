@@ -37,7 +37,7 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    const client = supabase.createClient(sup_url,sup_key);
+    const client = supabase.createClient(client_url,sup_key);
     state = {
         user: "",
         mail: "",
@@ -76,7 +76,7 @@
         const mdp = nodes.mdp.value;
         const user = nodes.user.value;
         if (user) window.location.href = "main.html";
-        const {data, error} = await client.auth.signInWithPassword({email: mail,password: mdp});
+        const {data, error} = await client.auth.signInWithPassword({email: mail, password: mdp});
         if (error) {
             console.log(error);
             return;
