@@ -565,7 +565,7 @@
     margin-bottom: 30px;
   }
 
-  .sign-in-page .field {
+  .sign-field {
       width: 80%;
       display: flex;
       flex-direction: column;
