@@ -55,9 +55,9 @@
     });
 
     document.getElementById("sign").addEventListener("click", async () => {
-        const mail = nodes.mail.textContent;
-        const mdp = nodes.mdp.textContent;
-        const user = nodes.user.textContent;
+        const mail = nodes.mail.value;
+        const mdp = nodes.mdp.value;
+        const user = nodes.user.value;
 
         const { data, error } = await client.auth.signUp({
             mail,
@@ -72,9 +72,9 @@
     });
 
     document.getElementById("connexion").addEventListener("click", async () => {
-        const mail = nodes.mail.textContent;
-        const mdp = nodes.mdp.textContent;
-        const user = nodes.user.textContent;
+        const mail = nodes.mail.value;
+        const mdp = nodes.mdp.value;
+        const user = nodes.user.value;
         if (user) window.location.href = "main.html";
         const {data, error} = await client.auth.signInWithPassword({mail,mdp});
         if (error) {
