@@ -10,7 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Water+Brush&family=DynaPuff&family=Clicker+Script&display=swap" rel="stylesheet">
 </head>
-<script></script>
 <body class="sign-in-page">
     <div class="center-rectangle">
         <img src="logo2.png">
@@ -25,12 +24,17 @@
             </div>
         </div>
         <div class="connexion-bar">
-            <button class="connection-button" id="connection">Se connecter</button>
-            <button class="signing-button">S'inscrire</button>
+            <button class="connexion-button" id="connection">Se connecter</button>
+            <button class="signing-button" id="sign">S'inscrire</button>
         </div>
     </div>
 </body>
 <script>
+    state = {
+        user: "",
+        mail: "",
+        mdp: "",
+    }
     document.getElementById("nothing").addEventListener("click", () => {window.location.href="page.html"});
 </script>
 </html>
