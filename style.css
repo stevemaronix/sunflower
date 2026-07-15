@@ -578,11 +578,16 @@
   width: 80%;
 }
 
+.inputs{
+  margin-bottom: 30px;
+}
+
 .connexion-bar{
   display: flex;
   justify-content: center;
   align-items: center;
   margin-block: 5px;
+  gap: 10%;
 }
 
     @keyframes load {
