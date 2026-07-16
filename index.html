@@ -77,7 +77,7 @@
         const mail = nodes.mail.value;
         const mdp = nodes.mdp.value;
         const user = nodes.user.value;
-        if (user) window.location.href = "main.html";
+        if (user) window.location.href = "page.html";
         const {data, error} = await client.auth.signInWithPassword({email: mail, password: mdp});
         if (error) {
             console.log(error);
