@@ -4,6 +4,7 @@
       --muted: #980024;
       --paper: #1d0305;
       --panel: #DCB253;
+      --panel-opacity: rgba(220,178,83,0.6);
       --line: #32000C;
       --burgundy: #32000C;
       --accent: #9d3f2f;
@@ -411,6 +412,39 @@
       background: rgb(164, 98, 112,0.3);
       font-size: 0.88rem;
     }
+
+    .but{
+      border: 1px solid ;
+      border-radius: 999px;
+      padding: 6px 9px;
+      background: var(--panel-opacity);
+    }
+
+    #togglePwd{
+      color : inherit;
+      width: 10%;
+      border-radius: 999px;
+      z-index: 7;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 10px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .sign-field .password{
+      position: relative;
+    }
+
+    .sign-field .password .input{
+      width: 100%;
+      padding-right: 40px;
+    }
+
+
 
     .listen {
       justify-self: start;
