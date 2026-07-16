@@ -435,11 +435,11 @@
       padding: 0;
     }
 
-    .sign-field .password{
+    .sign-field.password .pwd-wrap{
       position: relative;
     }
 
-    .sign-field .password .input{
+    .sign-field.password input{
       width: 100%;
       padding-right: 40px;
     }
