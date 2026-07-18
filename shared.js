@@ -30,7 +30,7 @@ function whatisit(song){
   }
 
 function renderSongCard(song,index) {
-        const liked = song?.liked ? "<img src='star_record_filled' class='like-button'>" : "<img src='star_record_empty' class='like-button'>"; 
+        const liked = song?.liked ? "<img src='star_record_filled.png' class='like-button'>" : "<img src='star_record_empty.png' class='like-button'>"; 
         const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
         const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
