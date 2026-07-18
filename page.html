@@ -231,7 +231,7 @@
 
     const {data, error} = await client
     .from("artist_group")
-    .select("artist_id,group_member_id,artists(id,name),groups(id,name)")
+    .select("artist_id,group_member_id,artists(id,name),member_group:groups!artist_group_group_member_id_fkey(id,name)")
     .eq("group_id",groupId);
     console.table(data);
   
@@ -248,8 +248,8 @@
 
         return {
             type: "group",
-            id: row.groups.id,
-            name: row.groups.name
+            id: row.member_group.id,
+            name: row.member_group.name
         };
     });
   }
