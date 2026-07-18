@@ -14,6 +14,7 @@
     const params = new URLSearchParams(window.location.search);
     const artistId = params.get("id");
     const artist = params.get("artist");
+    const type = params.get("type");
 </script>
 <body>
     <a href="page.html" class="pill" id="retour"><- Retour</a>
@@ -63,11 +64,13 @@
 
     function renderArtist(){
         nodes.artist.textContent = state.artist?.name;
-        nodes.groups.textContent = state.groups.map((group,index) => {
-            if (index === state.groups.length - 1) return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
-            else return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
-        }).join("");
-        nodes.photo.src = state.artist?.link || "";
+        if (type==="artist"){
+            nodes.groups.textContent = state.groups.map((group,index) => {
+                if (index === state.groups.length - 1) return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
+                else return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
+            }).join("");
+            nodes.photo.src = state.artist?.link || "";
+        }
     }
 
     function renderSongCard(song,index) {
@@ -82,7 +85,7 @@
           <article class="song" data-index="${index}">
             <div>
               <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
-              ${song.groups?.name ? `<p class="artist">${song.groups.name}</p>` : ""}
+              ${(song.groups?.name && type==="artist") ? `<p class="artist">${song.groups.name}</p>` : ""}
             </div>
             <div class="details">${album}${year}${theme}</div>
           </article>
@@ -90,7 +93,7 @@
     }
 
     async function loadArtist(){
-        const response = await fetch(`${sup_url}artists?select=id,name,link,genre&id=eq.${artistId}`,
+        const response = await fetch(`${sup_url}${type}s?select=id,name,link&id=eq.${artistId}`,
         {headers: {
             apikey: `${sup_key}`,
             Authorization: `Bearer ${sup_key}`,

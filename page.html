@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Water+Brush&family=DynaPuff&family=Clicker+Script&display=swap" rel="stylesheet">
 </head>
 <button id="up" aria-label="Retour en haut">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <body>
   <main class="shell">
     <header class="head-index">
@@ -224,14 +225,72 @@
 
   let currentFilteredSongs = [];
 
+  async function getArtistGroup(song){
+    const client = supabase.createClient(client_url,sup_key);
+    const groupId = song.groups.id;
+    const noms = group_name.split(" ft. ");
 
-  function openModal(song) {
-    const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
+    const {data, error} = await client
+    .from("artist_group")
+    .select("artist_id,group_member_id,artists(id,name),groups(id,name)")
+    .eq("group_id",groupId);
+    console.table(data);
+  
+    if (error) throw error;
+
+    return data.map(row => {
+        if (row.artist_id !== null) {
+            return {
+                type: "artist",
+                id: row.artists.id,
+                name: row.artists.name
+            };
+        }
+
+        return {
+            type: "group",
+            id: row.groups.id,
+            name: row.groups.name
+        };
+    });
+  }
+
+  async function getHTMLartist(song){
+    if (!song.groups?.name?.includes("ft.")){
+
+        const type = song.groups ? "group" : "artist";
+        const obj = song.groups ?? song.artists;
+
+        return `
+            <span class="artist-link"
+                  data-id="${obj.id}"
+                  data-type="${type}">
+                ${escapeHtml(obj.name)}
+            </span>
+        `;
+
+    }else{
+      
+      const participants = await getArtistGroup(song);
+      
+      return participants.map((p, i) => `
+        <span class="artist-link"
+              data-id="${p.id}"
+              data-type="${p.type}">
+            ${escapeHtml(p.name)}
+        </span>${i < participants.length - 1 ? " ft. " : ""}
+    `).join("");
+
+    }
+  }
+
+
+  async function openModal(song) {
     modals.title.textContent = song.title || "Sans titre";
     modals.title.href = song.link || "#";
     modals.title.target = "_blank";
-    modals.artist.textContent = artist;
-    modals.artist.dataset.id = song.artists?.id || ""; 
+    modals.artist.innerHTML = await getHTMLartist(song);
+    modals.artist.dataset.id = song.groups?.id || song.artists?.id || ""; 
     modals.description.textContent = song.description || "";
     modals.details.innerHTML = [
       {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category", origin: song.theme}
@@ -386,9 +445,9 @@
       });
 
       modals.artist.addEventListener("click",(event) =>
-      {const artiste = event.target.closest(".artist");
+      {const artiste = event.target.closest(".artist-link");
       if (!artiste) return;
-      if (artiste.dataset.id) window.location.href = `artist.html?id=${artiste.dataset.id}&artist=${artiste.textContent}`; 
+      if (artiste.dataset.id) window.location.href = `artist.html?id=${artiste.dataset.id}&artist=${artiste.textContent}&type=${artiste.dataset.type}`; 
       })
 
     const up = document.getElementById("up");
