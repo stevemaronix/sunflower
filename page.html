@@ -431,11 +431,11 @@
 
     nodes.list.addEventListener("click", async (event) => {
       const likeButton = event.target.closest(".like-button");
-      if (likeIcon) {
+      if (likeButton) {
         event.stopPropagation();  // empêche d'ouvrir aussi la modale
-        const card = likeIcon.closest(".song");
+        const card = likeButton.closest(".song");
         const index = Number(card.dataset.index);
-        await toggleLike(currentFilteredSongs[index], likeIcon);
+        await toggleLike(currentFilteredSongs[index], likeButton);
         return;
       }
       const card = event.target.closest(".song");
