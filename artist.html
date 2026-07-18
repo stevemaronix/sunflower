@@ -144,7 +144,7 @@
 
     async function loadGroups(){
         try {
-                const response = await fetch(`${sup_url}artist_group?select=artist_id,group_id,artists(id,name),groups(id,name)&artist_id=eq.${artistId}`, {
+                const response = await fetch(`${sup_url}artist_group?select=artist_id,group_id,artists(id,name),groups!artist_group_group_id_fkey(id,name)&artist_id=eq.${artistId}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,
