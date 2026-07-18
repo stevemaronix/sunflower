@@ -144,7 +144,7 @@
 
     async function loadGroups(){
         try {
-                const response = await fetch(`${sup_url}artist_group?select=artist_id,group_id,artists(id,name),groups!artist_group_group_id_fkey(id,name)&artist_id=eq.${artistId}`, {
+                const response = await fetch(`${sup_url}artist_group?select=artist_id,group_id,artists(id,name),groups!fkey_ag2(id,name)&artist_id=eq.${artistId}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,
@@ -159,6 +159,7 @@
 
                 state.groups = Array.isArray(data) ? data : [];
                 console.log(state.groups);
+                
         } catch (error) {
             nodes.count.textContent = "Catalogue indisponible";
             nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
