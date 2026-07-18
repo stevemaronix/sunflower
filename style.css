@@ -300,8 +300,8 @@
         width: fit-content;
     }
 
-    #modalArtist:hover{
-      color: var(--accent-dark);
+    .artist-link:hover{
+      color: white;
       cursor: pointer;
     }
 
