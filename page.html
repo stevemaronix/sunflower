@@ -282,6 +282,30 @@
     }
   }
 
+  async function toggleLike(song, iconElement) {
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) {
+      alert("Connecte-toi pour liker une chanson.");
+      return;
+    }
+
+    if (song.liked) {
+      await client
+        .from("liked_songs")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("song_id", song.id);
+      song.liked = false;
+      iconElement.src = "star_record_empty.png";
+    } else {
+      await client
+        .from("liked_songs")
+        .insert({ user_id: user.id, song_id: song.id });
+      song.liked = true;
+      iconElement.src = "star_record_filled.png";
+    }
+  }
+
 
   async function openModal(song) {
     modals.title.textContent = song.title || "Sans titre";
@@ -341,7 +365,7 @@
           ...song,
           liked: likedIds.has(song.id),
         }));
-        
+
         renderFilters();
         renderList();
       } catch (error) {
@@ -405,7 +429,15 @@
 
     nodes.sort_song.addEventListener("change", (event) => {state.sort_song = event.target.value; renderList();})
 
-    nodes.list.addEventListener("click", (event) => {
+    nodes.list.addEventListener("click", async (event) => {
+      const likeButton = event.target.closest(".like-button");
+      if (likeIcon) {
+        event.stopPropagation();  // empêche d'ouvrir aussi la modale
+        const card = likeIcon.closest(".song");
+        const index = Number(card.dataset.index);
+        await toggleLike(currentFilteredSongs[index], likeIcon);
+        return;
+      }
       const card = event.target.closest(".song");
       if (!card) return;
       const index = Number(card.dataset.index);

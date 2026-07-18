@@ -352,6 +352,7 @@
     }
 
     .song {
+      position: relative;
       cursor: pointer;
       display: grid;
       min-height: 190px;
@@ -631,6 +632,21 @@
     flex: 1;
     height: 48px;
     cursor: pointer;
+}
+
+.like-button{
+  width: 24px;
+  height: auto;
+  aspect-ratio:1;
+  cursor: pointer;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  transition: transform 0.15s ease;
+}
+
+.like-button:hover{
+  transform: scale(1.15);
 }
 
     @keyframes load {
