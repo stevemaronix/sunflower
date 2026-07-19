@@ -282,30 +282,6 @@
     }
   }
 
-  async function toggleLike(song, iconElement) {
-    const { data: { user } } = await client.auth.getUser();
-    if (!user) {
-      alert("Connecte-toi pour liker une chanson.");
-      return;
-    }
-
-    if (song.liked) {
-      await client
-        .from("liked")
-        .delete()
-        .eq("user_id", user.id)
-        .eq("song_id", song.id);
-      song.liked = false;
-      iconElement.src = "star_record_empty.png";
-    } else {
-      await client
-        .from("liked")
-        .insert({ user_id: user.id, song_id: song.id });
-      song.liked = true;
-      iconElement.src = "star_record_filled.png";
-    }
-  }
-
 
   async function openModal(song) {
     modals.title.textContent = song.title || "Sans titre";
