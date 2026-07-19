@@ -75,6 +75,7 @@
     }
 
     function renderSongCard(song,index) {
+        const liked = song?.liked ? "<img src='star_record_filled.png' class='like-button'>" : "<img src='star_record_empty.png' class='like-button'>"; 
         const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
         const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
@@ -84,6 +85,7 @@
 
         return `
           <article class="song" data-index="${index}">
+            ${liked}
             <div>
               <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
               ${(song.groups?.name && type==="artist") ? `<p class="artist">${song.groups.name}</p>` : ""}
