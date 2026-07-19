@@ -29,6 +29,30 @@ function whatisit(song){
     if (song.EP) return "EP";
   }
 
+async function toggleLike(song, iconElement) {
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) {
+      alert("Connecte-toi pour liker une chanson.");
+      return;
+    }
+
+    if (song.liked) {
+      await client
+        .from("liked")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("song_id", song.id);
+      song.liked = false;
+      iconElement.src = "star_record_empty.png";
+    } else {
+      await client
+        .from("liked")
+        .insert({ user_id: user.id, song_id: song.id });
+      song.liked = true;
+      iconElement.src = "star_record_filled.png";
+    }
+  }
+
 function renderSongCard(song,index) {
         const liked = song?.liked ? "<img src='star_record_filled.png' class='like-button'>" : "<img src='star_record_empty.png' class='like-button'>"; 
         const artist = song.groups?.name || song.artists?.name || "Artiste inconnu";
