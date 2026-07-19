@@ -86,7 +86,7 @@
         return `
           <article class="song" data-index="${index}">
             ${liked}
-            <div>
+            <div class="song-header">
               <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
               ${(song.groups?.name && type==="artist") ? `<p class="artist">${song.groups.name}</p>` : ""}
             </div>

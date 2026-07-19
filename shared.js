@@ -30,6 +30,7 @@ function whatisit(song){
   }
 
 async function toggleLike(song, iconElement) {
+    const client = supabase.createClient(client_url,sup_key);
     const { data: { user } } = await client.auth.getUser();
     if (!user) {
       alert("Connecte-toi pour liker une chanson.");
@@ -66,7 +67,7 @@ function renderSongCard(song,index) {
         return `
           <article class="song" data-index="${index}">
             ${liked}
-            <div>
+            <div class="song-header">
               <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
               <p class="artist">${escapeHtml(artist)}</p>
             </div>

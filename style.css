@@ -376,6 +376,10 @@
       box-shadow: 0 14px 34px rgba(70, 55, 39, 0.18);
     }
 
+    .song-header {
+      padding-right: 24px;
+    }
+
     .link_title {
       margin: 0 0 10px;
       font-size: 1.55rem;
