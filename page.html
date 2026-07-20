@@ -491,12 +491,12 @@
         } else if (scrollY <= growEnd) {
           // Phase 2 : regrossit progressivement
           const progress = (scrollY - shrinkEnd) / (growEnd - shrinkEnd);
-          scale = 0.3 + progress * 0.7;       // de 0.3 remonte vers 1
+          scale = 0.8 + progress * 1.2;       // de 0.3 remonte vers 1
           opacity = 0.4 + progress * 0.6;      // redevient plus opaque
           translateY = -100 + progress * 100;  // redescend
         } else {
           // Phase 3 : reste à sa taille finale
-          scale = 1;
+          scale = 2;
           opacity = 1;
           translateY = 0;
         }
