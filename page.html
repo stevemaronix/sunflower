@@ -476,6 +476,9 @@
     const up = document.getElementById("up");
 
     window.addEventListener("scroll", () => {
+        const scrollY = window.scrollY;          // combien de pixels on a défilé
+        const maxScroll = 400;                    // distance sur laquelle l'animation se joue entièrement
+        const progress = Math.min(scrollY / maxScroll, 1);
         if (window.scrollY > 300) {
             up.classList.add("show");
         } else {
