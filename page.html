@@ -477,14 +477,31 @@
 
     window.addEventListener("scroll", () => {
         const scrollY = window.scrollY;
-        const maxScroll = 400;
-        const progress = Math.min(scrollY / maxScroll, 1);
+        const shrinkEnd = 400;   // fin de la phase "rétrécit"
+        const growEnd = 800;      // fin de la phase "regrossit"
 
-        const scale = 1 - progress * 0.7;        // rétrécit de 100% à 30% de sa taille
-        const opacity = 1 - progress * 0.6;       // s'estompe légèrement
-        const translateY = progress * -100;       // remonte vers le haut
+        let scale, opacity, translateY;
 
-        logo.style.transform = `translateX(-50%) scale(${scale}) translateY(${translateY}px)`;
+        if (scrollY <= shrinkEnd) {
+          // Phase 1 : rétrécit progressivement
+          const progress = scrollY / shrinkEnd;
+          scale = 1 - progress * 0.7;
+          opacity = 1 - progress * 0.6;
+          translateY = progress * -100;
+        } else if (scrollY <= growEnd) {
+          // Phase 2 : regrossit progressivement
+          const progress = (scrollY - shrinkEnd) / (growEnd - shrinkEnd);
+          scale = 0.3 + progress * 0.7;       // de 0.3 remonte vers 1
+          opacity = 0.4 + progress * 0.6;      // redevient plus opaque
+          translateY = -100 + progress * 100;  // redescend
+        } else {
+          // Phase 3 : reste à sa taille finale
+          scale = 1;
+          opacity = 1;
+          translateY = 0;
+        }
+
+        logo.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
         logo.style.opacity = opacity;
         if (window.scrollY > 300) {
             up.classList.add("show");
