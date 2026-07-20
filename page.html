@@ -476,9 +476,16 @@
     const up = document.getElementById("up");
 
     window.addEventListener("scroll", () => {
-        const scrollY = window.scrollY;          // combien de pixels on a défilé
-        const maxScroll = 400;                    // distance sur laquelle l'animation se joue entièrement
+        const scrollY = window.scrollY;
+        const maxScroll = 400;
         const progress = Math.min(scrollY / maxScroll, 1);
+
+        const scale = 1 - progress * 0.7;        // rétrécit de 100% à 30% de sa taille
+        const opacity = 1 - progress * 0.6;       // s'estompe légèrement
+        const translateY = progress * -100;       // remonte vers le haut
+
+        logo.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+        logo.style.opacity = opacity;
         if (window.scrollY > 300) {
             up.classList.add("show");
         } else {

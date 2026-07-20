@@ -565,6 +565,12 @@
       object-fit: cover;
       border-radius: 50%;
       z-index: 1;
+      position: fixed;   /* reste à l'écran, même en scrollant */
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;        /* passe derrière le reste du contenu */
+      transition: transform 0.05s linear; /* optionnel, pour lisser légèrement */
     }
 
     .head-index h1{
