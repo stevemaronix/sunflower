@@ -484,7 +484,7 @@
         const opacity = 1 - progress * 0.6;       // s'estompe légèrement
         const translateY = progress * -100;       // remonte vers le haut
 
-        logo.style.transform = `translateX(-50%),scale(${scale}) translateY(${translateY}px)`;
+        logo.style.transform = `translateX(-50%) scale(${scale}) translateY(${translateY}px)`;
         logo.style.opacity = opacity;
         if (window.scrollY > 300) {
             up.classList.add("show");
