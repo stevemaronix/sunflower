@@ -478,7 +478,7 @@
     window.addEventListener("scroll", () => {
         const scrollY = window.scrollY;
         const shrinkEnd = 400;   // fin de la phase "rétrécit"
-        const growEnd = 800;      // fin de la phase "regrossit"
+        const growEnd = 1200;      // fin de la phase "regrossit"
 
         let scale, opacity, translateY;
 
@@ -501,7 +501,7 @@
           translateY = 0;
         }
 
-        logo.style.transform = `translate(-50%, -50%) scale(${scale}) translateY(${translateY}px)`;
+        logo.style.transform = `translateX(-50%) scale(${scale}) translateY(${translateY}px)`;
         logo.style.opacity = opacity;
         if (window.scrollY > 300) {
             up.classList.add("show");
