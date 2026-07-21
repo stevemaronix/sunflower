@@ -448,7 +448,7 @@
         .insert({
           title: props.title.value,
           artist: props.artist.value,
-          user : user?.email || "anonyme" 
+          submitted_by : user?.email || "anonyme" 
         });
       if (error) alert("Erreur : " + error.message);
       else alert("Merci, ta proposition a été envoyée !");
