@@ -490,6 +490,7 @@
           opacity = 1 - progress * 0.6;
           translateY = progress * -100;
           top = "20px";
+          centre = "0px";
         } else if (scrollY <= growEnd) {
           // Phase 2 : regrossit progressivement
           const progress = (scrollY - shrinkEnd) / (growEnd - shrinkEnd);
@@ -497,6 +498,7 @@
           opacity = 0.4 + progress * 0.6;      // redevient plus opaque
           translateY = -100 + progress * 100;  // redescend
           top = "20px";
+          centre = "0px";
         } else {
           // Phase 3 : reste à sa taille finale
           scale = 2;
