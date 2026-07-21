@@ -73,6 +73,19 @@
       <button class="reset" id="reset" type="button">Réinitialiser</button>
     </div>
 
+    <section class="proposal">
+      <div class="prop-title">
+        <h1>Une proposition ?</h1>
+      </div>
+      <div class="prop-fields">
+        <label for="titleSuggestion">Titre</label>
+        <input id="titleSuggestion" type="search" placeholder="C'est quoi le titre ?">
+        <label for="artistSuggestion">Artiste</label>
+        <input id="artistSuggestion" type="search" placeholder="Et c'est de qui ?">
+        <button id="suggest">Envoyer</button>
+      </div>
+    </section>
+
     <section class="grid" id="list" aria-live="polite">
       <div class="skeleton"></div>
       <div class="skeleton"></div>
@@ -110,6 +123,12 @@
       artist: "",
       sort_song: "title",
     };
+
+    const props = {
+      title: document.getElementById("titleSuggestion"),
+      artist: document.getElementById("artistSuggestion"),
+      suggest: document.getElementById("suggest")
+    }
 
     const nodes = {
       title: document.getElementById("title_search"),
@@ -419,6 +438,22 @@
       const index = Number(card.dataset.index);
       openModal(currentFilteredSongs[index]);
     });
+
+    props.suggest.addEventListener("click", async () => {
+      const user = await supabase.auth.getUser();
+      if (user) console.table(user);
+      const client = await supabase.createClient(client_url,sup_key);
+      const {error} = await client
+        .from("proposals")
+        .insert({
+          title: props.title.value,
+          artist: props.artist.value,
+          user : user?.email || "anonyme" 
+        });
+      if (error) alert("Erreur : " + error.message);
+      else alert("Merci, ta proposition a été envoyée !");
+    }
+  )
 
     modals.close.addEventListener("click", closeModal);
     document.getElementById("overlay").addEventListener("click", (event) => {

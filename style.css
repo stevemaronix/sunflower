@@ -659,6 +659,12 @@
   transform: scale(1.15);
 }
 
+.prop-fields{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
     @keyframes load {
       to {
         background-position: -220% 0;
