@@ -481,16 +481,17 @@
         const growEnd = 1200;      // fin de la phase "regrossit"
 
         let scale, opacity, translateY;
+        const ease = p => p * p * (3 - 2 * p); // smoothstep
 
         if (scrollY <= shrinkEnd) {
           // Phase 1 : rétrécit progressivement
-          const progress = scrollY / shrinkEnd;
-          scale = 1 - progress * 0.7;
+          const progress = ease(scrollY / shrinkEnd);
+          scale = 1 - progress * 0.2;
           opacity = 1 - progress * 0.6;
           translateY = progress * -100;
         } else if (scrollY <= growEnd) {
           // Phase 2 : regrossit progressivement
-          const progress = (scrollY - shrinkEnd) / (growEnd - shrinkEnd);
+          const progress = ease((scrollY - shrinkEnd) / (growEnd - shrinkEnd));
           scale = 0.8 + progress * 1.2;       // de 0.3 remonte vers 1
           opacity = 0.4 + progress * 0.6;      // redevient plus opaque
           translateY = -100 + progress * 100;  // redescend
@@ -501,7 +502,7 @@
           translateY = 0;
         }
 
-        logo.style.transform = `translateX(-50%) scale(${scale}) translateY(${translateY}px)`;
+        logo.style.transform = `translateX(-50%) translateY(${translateY}px) scale(${scale})`;
         logo.style.opacity = opacity;
         if (window.scrollY > 300) {
             up.classList.add("show");
