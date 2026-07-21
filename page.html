@@ -440,9 +440,9 @@
     });
 
     props.suggest.addEventListener("click", async () => {
+      const client = await supabase.createClient(client_url,sup_key);
       const {data: user, error: userError} = await supabase.auth.getUser();
       if (user) console.table(user);
-      const client = await supabase.createClient(client_url,sup_key);
       const {error} = await client
         .from("proposals")
         .insert({
