@@ -485,7 +485,7 @@
         if (scrollY <= shrinkEnd) {
           // Phase 1 : rétrécit progressivement
           const progress = scrollY / shrinkEnd;
-          scale = 1 - progress * 0.7;
+          scale = 2 - progress * 0.7;
           opacity = 1 - progress * 0.6;
           translateY = progress * -100;
         } else if (scrollY <= growEnd) {
