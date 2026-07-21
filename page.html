@@ -485,14 +485,14 @@
 
         if (scrollY <= shrinkEnd) {
           // Phase 1 : rétrécit progressivement
-          const progress = ease(scrollY / shrinkEnd);
+          const progress = scrollY / shrinkEnd;
           scale = 1 - progress * 0.2;
           opacity = 1 - progress * 0.6;
           translateY = progress * -100;
           centre = "";
         } else if (scrollY <= growEnd) {
           // Phase 2 : regrossit progressivement
-          const progress = ease((scrollY - shrinkEnd) / (growEnd - shrinkEnd));
+          const progress = (scrollY - shrinkEnd) / (growEnd - shrinkEnd);
           scale = 0.8 + progress * 1.2;       // de 0.3 remonte vers 1
           opacity = 0.4 + progress * 0.6;      // redevient plus opaque
           translateY = -100 + progress * 100;  // redescend
