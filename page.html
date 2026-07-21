@@ -508,7 +508,7 @@
           centre = "-50%";
         }
 
-        logo.style.transform = `translateX(-50%) scale(${scale}) translateY(${centre}) translateY(${translateY}px)`;
+        logo.style.transform = `translateX(-50%) translateY(calc(${centre} + ${translateY}px)) scale(${scale}) `;
         logo.style.top = `${top}`;
         logo.style.opacity = opacity;
         if (window.scrollY > 300) {
