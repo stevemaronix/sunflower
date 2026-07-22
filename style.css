@@ -665,6 +665,11 @@
   align-items: center;
 }
 
+.prop-title{
+  color: white;
+  font-size: 1rem;
+}
+
     @keyframes load {
       to {
         background-position: -220% 0;
