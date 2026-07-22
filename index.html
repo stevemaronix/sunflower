@@ -84,7 +84,13 @@
             return;
         }
         window.location.href = "page.html";
-    })
+    });
+
+    document.addEventListener("click", (event) => {
+        if (event.key === "Enter"){
+            document.getElementById("connexion").click();
+        }
+    });
 
 
 </script>
