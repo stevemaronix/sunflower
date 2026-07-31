@@ -346,7 +346,13 @@
       try {
         if (!forceRefresh) {
           const cached = sessionStorage.getItem("songs");
-          if (cached) {console.table(cached);state.songs = JSON.parse(cached); return};
+          if (cached) {
+            console.table(cached);
+            state.songs = JSON.parse(cached);
+            renderFilters();
+            renderList();
+            return
+          };
       }
         const { data: { user } } = await client.auth.getUser();
 

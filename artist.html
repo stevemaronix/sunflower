@@ -117,7 +117,13 @@
 
             if (!forceRefresh) {
                 const cached = sessionStorage.getItem("songs");
-                if (cached) {state.songs = JSON.parse(cached); return};
+                if (cached) {
+                    console.table(cached);
+                    state.songs = JSON.parse(cached);
+                    renderFilters();
+                    renderList();
+                    return
+                };
             }
             const groupIds = state.groups.map(g => g.group_id);
             const typ = type==="group" ? "groupe" : "artist";

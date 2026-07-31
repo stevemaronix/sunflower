@@ -88,7 +88,13 @@
 
                 if (!forceRefresh) {
                     const cached = sessionStorage.getItem("songs");
-                    if (cached) {state.songs = JSON.parse(cached); return};
+                    if (cached) {
+                        console.table(cached);
+                        state.songs = JSON.parse(cached);
+                        renderFilters();
+                        renderList();
+                        return
+                    };
                 }
                 const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,albums(id,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${albumId}`, {
                 headers: {
