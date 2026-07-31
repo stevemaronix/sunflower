@@ -3,19 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="titleArtist">Hummingbird</title>
+  <title>Hummingbird</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="logo.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Water+Brush&family=DynaPuff&family=Clicker+Script&display=swap" rel="stylesheet">
 </head>
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const artistId = params.get("id");
-    const artist = params.get("artist");
-    const type = params.get("type");
-</script>
 <body>
     <a href="page.html" class="pill" id="retour"><- Retour</a>
     <main class="records-global shell">
@@ -57,7 +51,6 @@
     function renderListSongs(){
         nodes.list.innerHTML = state.songs.filter(song => song.liked).map(renderSongCard).join("");
         const total = state.songs.length;
-        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} de ${titleCase(artist)}`;
 
     }
 
@@ -137,7 +130,6 @@
 
     async function render(){
         await loadSongs();
-        document.getElementById("titleArtist").textContent = `${document.getElementById("titleArtist").textContent}: ${state.artist?.name}`;
     }
 
 
