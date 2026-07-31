@@ -137,7 +137,6 @@
 
     async function render(){
         await loadSongs();
-        renderArtist();
         document.getElementById("titleArtist").textContent = `${document.getElementById("titleArtist").textContent}: ${state.artist?.name}`;
     }
 
