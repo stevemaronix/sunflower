@@ -85,3 +85,16 @@ const eq_col = {
 const client_url = "https://wihxegbjecvfnmdtodvq.supabase.co"
 const sup_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo"
 const sup_url = "https://wihxegbjecvfnmdtodvq.supabase.co/rest/v1/"
+
+const menuToggle = document.getElementById("menuToggle");
+const sideMenu = document.getElementById("sideMenu");
+const menuOverlay = document.getElementById("menuOverlay");
+
+function toggleMenu() {
+  menuToggle.classList.toggle("open");
+  sideMenu.classList.toggle("open");
+  menuOverlay.classList.toggle("open");
+}
+
+menuToggle.addEventListener("click", toggleMenu);
+menuOverlay.addEventListener("click", toggleMenu);

@@ -701,6 +701,69 @@
   transition: background 0.15s ease, transform 0.1s ease;
 }
 
+#menuToggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.bar {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+#menuToggle.open .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+#menuToggle.open .bar:nth-child(2) {
+  opacity: 0;
+}
+#menuToggle.open .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background: var(--panel);
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: left 0.3s ease;
+  z-index: 20;
+}
+
+.side-menu.open {
+  left: 0;
+}
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 15;
+}
+
+.menu-overlay.open {
+  display: block;
+}
+
     @keyframes load {
       to {
         background-position: -220% 0;

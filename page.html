@@ -108,6 +108,20 @@
     </div>
   </div>
 
+  <button id="menuToggle" aria-label="Menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <nav id="sideMenu" class="side-menu">
+    <a href="page.html">Recherche</a>
+    <a href="records.html">Mes records</a>
+    <a href="suggest.html">Suggestions personnalisées</a>
+  </nav>
+
+  <div id="menuOverlay" class="menu-overlay"></div>
+
   <script src="shared.js"></script>
   <script>
     const client = supabase.createClient(client_url,sup_key);
