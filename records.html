@@ -38,7 +38,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="shared.js"></script>
 <script>
-
+    const client = supabase.createClient(client_url, sup_key);
     const state = {
         songs: []
     }
@@ -88,12 +88,12 @@
                         return
                     };
                 }
-                const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,albums(id,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${albumId}`, {
+                const response = await fetch(`${sup_url}songs?select=id,title,artist,description,year,keywords,artists(id,name,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${query}`, {
                 headers: {
                     apikey: `${sup_key}`,
                     Authorization: `Bearer ${sup_key}`,
                 },
-                });
+            });
 
                 const { data: { user } } = await client.auth.getUser();
 
