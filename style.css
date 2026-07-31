@@ -704,7 +704,7 @@
 #menuToggle {
   position: fixed;
   top : 20px;
-  left: 20px;
+  left: 20px; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -715,6 +715,7 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  z-index: 100;
 }
 
 .bar {
