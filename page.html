@@ -342,9 +342,12 @@
   }
 
 
-    async function loadSongs() {
+    async function loadSongs(forceRefresh = false) {
       try {
-
+        if (!forceRefresh) {
+          const cached = sessionStorage.getItem("songs");
+          if (cached) {state.songs = JSON.parse(cached); return};
+      }
         const { data: { user } } = await client.auth.getUser();
 
         let likedIds = new Set();

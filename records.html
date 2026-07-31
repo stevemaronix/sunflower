@@ -18,19 +18,8 @@
 </script>
 <body>
     <a href="page.html" class="pill" id="retour"><- Retour</a>
-    <main class=" artist-global shell">
-        <header class="artist-page">
-            <div class="align_photo_txt">
-                <img class="artist-photo"  id="artistPhoto">
-                <div class="container_txt">
-                    <div class="details" id="modalDetails"></div>
-                    <h1 class = "artist-title titre" id="artist"></h1>
-                    <p class="artist-groups" id="groups"></p>
-                    <p class="description" id="modalDescription"></p>
-                    <div class="details" id="modalDetails2"></div>
-                </div>
-            </div>
-        </header>
+    <main class="records-global shell">
+        <h2>Mes Records</h2>
         <p id="count" class="meta">Chargement du catalogue...</p>
         <section class="grid" id="artistList" aria-live="polite">
         <div class="skeleton"></div>
@@ -38,42 +27,40 @@
         <div class="skeleton"></div>
         </section>
     </main>
+    <button id="menuToggle" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <nav id="sideMenu" class="side-menu">
+        <a href="page.html">Recherche</a>
+        <a href="records.html">Mes records</a>
+        <a href="suggest.html">Suggestions personnalisées</a>
+    </nav>
+
+    <div id="menuOverlay" class="menu-overlay"></div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="shared.js"></script>
 <script>
 
     const state = {
-        songs: [],
-        artist: {},
-        groups: []
+        songs: []
     }
 
     const nodes = {
         list: document.getElementById("artistList"),
-        count: document.getElementById("count"),
-        photo: document.getElementById("artistPhoto"),
-        artist: document.getElementById("artist"),
-        groups: document.getElementById("groups")
+        count: document.getElementById("count")
     }
 
     function renderListSongs(){
-        nodes.list.innerHTML = state.songs.map(renderSongCard).join("");
+        nodes.list.innerHTML = state.songs.filter(song => song.liked).map(renderSongCard).join("");
         const total = state.songs.length;
         nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} de ${titleCase(artist)}`;
 
     }
 
-    function renderArtist(){
-        nodes.artist.textContent = state.artist?.name;
-        if (type==="artist"){
-            nodes.groups.textContent = state.groups.map((group,index) => {
-                if (index === state.groups.length - 1) return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
-                else return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
-            }).join("");
-            nodes.photo.src = state.artist?.link || "";
-        }
-    }
 
     function renderSongCard(song,index) {
         const liked = song?.liked ? "<img src='star_record_filled.png' class='like-button'>" : "<img src='star_record_empty.png' class='like-button'>"; 
@@ -96,69 +83,47 @@
         `;
     }
 
-    async function loadArtist(){
-        const response = await fetch(`${sup_url}${type}s?select=id,name,link&id=eq.${artistId}`,
-        {headers: {
-            apikey: `${sup_key}`,
-            Authorization: `Bearer ${sup_key}`,
-        },
-        })
-
-        const data = await response.json()
-
-        if (!response.ok){
-            throw new Error(data.message || "Impossible de charger l'artist");
-        }
-        state.artist = Array.isArray(data) ? data[0] : {};
-    }
-
     async function loadSongs(forceRefresh = false){
         try {
 
-            if (!forceRefresh) {
-                const cached = sessionStorage.getItem("songs");
-                if (cached) {state.songs = JSON.parse(cached); return};
-            }
-            const groupIds = state.groups.map(g => g.group_id);
-            const typ = type==="group" ? "groupe" : "artist";
-            const query = groupIds.length
-                ? `or=(${typ}.eq.${artistId},groupe.in.(${groupIds.join(",")}))`
-                : `${typ}=eq.${artistId}`;
+                if (!forceRefresh) {
+                    const cached = sessionStorage.getItem("songs");
+                    if (cached) {state.songs = JSON.parse(cached); return};
+                }
+                const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,albums(id,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${albumId}`, {
+                headers: {
+                    apikey: `${sup_key}`,
+                    Authorization: `Bearer ${sup_key}`,
+                },
+                });
 
-            const { data: { user } } = await client.auth.getUser();
+                const { data: { user } } = await client.auth.getUser();
 
-            let likedIds = new Set();
+                let likedIds = new Set();
 
-            if (user) {
-            const { data: likes } = await client
-                .from("liked")
-                .select("song_id")
-                .eq("user_id", user.id);
-            likedIds = new Set((likes || []).map(l => l.song_id));
-            }
-                
-            const response = await fetch(`${sup_url}songs?select=id,title,artist,description,year,keywords,artists(id,name,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${query}`, {
-            headers: {
-                apikey: `${sup_key}`,
-                Authorization: `Bearer ${sup_key}`,
-            },
-            });
+                if (user) {
+                const { data: likes } = await client
+                    .from("liked")
+                    .select("song_id")
+                    .eq("user_id", user.id);
+                likedIds = new Set((likes || []).map(l => l.song_id));
+                }
 
-            const data = await response.json()
+                const data = await response.json()
 
-            if (!response.ok) {
-            throw new Error(data.message || "Impossible de charger les chansons.");
-            }
+                if (!response.ok) {
+                throw new Error(data.message || "Impossible de charger les chansons.");
+                }
 
-            state.songs = (Array.isArray(data) ? data : []).map(song => ({
-            ...song,
-            liked: likedIds.has(song.id),
-            }));
+                state.songs = (Array.isArray(data) ? data : []).map(song => ({
+                ...song,
+                liked: likedIds.has(song.id),
+                }));
 
-            sessionStorage.setItem("songs",JSON.stringify(state.songs));
+                sessionStorage.setItem("songs",JSON.stringify(state.songs));
 
-            console.log(state.songs);
-            renderListSongs();
+                console.log(state.songs);
+                renderListSongs();
         } catch (error) {
             nodes.count.textContent = "Catalogue indisponible";
             nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;

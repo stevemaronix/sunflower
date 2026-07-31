@@ -85,6 +85,12 @@
 
     async function loadSongs(){
         try {
+
+                if (!forceRefresh) {
+                    const cached = sessionStorage.getItem("songs");
+                    if (cached) {state.songs = JSON.parse(cached); return};
+                    
+                }
                 const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,albums(id,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${albumId}`, {
                 headers: {
                     apikey: `${sup_key}`,
@@ -92,13 +98,30 @@
                 },
                 });
 
+                const { data: { user } } = await client.auth.getUser();
+
+                let likedIds = new Set();
+
+                if (user) {
+                const { data: likes } = await client
+                    .from("liked")
+                    .select("song_id")
+                    .eq("user_id", user.id);
+                likedIds = new Set((likes || []).map(l => l.song_id));
+                }
+
                 const data = await response.json()
 
                 if (!response.ok) {
                 throw new Error(data.message || "Impossible de charger les chansons.");
                 }
 
-                state.songs = Array.isArray(data) ? data : [];
+                state.songs = (Array.isArray(data) ? data : []).map(song => ({
+                ...song,
+                liked: likedIds.has(song.id),
+                }));
+
+                sessionStorage.setItem("songs",JSON.stringify(state.songs));
                 console.log(state.songs);
                 renderListSongs();
         } catch (error) {
