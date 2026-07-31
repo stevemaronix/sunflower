@@ -375,6 +375,8 @@
           liked: likedIds.has(song.id),
         }));
 
+        sessionStorage.setItem("songs",JSON.stringify(state.songs));
+
         renderFilters();
         renderList();
       } catch (error) {
