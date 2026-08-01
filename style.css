@@ -768,6 +768,17 @@
   display: block;
 }
 
+.index-letters{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.letters{
+  font-size: 40px;
+  color: var(--muted);
+}
+
     @keyframes load {
       to {
         background-position: -220% 0;

@@ -60,10 +60,12 @@
         nodes.list.innerHTML = "";
         nodes.list.classList.remove("grid");
         for (const [key, list] of Object.entries(alphaOrder)) {
-            nodes.list.insertAdjacentHTML(
-                "beforeend",
-                `<div class="index-letters"><h2 class="letters">${key}</h2><div class="grid">${list.map(renderSongCard).join("")}</div></div>`
-            );
+            if (list.length > 0 ){
+                nodes.list.insertAdjacentHTML(
+                    "beforeend",
+                    `<div class="index-letters"><h2 class="letters">${key}</h2><div class="grid">${list.map(renderSongCard).join("")}</div></div>`
+                );
+            }
         };
         const total = state.songs.length;
         nodes.count.textContent = `${total} chanson${total > 1 ? "s" : ""} au total`;
