@@ -39,7 +39,7 @@
 <script src="shared.js"></script>
 <script>
     const client = supabase.createClient(client_url, sup_key);
-    const { data: { user } } = await client.auth.getUser();
+    const { data: { user } } = async () => {await client.auth.getUser()};
     const state = {
         songs: [],
         liked: []
