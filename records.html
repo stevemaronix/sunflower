@@ -52,32 +52,11 @@
     function renderListSongs(){
         state.liked = state.songs.filter(song => song.liked);
         nodes.list.innerHTML = state.liked.map(renderSongCard).join("");
-        const total = state.songs.length;
+        const total = state.liked.length;
         nodes.count.textContent = `${total} record${total > 1 ? "s" : ""} enregistré${total > 1 ? "s" : ""}`;
 
     }
 
-
-    function renderSongCard(song,index) {
-        const liked = song?.liked ? "<img src='star_record_filled.png' class='like-button'>" : "<img src='star_record_empty.png' class='like-button'>"; 
-        const year = song.year ? `<span class="pill">${escapeHtml(song.year)}</span>` : "";
-        const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
-        const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
-        const link = song.link || song.lien;
-        const album = song[whatisit(song)]?.name ? `<span class="pill">${escapeHtml(song[whatisit(song)]?.name)}</span>` : "";
-        const category = song.categories?.name ? `<span class="pill">${escapeHtml(song.categories?.name)}</span>` : "";
-
-        return `
-          <article class="song" data-index="${index}">
-            ${liked}
-            <div class="song-header">
-              <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
-              ${(song.groups?.name && type==="artist") ? `<p class="artist">${song.groups.name}</p>` : ""}
-            </div>
-            <div class="details">${album}${year}${theme}</div>
-          </article>
-        `;
-    }
 
     async function loadSongs(forceRefresh = false){
         try {
