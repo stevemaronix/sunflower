@@ -144,7 +144,17 @@
     }
 
     render();
-    nodes.list.addEventListener("click", (event) => {
+
+    nodes.list.addEventListener("click", async (event) => {
+      const likeButton = event.target.closest(".like-button");
+      if (likeButton) {
+        event.stopPropagation();  // empêche d'ouvrir aussi la modale
+        const card = likeButton.closest(".song");
+        const index = Number(card.dataset.index);
+        await toggleLike(state.songs[index], likeButton);
+        refreshSession("songs",state.songs);
+        return;
+      }
       const card = event.target.closest(".song");
       if (!card) return;
       const index = Number(card.dataset.index);
@@ -153,5 +163,6 @@
         window.open(song.link,"_blank");
       }
     });
+    
 </script>
 </html>

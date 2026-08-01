@@ -456,6 +456,7 @@
         const card = likeButton.closest(".song");
         const index = Number(card.dataset.index);
         await toggleLike(currentFilteredSongs[index], likeButton);
+        refreshSession("songs",state.songs);
         return;
       }
       const card = event.target.closest(".song");

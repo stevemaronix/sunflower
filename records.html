@@ -51,6 +51,7 @@
     function renderListSongs(){
         nodes.list.innerHTML = state.songs.filter(song => song.liked).map(renderSongCard).join("");
         const total = state.songs.length;
+        nodes.count.textContent = `${total} record${total > 1 ? "s" : ""} enregistré${total > 1 ? "s" : ""}`;
 
     }
 
@@ -142,6 +143,7 @@
         const card = likeButton.closest(".song");
         const index = Number(card.dataset.index);
         await toggleLike(state.songs[index], likeButton);
+        refreshSession("songs",state.songs);
         return;
       }
       const card = event.target.closest(".song");

@@ -76,6 +76,11 @@ function renderSongCard(song,index) {
         `;
 }
 
+function refreshSession(file,newValue){
+  sessionStorage.removeItem("songs");
+  sessionStorage.setItem("songs",JSON.stringify(newValue));
+}
+
 const eq_col = {
   "singles": "single",
   "EP": "ep",
