@@ -55,7 +55,7 @@
         alphabet.map(letter => alphaOrder[letter] = []);
         state.songs.map(song => {
             const letter = song.title.toUpperCase()[0];
-            alphaOrder[letter].push(song);
+            alphaOrder[letter]?.push(song);
         });
         for (const [key, list] of Object.entries(alphaOrder)) {
             nodes.list.insertAdjacentHTML(
