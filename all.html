@@ -13,14 +13,13 @@
 <body>
     <a href="page.html" class="pill" id="retour"><- Retour</a>
     <main class="records-global shell">
-        <h2 style="font-size: 40px">Mes Records</h2>
+        <h2 style="font-size: 40px">Index</h2>
         <p id="count" class="meta">Chargement du catalogue...</p>
         <section class="grid" id="artistList" aria-live="polite">
         <div class="skeleton"></div>
         <div class="skeleton"></div>
         <div class="skeleton"></div>
         </section>
-    </main>
     <button id="menuToggle" aria-label="Menu">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -41,8 +40,7 @@
 <script>
     const client = supabase.createClient(client_url, sup_key);
     const state = {
-        songs: [],
-        liked: []
+        songs: []
     }
 
     const nodes = {
@@ -51,65 +49,72 @@
     }
 
     function renderListSongs(){
-        state.liked = state.songs.filter(song => song.liked);
-        nodes.list.innerHTML = state.liked.map(renderSongCard).join("");
-        const total = state.liked.length;
-        nodes.count.textContent = `${total} record${total > 1 ? "s" : ""} enregistré${total > 1 ? "s" : ""}`;
+        const alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(" ");
+        console.log(alphabet);
+        const alphaOrder = {};
+        alphabet.map(letter => alphaOrder[letter] = []);
+        state.songs.map(song => {
+            const letter = song.title.toUpperCase()[0];
+            alphaOrder[letter].push(song);
+        });
+        for (const [key, list] of Object.entries(alphaOrder)) {
+            nodes.list.insertAdjacentHTML(
+                "beforeend",
+                `<div class="index-letters"><h2 class="letters">${key}</h2>${list.map(renderSongCard).join("")}</div>`
+            );
+        };
+        const total = state.songs.length;
+        nodes.count.textContent = `${total} chanson${total > 1 ? "s" : ""} au total`;
 
     }
 
 
     async function loadSongs(forceRefresh = false){
         const {data: { user }} = await client.auth.getUser();
-        if (user){
-            try {
+        try {
 
-                    if (!forceRefresh) {
-                        const cached = sessionStorage.getItem("songs");
-                        if (cached) {
-                            console.table(cached);
-                            state.songs = JSON.parse(cached);
-                            renderListSongs();
-                            return
-                        };
-                    }
-                    const response = await fetch(`${sup_url}songs?select=id,title,artist,description,year,keywords,artists(id,name,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${query}`, {
-                    headers: {
-                        apikey: `${sup_key}`,
-                        Authorization: `Bearer ${sup_key}`,
-                    },
-                });
+                if (!forceRefresh) {
+                    const cached = sessionStorage.getItem("songs");
+                    if (cached) {
+                        console.table(cached);
+                        state.songs = JSON.parse(cached);
+                        renderListSongs();
+                        return
+                    };
+                }
+                const response = await fetch(`${sup_url}songs?select=id,title,artist,description,year,keywords,artists(id,name,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${query}`, {
+                headers: {
+                    apikey: `${sup_key}`,
+                    Authorization: `Bearer ${sup_key}`,
+                },
+            });
 
-                    let likedIds = new Set()
-                    const { data: likes } = await client
-                        .from("liked")
-                        .select("song_id")
-                        .eq("user_id", user.id);
-                    likedIds = new Set((likes || []).map(l => l.song_id));
+                let likedIds = new Set()
+                const { data: likes } = await client
+                    .from("liked")
+                    .select("song_id")
+                    .eq("user_id", user.id);
+                likedIds = new Set((likes || []).map(l => l.song_id));
 
-                    const data = await response.json()
+                const data = await response.json()
 
-                    if (!response.ok) {
-                    throw new Error(data.message || "Impossible de charger les chansons.");
-                    }
+                if (!response.ok) {
+                throw new Error(data.message || "Impossible de charger les chansons.");
+                }
 
-                    state.songs = (Array.isArray(data) ? data : []).map(song => ({
-                    ...song,
-                    liked: likedIds.has(song.id),
-                    }));
+                state.songs = (Array.isArray(data) ? data : []).map(song => ({
+                ...song,
+                liked: likedIds.has(song.id),
+                }));
 
-                    sessionStorage.setItem("songs",JSON.stringify(state.songs));
+                sessionStorage.setItem("songs",JSON.stringify(state.songs));
 
-                    console.log(state.songs);
-                    renderListSongs();
-            } catch (error) {
-                nodes.count.textContent = "Catalogue indisponible";
-                nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
-            }
+                console.log(state.songs);
+                renderListSongs();
+        } catch (error) {
+            nodes.count.textContent = "Catalogue indisponible";
+            nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
         }
-        else{
-            nodes.count.innerHTML = "Vous n'avez aucun record enregistré car vous n'êtes pas connectés. <a class='connect-redirect' href='index.html'>Se connecter</a>";
-            nodes.list.innerHTML = "";        }
     }
 
     async function render(){
