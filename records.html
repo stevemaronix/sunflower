@@ -13,7 +13,7 @@
 <body>
     <a href="page.html" class="pill" id="retour"><- Retour</a>
     <main class="records-global shell">
-        <h2>Mes Records</h2>
+        <h2 style="font-size: 40px">Mes Records</h2>
         <p id="count" class="meta">Chargement du catalogue...</p>
         <section class="grid" id="artistList" aria-live="polite">
         <div class="skeleton"></div>
@@ -39,6 +39,7 @@
 <script src="shared.js"></script>
 <script>
     const client = supabase.createClient(client_url, sup_key);
+    const { data: { user } } = await client.auth.getUser();
     const state = {
         songs: [],
         liked: []
@@ -77,8 +78,6 @@
                 },
             });
 
-                const { data: { user } } = await client.auth.getUser();
-
                 let likedIds = new Set();
 
                 if (user) {
@@ -114,8 +113,12 @@
         await loadSongs();
     }
 
-
-    render();
+    if (user){
+        render();
+    }
+    else{
+        nodes.count.innerHTML = "Vous n'avez aucun record enregistré car vous n'êtes pas connectés. <a class='connect-redirect' href='index.html'>Se connecter</a>"
+    }
 
     nodes.list.addEventListener("click", async (event) => {
       const likeButton = event.target.closest(".like-button");
