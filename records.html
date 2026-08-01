@@ -40,7 +40,8 @@
 <script>
     const client = supabase.createClient(client_url, sup_key);
     const state = {
-        songs: []
+        songs: [],
+        liked: []
     }
 
     const nodes = {
@@ -49,7 +50,8 @@
     }
 
     function renderListSongs(){
-        nodes.list.innerHTML = state.songs.filter(song => song.liked).map(renderSongCard).join("");
+        state.liked = state.songs.filter(song => song.liked);
+        nodes.list.innerHTML = state.liked.map(renderSongCard).join("");
         const total = state.songs.length;
         nodes.count.textContent = `${total} record${total > 1 ? "s" : ""} enregistré${total > 1 ? "s" : ""}`;
 
@@ -142,14 +144,15 @@
         event.stopPropagation();  // empêche d'ouvrir aussi la modale
         const card = likeButton.closest(".song");
         const index = Number(card.dataset.index);
-        await toggleLike(state.songs[index], likeButton);
+        await toggleLike(state.liked[index], likeButton);
         refreshSession("songs",state.songs);
+        renderListSongs();
         return;
       }
       const card = event.target.closest(".song");
       if (!card) return;
       const index = Number(card.dataset.index);
-      const song=state.songs[index];
+      const song=state.liked[index];
       if (song.link){
         window.open(song.link,"_blank");
       }
