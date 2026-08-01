@@ -83,7 +83,7 @@
         state.album = Array.isArray(data) ? data[0] : {};
     }
 
-    async function loadSongs(){
+    async function loadSongs(forceRefresh = false){
         try {
 
                 if (!forceRefresh) {
@@ -163,6 +163,6 @@
         window.open(song.link,"_blank");
       }
     });
-    
+
 </script>
 </html>
