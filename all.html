@@ -91,7 +91,7 @@
             if (list.length>0){
                 nodes.list.insertAdjacentHTML(
                     "beforeend",
-                    `<div class="index-letters"><h2 class="letters">${key}</h2><div class="grid">${list.map(song => {renderSongCard(song,ind); ind=ind+1}).join("")}</div></div>`
+                    `<div class="index-letters"><h2 class="letters">${key}</h2><div class="grid">${list.map(song => renderSongCard(song,ind++)).join("")}</div></div>`
                 );
             }
         };
