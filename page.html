@@ -332,7 +332,7 @@
     ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type} data-id=${v.id || ""}>${escapeHtml(v.value)}</span>`).join(""); 
 
     const cover = modals.cover;
-    cover.style.backgroundImage = song[whatisit(song)]?.pochette ? `url(${song[whatisit(song)]?.pochette})` : "none";
+    cover.style.backgroundImage = song[whatisit(song)]?.pochette ? `url(${song[whatisit(song)]?.pochette})` : "url(logo2.png)";
     cover.href = song[whatisit(song)]?.link || "";
 
     document.getElementById("overlay").classList.add("open");

@@ -91,8 +91,7 @@
                     if (cached) {
                         console.table(cached);
                         state.songs = JSON.parse(cached);
-                        renderFilters();
-                        renderList();
+                        renderListSongs();
                         return
                     };
                     

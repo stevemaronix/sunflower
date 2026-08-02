@@ -71,7 +71,7 @@
                 if (index === state.groups.length - 1) return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
                 else return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
             }).join("");
-            nodes.photo.src = state.artist?.link || "";
+            nodes.photo.src = state.artist?.link || "url(logo2.png)";
         }
     }
 
@@ -120,8 +120,7 @@
                 if (cached) {
                     console.table(cached);
                     state.songs = JSON.parse(cached);
-                    renderFilters();
-                    renderList();
+                    renderListSongs();
                     return
                 };
             }

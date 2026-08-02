@@ -20,6 +20,23 @@
         <div class="skeleton"></div>
         <div class="skeleton"></div>
         </section>
+
+    </main>
+    <div class="overlay" id="overlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
+      <div class="align_cover_txt">
+        <a class="modal-cover" target="_blank" id="modalCover"></a>
+        <div class="container_txt">
+          <div class="details" id="modalDetails"></div>
+          <a class = "link_title titre" id="modalTitle"></a>
+          <p class="artist" id="modalArtist"></p>
+          <p class="description" id="modalDescription"></p>
+          <div class="details" id="modalDetails2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
     <button id="menuToggle" aria-label="Menu">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -48,6 +65,16 @@
         count: document.getElementById("count")
     }
 
+    const modals = {
+      title: document.getElementById("modalTitle"),
+      artist: document.getElementById("modalArtist"),
+      description: document.getElementById("modalDescription"),
+      details: document.getElementById("modalDetails"),
+      details2: document.getElementById("modalDetails2"),
+      cover: document.getElementById("modalCover"),
+      close: document.getElementById("modalClose")
+    }
+
     function renderListSongs(){
         const alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(" ");
         console.log(alphabet);
@@ -59,11 +86,12 @@
         });
         nodes.list.innerHTML = "";
         nodes.list.classList.remove("grid");
+        let ind=0;
         for (const [key, list] of Object.entries(alphaOrder)) {
-            if (list.length > 0 ){
+            if (list.length>0){
                 nodes.list.insertAdjacentHTML(
                     "beforeend",
-                    `<div class="index-letters"><h2 class="letters">${key}</h2><div class="grid">${list.map(renderSongCard).join("")}</div></div>`
+                    `<div class="index-letters"><h2 class="letters">${key}</h2><div class="grid">${list.map(song => {renderSongCard(song,ind); ind=ind+1}).join("")}</div></div>`
                 );
             }
         };
@@ -142,11 +170,61 @@
       const card = event.target.closest(".song");
       if (!card) return;
       const index = Number(card.dataset.index);
-      const song=state.liked[index];
-      if (song.link){
-        window.open(song.link,"_blank");
-      }
+      openModal(state.songs[index]);
     });
+
+    modals.close.addEventListener("click", closeModal);
+    document.getElementById("overlay").addEventListener("click", (event) => {
+      if (event.target.id === "overlay") closeModal();
+    });
+
+    modals.details.addEventListener("click", (event) => 
+      {const pill = event.target.closest(".pill");
+      if (!pill) return;
+      const type = pill.dataset.type;
+      if (type === "theme"){
+        state.theme = pill.textContent;
+        nodes.theme.value = pill.textContent;
+        nodes.category.value = "";
+        nodes.categoryWrap.classList.remove("close");
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        renderList();
+      }
+      else if(type==="category"){
+        state.theme= pill.dataset.origin;
+        state.category = pill.textContent;
+        nodes.theme.value = state.theme;
+        nodes.categoryWrap.classList.remove("close");
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        nodes.category.value = pill.textContent;
+        renderList();
+      }
+      });
+
+    modals.details2.addEventListener("click", (event) => 
+      {const pill = event.target.closest(".pill");
+      if (!pill) return;
+      const type = pill.dataset.type;
+      if (type === "year"){
+        state.year = pill.textContent;
+        nodes.year.value = pill.textContent;
+        document.getElementById("overlay").classList.remove("open");
+        renderFilters();
+        renderList();
+      }
+      else {
+        albumId = pill.dataset.id;
+        if (albumId) window.location.href = `album.html?id=${albumId}&whatisit=${type}`;
+      }
+      });
+
+      modals.artist.addEventListener("click",(event) =>
+      {const artiste = event.target.closest(".artist-link");
+      if (!artiste) return;
+      if (artiste.dataset.id) window.location.href = `artist.html?id=${artiste.dataset.id}&artist=${artiste.textContent}&type=${artiste.dataset.type}`; 
+      })
 
 </script>
 </html>

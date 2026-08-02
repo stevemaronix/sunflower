@@ -76,9 +76,91 @@ function renderSongCard(song,index) {
         `;
 }
 
+async function openModal(song) {
+    modals.title.textContent = song.title || "Sans titre";
+    modals.title.href = song.link || "#";
+    modals.title.target = "_blank";
+    modals.artist.innerHTML = await getHTMLartist(song);
+    modals.artist.dataset.id = song.groups?.id || song.artists?.id || ""; 
+    modals.description.textContent = song.description || "";
+    modals.details.innerHTML = [
+      {type: "theme", value : song.theme}, {value: song.categories?.name, type: "category", origin: song.theme}
+    ].filter(item => item.value).map(v => `<span class="pill" data-origin=${v?.origin} data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
+    modals.details2.innerHTML = [
+      {type: whatisit(song),value: song[whatisit(song)]?.name, id:song[whatisit(song)]?.id}, {type: "year", value: song.year}
+    ].filter(item => item.value).map(v => `<span class="pill" data-type=${v.type} data-id=${v.id || ""}>${escapeHtml(v.value)}</span>`).join(""); 
+
+    const cover = modals.cover;
+    cover.style.backgroundImage = song[whatisit(song)]?.pochette ? `url(${song[whatisit(song)]?.pochette})` : "url(logo2.png)";
+    cover.href = song[whatisit(song)]?.link || "";
+
+    document.getElementById("overlay").classList.add("open");
+  }
+
+function closeModal() {
+  document.getElementById("overlay").classList.remove("open");
+}
+
 function refreshSession(file,newValue){
   sessionStorage.removeItem("songs");
   sessionStorage.setItem("songs",JSON.stringify(newValue));
+}
+
+async function getArtistGroup(song){
+    const groupId = song.groups.id;
+
+    const {data, error} = await client
+    .from("artist_group")
+    .select("artist_id,group_member_id,artists(id,name),member_group:groups!artist_group_group_member_id_fkey(id,name)")
+    .eq("group_id",groupId);
+    console.table(data);
+  
+    if (error) throw error;
+
+    return data.map(row => {
+        if (row.artist_id !== null) {
+            return {
+                type: "artist",
+                id: row.artists.id,
+                name: row.artists.name
+            };
+        }
+
+        return {
+            type: "group",
+            id: row.member_group.id,
+            name: row.member_group.name
+        };
+    });
+  }
+
+async function getHTMLartist(song){
+  if (!song.groups?.name?.includes("ft.")){
+
+      const type = song.groups ? "group" : "artist";
+      const obj = song.groups ?? song.artists;
+
+      return `
+          <span class="artist-link"
+                data-id="${obj.id}"
+                data-type="${type}">
+              ${escapeHtml(obj.name)}
+          </span>
+      `;
+
+  }else{
+    
+    const participants = await getArtistGroup(song);
+    
+    return participants.map((p, i) => `
+      <span class="artist-link"
+            data-id="${p.id}"
+            data-type="${p.type}">
+          ${escapeHtml(p.name)}
+      </span>${i < participants.length - 1 ? " ft. " : ""}
+  `).join("");
+
+  }
 }
 
 const eq_col = {
