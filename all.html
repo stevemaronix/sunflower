@@ -91,7 +91,7 @@
             if (list.length>0){
                 nodes.list.insertAdjacentHTML(
                     "beforeend",
-                    `<div class="index-letters"><h2 class="letters">${key}</h2><div class="grid">${list.map(song => renderSongCard(song,ind++)).join("")}</div></div>`
+                    `<div class="index-letters"><h2 class="letters">${key}</h2><div class="grid">${list.map(renderSongCard).join("")}</div></div>`
                 );
             }
         };
@@ -169,8 +169,9 @@
       }
       const card = event.target.closest(".song");
       if (!card) return;
-      const index = Number(card.dataset.index);
-      openModal(state.songs[index]);
+      const id = Number(card.dataset.id);
+      const song = state.songs.find(s => s.id === id);
+      openModal(song);
     });
 
     modals.close.addEventListener("click", closeModal);

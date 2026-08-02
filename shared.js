@@ -65,7 +65,7 @@ function renderSongCard(song,index) {
         const category = song.categories?.name ? `<span class="pill">${escapeHtml(song.categories?.name)}</span>` : "";
 
         return `
-          <article class="song" data-index="${index}">
+          <article class="song" data-index="${index}" data-id="${song.id}">
             ${liked}
             <div class="song-header">
               <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
