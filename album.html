@@ -43,6 +43,7 @@
 
     const state = {
         songs: [],
+        fromAlbum: []
     }
 
     const nodes = {
@@ -54,15 +55,16 @@
     }
 
     function renderListSongs(){
-        nodes.list.innerHTML = state.songs.map(renderSongCard).join("");
-        const total = state.songs.length;
-        nodes.count.textContent = `${state.songs.length} chanson${state.songs.length > 1 ? "s" : ""} dans cet ${eq_col[itiswhat]}`;
+        state.fromAlbum = state.songs.filter(song => song.albums?.id == albumId);
+        nodes.list.innerHTML = state.fromAlbum.map(renderSongCard).join("");
+        const total = state.fromAlbum.length;
+        nodes.count.textContent = `${state.fromAlbum.length} chanson${state.fromAlbum.length > 1 ? "s" : ""} dans cet ${eq_col[itiswhat]}`;
 
     }
 
     function renderAlbum(){
         nodes.albumTitle.textContent = state.album?.name;
-        nodes.artist.textContent = state.songs[0]?.groups?.name || state.songs[0]?.artists?.name || "";
+        nodes.artist.textContent = state.fromAlbum[0]?.groups?.name || state.songs[0]?.artists?.name || "";
         nodes.cover.src = state.album?.pochette;
     }
 
@@ -127,7 +129,6 @@
                 }));
 
                 sessionStorage.setItem("songs",JSON.stringify(state.songs));
-                console.log(state.songs);
                 renderListSongs();
         } catch (error) {
             nodes.count.textContent = "Catalogue indisponible";
