@@ -183,5 +183,5 @@ function toggleMenu() {
   menuOverlay.classList.toggle("open");
 }
 
-menuToggle.addEventListener("click", toggleMenu);
-menuOverlay.addEventListener("click", toggleMenu);
+menuToggle?.addEventListener("click", toggleMenu);
+menuOverlay?.addEventListener("click", toggleMenu);
