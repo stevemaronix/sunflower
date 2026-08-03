@@ -150,15 +150,15 @@
       if (likeButton) {
         event.stopPropagation();  // empêche d'ouvrir aussi la modale
         const card = likeButton.closest(".song");
-        const index = Number(card.dataset.index);
-        await toggleLike(state.songs[index], likeButton);
+        const index = Number(card.dataset.id);
+        await toggleLike(state.songs.find(s => s.id === id), likeButton);
         refreshSession("songs",state.songs);
         return;
       }
       const card = event.target.closest(".song");
       if (!card) return;
-      const index = Number(card.dataset.index);
-      const song=state.songs[index];
+      const index = Number(card.dataset.id);
+      const song=state.songs.find(s => s.id === id);
       if (song.link){
         window.open(song.link,"_blank");
       }
