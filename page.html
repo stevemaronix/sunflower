@@ -283,14 +283,32 @@
         }
 
         catalog = data;
+        catalog.artistById = Object.fromEntries(
+            catalog.artists.map(a => [a.id, a])
+        );
 
-        state.songs = (Array.isArray(catalog.songs) ? catalog.songs : []);
+        catalog.groupById = Object.fromEntries(
+            catalog.groups.map(g => [g.id, g])
+        );
 
-        sessionStorage.setItem("catalog",JSON.stringify(catalog));
+        catalog.albumById = Object.fromEntries(
+            catalog.albums.map(a => [a.id, a])
+        );
+
+        catalog.epById = Object.fromEntries(
+            catalog.EP.map(a => [a.id, a])
+        );
+        catalog.singleById = Object.fromEntries(
+            catalog.singles.map(a => [a.id, a])
+        );
+
+        state.songs = Array.isArray(catalog.songs) ? catalog.songs : [];
+
+        sessionStorage.setItem("catalog", JSON.stringify(catalog));
 
         renderFilters();
         renderList();
-        
+
       } catch (error) {
         nodes.count.textContent = "Catalogue indisponible";
         nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;

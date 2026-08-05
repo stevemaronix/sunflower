@@ -106,6 +106,7 @@ function refreshSession(file,newValue){
   sessionStorage.setItem("songs",JSON.stringify(newValue));
 }
 
+
 async function getArtistGroup(song){
     const groupId = song.groups.id;
 
@@ -161,6 +162,30 @@ async function getHTMLartist(song){
   `).join("");
 
   }
+}
+
+function getArtist(song) {
+    return catalog.artistById[song.artist];
+}
+
+function getGroup(song) {
+    return catalog.groupById[song.group];
+}
+
+function getAlbum(song) {
+    return catalog.albumById[song.album];
+}
+
+function getEP(song) {
+    return catalog.epById[song.ep];
+}
+
+function getSingle(song) {
+    return catalog.singleById[song.single];
+}
+
+function getCategory(song) {
+    return catalog.categoryById[song.category];
 }
 
 const eq_col = {
