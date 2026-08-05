@@ -302,6 +302,11 @@
             catalog.singles.map(a => [a.id, a])
         );
 
+        catalog.artistGroupByGroup = Object.groupBy(
+            catalog.artist_group,
+            row => row.group_id
+        );
+
         state.songs = Array.isArray(catalog.songs) ? catalog.songs : [];
 
         sessionStorage.setItem("catalog", JSON.stringify(catalog));
