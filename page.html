@@ -174,12 +174,12 @@
 
     function getSearchText(song) {
       return {
-        album : normalize(song[whatisit(song)]?.name),
+        album : normalize(getWhatever(song)?.name),
         title : normalize(song.title),
-        artist : normalize(song.artists?.name),
-        groupe: normalize(song.groups?.name),
+        artist : normalize(getArtist(song)?.name),
+        groupe: normalize(getGroup(song)?.name),
         theme : normalize(song.theme),
-        category : normalize(song.categories?.name),
+        category : normalize(getCategory(song)?.name),
         keyword : normalize(song.keywords),
         year : normalize(song.year),
       }
@@ -199,13 +199,13 @@
       const q_kw = state.kw.split(" ").map(v => normalize(v)).filter(Boolean); 
 
       return state.songs.filter((song) => {
-        const artist = song.artists?.name || "";
-        const groupe = song.groups?.name || "";
+        const artist = getArtist(song)?.name || "";
+        const groupe = getGroup(song)?.name || "";
         const titre = song.title || "";
         const year = song.year || "";
         const matchesQueryArtist = !q_art || getSearchText(song).groupe.includes(q_art) || getSearchText(song).artist.includes(q_art);
         const matchesTheme = !state.theme || song.theme === state.theme;
-        const matchesCategory = !state.category || song.categories?.name == state.category;
+        const matchesCategory = !state.category || getCategory(song)?.name == state.category;
         const matchesQueryTitle = !q_tit || getSearchText(song).title.includes(q_tit);
         const matchesQueryYear = matchesYear(song);
         const matchesQueryKw = !q_kw.length || q_kw.some(element => song.keywords?.includes(element));
@@ -223,12 +223,12 @@
 
     function renderFilters() {
       const themes = [...new Set(state.songs.map((song) => song.theme).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
-      const categories = [...new Set(state.songs.map((song)=>(normalize(song.theme) == normalize(state.theme)) ? song.categories?.name : "").filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
+      const categories = [...new Set(state.songs.map((song)=>(normalize(song.theme) == normalize(state.theme)) ? getCategory(song)?.name : "").filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
       fillSelect(nodes.theme, themes, "Tous les thèmes");
       fillSelect(nodes.category, categories, "Toutes les catégories");
     }
     function getSortValue(song, key){
-      if (key === "artist") return song.artists?.name || "";
+      if (key === "artist") return getArtist(song)?.name || "";
       return song[key] || "";
     }
 
@@ -305,6 +305,10 @@
         catalog.artistGroupByGroup = Object.groupBy(
             catalog.artist_group,
             row => row.group_id
+        );
+
+        catalog.categoryById = Object.fromEntries(
+            catalog.categories.map(c => [c.id, c])
         );
 
         state.songs = Array.isArray(catalog.songs) ? catalog.songs : [];
