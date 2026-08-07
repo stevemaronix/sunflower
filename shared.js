@@ -169,7 +169,7 @@ function getGroup(song) {
 }
 
 function getWhatever(song){
-  return catalog[`${whatisit(song)}ById`][getWhatever(song)]
+  return catalog[`${whatisit(song)}ById`][song[eq_col[whatisit(song)]]]
 }
 
 function getAlbum(song) {
