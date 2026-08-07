@@ -161,11 +161,11 @@ async function getHTMLartist(song){
 }
 
 function getArtist(song) {
-    return catalog.artistById[song.artist];
+    return catalog?.artistById[song?.artist];
 }
 
 function getGroup(song) {
-    return catalog.groupById[song.group];
+    return catalog?.groupById[song?.group];
 }
 
 function getWhatever(song){
@@ -175,19 +175,19 @@ function getWhatever(song){
 }
 
 function getAlbum(song) {
-    return catalog.albumsById[song.album];
+    return catalog?.albumsById[song?.album];
 }
 
 function getEP(song) {
-    return catalog.EPById[song.ep];
+    return catalog?.EPById[song?.ep];
 }
 
 function getSingle(song) {
-    return catalog.singlesById[song.single];
+    return catalog?.singlesById[song?.single];
 }
 
 function getCategory(song) {
-    return catalog.categoryById[song.category];
+    return catalog?.categoryById[song?.category];
 }
 
 
