@@ -170,8 +170,6 @@ function getGroup(song) {
 
 function getWhatever(song){
   const type = whatisit(song);
-  const id = eq_col[whatisit(song)];
-  console.log(type,id);
   return catalog[`${type}ById`][song[whatisit(song)]]
 }
 
