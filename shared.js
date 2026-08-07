@@ -24,9 +24,9 @@ function titleCase(str) {
 }
 
 function whatisit(song){
-    if (song.albums) return "albums";
-    if (song.singles) return "singles";
-    if (song.EP) return "EP";
+    if (song.album) return "albums";
+    if (song.single) return "singles";
+    if (song.ep) return "EP";
   }
 
 async function toggleLike(song, iconElement) {
