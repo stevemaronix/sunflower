@@ -170,6 +170,7 @@ function getGroup(song) {
 
 function getWhatever(song){
   const type = whatisit(song);
+  if (!type) return undefined;
   return catalog[`${type}ById`][song[whatisit(song)]]
 }
 
