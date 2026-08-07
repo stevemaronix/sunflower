@@ -314,7 +314,10 @@
 
         state.songs = Array.isArray(catalog.songs) ? catalog.songs : [];
 
-        sessionStorage.setItem("catalog", JSON.stringify(catalog));
+        console.log("AVANT STRINGIFY");
+        const json = JSON.stringify(catalog);
+        console.log("STRINGIFY OK");
+        sessionStorage.setItem("catalog", json);
 
         renderFilters();
         renderList();
