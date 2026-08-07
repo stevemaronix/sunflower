@@ -24,9 +24,9 @@ function titleCase(str) {
 }
 
 function whatisit(song){
-    if (song.album) return "albums";
-    if (song.single) return "singles";
-    if (song.ep) return "EP";
+    if (song.album) return "album";
+    if (song.single) return "single";
+    if (song.ep) return "ep";
   }
 
 async function toggleLike(song, iconElement) {
@@ -172,7 +172,7 @@ function getWhatever(song){
   const type = whatisit(song);
   const id = eq_col[whatisit(song)];
   console.log(type,id);
-  return catalog[`${type}ById`][song[eq_col[whatisit(song)]]]
+  return catalog[`${type}ById`][song[whatisit(song)]]
 }
 
 function getAlbum(song) {
@@ -191,11 +191,6 @@ function getCategory(song) {
     return catalog.categoryById[song.category];
 }
 
-const eq_col = {
-  "singles": "single",
-  "EP": "ep",
-  "albums": "album",
-}
 
 const client_url = "https://wihxegbjecvfnmdtodvq.supabase.co"
 const sup_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpaHhlZ2JqZWN2Zm5tZHRvZHZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0OTUzNzgsImV4cCI6MjA5OTA3MTM3OH0.Wwr1x3mj_e8fSiSi4NT8CYP1w0wGYbbms1040kFmGRo"
