@@ -117,7 +117,7 @@
             ag => ag.artist_id == artistId
         );
         console.log(assoc);
-        state.groups = assoc.map(ass => getGroup(ass.group_id));
+        state.groups = assoc.map(ass => getGroup(ass.group_id)).filter(Boolean);
     }
 
     async function render(){
