@@ -71,8 +71,8 @@
         nodes.artist.textContent = state.artist?.name;
         if (type==="artist"){
             nodes.groups.textContent = state.groups.map((group,index) => {
-                if (index === state.groups.length - 1) return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
-                else return group.groups?.name.includes("ft.") ? "" : `${group.groups?.name},`;
+                if (index === state.groups.length - 1) return group?.name.includes("ft.") ? "" : `${group?.name},`;
+                else return group?.name.includes("ft.") ? "" : `${group?.name},`;
             }).join("");
             nodes.photo.src = state.artist?.link ?? "url(logo2.png)";
         }
