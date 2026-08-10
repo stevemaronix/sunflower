@@ -117,7 +117,7 @@
             ag => ag.artist_id == artistId
         );
         console.log(assoc);
-        state.groups = assoc.map(ass => getGroup(ass.group_id)).filter(Boolean);
+        state.groups = assoc.map(ass => catalog?.groupById[ass.group_id]).filter(Boolean);
         console.log(state.groups);
     }
 
