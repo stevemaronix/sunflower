@@ -118,6 +118,7 @@
         );
         console.log(assoc);
         state.groups = assoc.map(ass => getGroup(ass.group_id)).filter(Boolean);
+        console.log(state.groups);
     }
 
     async function render(){
