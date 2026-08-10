@@ -128,6 +128,7 @@
         loadSongs();
         renderArtist();
         document.getElementById("titleArtist").textContent = `${document.getElementById("titleArtist").textContent}: ${state.artist?.name}`;
+        renderListSongs();
     }
 
 
@@ -145,8 +146,8 @@
       }
       const card = event.target.closest(".song");
       if (!card) return;
-      const index = Number(card.dataset.index);
-      const song=state.songs[index];
+      const id = Number(card.dataset.id);
+      const song=state.songs.find(song => song.id === id);
       if (song.link){
         window.open(song.link,"_blank");
       }
