@@ -102,8 +102,8 @@ function closeModal() {
 }
 
 function refreshSession(file,newValue){
-  sessionStorage.removeItem("songs");
-  sessionStorage.setItem("songs",JSON.stringify(newValue));
+  sessionStorage.removeItem(file);
+  sessionStorage.setItem(file,JSON.stringify(newValue));
 }
 
 
