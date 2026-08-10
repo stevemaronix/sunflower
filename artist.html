@@ -107,28 +107,10 @@
         }
     }
 
-    function loadSongs() {
-    const groupIds = state.groups.map(g => g.id);
-
-    console.log("groupIds :", groupIds);
-
-    catalog.songs.forEach(song => {
-        if (song.group) {
-            console.log(
-                "song :", song.title,
-                "| song.group :", song.group,
-                "| trouvé :", groupIds.includes(song.group)
-            );
-        }
-    });
-
-    state.songs = catalog.songs.filter(song =>
-        song.artist == artistId ||
-        groupIds.includes(song.group)
-    );
-
-    console.log("songs :", state.songs);
-}
+    function loadSongs(){
+        const groupIds = state.groups.map(g => g.group_id);
+        state.songs = catalog.songs.filter(song => song.artist == artistId || groupIds.includes(song.group));
+    }
     
     function loadGroups(){
         const assoc = catalog.artist_group.filter(
