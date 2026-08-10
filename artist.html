@@ -113,9 +113,10 @@
     }
     
     function loadGroups(){
-        state.groups = catalog.artist_group.filter(
+        const assoc = catalog.artist_group.filter(
             ag => ag.artist_id == artistId
         );
+        state.groups = assoc.map(ass => getGroup(ass.group_id));
     }
 
     async function render(){
