@@ -135,7 +135,7 @@ async function getHTMLartist(song){
   if (!getGroup(song)?.name?.includes("ft.")){
 
       const type = getGroup(song) ? "group" : "artist";
-      const obj = getGroup(song) ?? getArtist(song.group);
+      const obj = getGroup(song) ?? getArtist(song);
 
       return `
           <span class="artist-link"
