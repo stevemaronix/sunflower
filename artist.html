@@ -92,7 +92,7 @@
             ${liked}
             <div class="song-header">
               <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
-              ${(getGroup(song)?.name && type==="artist") ? `<p class="artist">${getGroup(song).name}</p>` : ""}
+              ${(getGroup(song)?.name && type==="artist") ? `<p class="artist">${getGroup(song)?.name}</p>` : ""}
             </div>
             <div class="details">${album}${year}${theme}</div>
           </article>
