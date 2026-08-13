@@ -39,6 +39,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="shared.js"></script>
 <script>
+    const catalog = sessionStorage.getItem("catalog");
     const client = supabase.createClient(client_url, sup_key);
     const state = {
         songs: [],
@@ -62,50 +63,7 @@
     async function loadSongs(forceRefresh = false){
         const {data: { user }} = await client.auth.getUser();
         if (user){
-            try {
-
-                    if (!forceRefresh) {
-                        const cached = sessionStorage.getItem("songs");
-                        if (cached) {
-                            console.table(cached);
-                            state.songs = JSON.parse(cached);
-                            renderListSongs();
-                            return
-                        };
-                    }
-                    const response = await fetch(`${sup_url}songs?select=id,title,artist,description,year,keywords,artists(id,name,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${query}`, {
-                    headers: {
-                        apikey: `${sup_key}`,
-                        Authorization: `Bearer ${sup_key}`,
-                    },
-                });
-
-                    let likedIds = new Set()
-                    const { data: likes } = await client
-                        .from("liked")
-                        .select("song_id")
-                        .eq("user_id", user.id);
-                    likedIds = new Set((likes || []).map(l => l.song_id));
-
-                    const data = await response.json()
-
-                    if (!response.ok) {
-                    throw new Error(data.message || "Impossible de charger les chansons.");
-                    }
-
-                    state.songs = (Array.isArray(data) ? data : []).map(song => ({
-                    ...song,
-                    liked: likedIds.has(song.id),
-                    }));
-
-                    sessionStorage.setItem("songs",JSON.stringify(state.songs));
-
-                    console.log(state.songs);
-                    renderListSongs();
-            } catch (error) {
-                nodes.count.textContent = "Catalogue indisponible";
-                nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
-            }
+            state.songs = catalog.songs;
         }
         else{
             nodes.count.innerHTML = "Vous n'avez aucun record enregistré car vous n'êtes pas connectés. <a class='connect-redirect' href='index.html'>Se connecter</a>";
@@ -124,16 +82,16 @@
       if (likeButton) {
         event.stopPropagation();  // empêche d'ouvrir aussi la modale
         const card = likeButton.closest(".song");
-        const index = Number(card.dataset.index);
-        await toggleLike(state.liked[index], likeButton);
-        refreshSession("songs",state.songs);
+        const id = Number(card.dataset.id);
+        await toggleLike(state.liked.find(song =>  song.id == id), likeButton);
+        refreshSession("catalog",catalog);
         renderListSongs();
         return;
       }
       const card = event.target.closest(".song");
       if (!card) return;
-      const index = Number(card.dataset.index);
-      const song=state.liked[index];
+      const id = Number(card.dataset.id);
+      const song=state.liked.find(song => song.id == id);
       if (song.link){
         window.open(song.link,"_blank");
       }
