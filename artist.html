@@ -84,15 +84,15 @@
         const theme = song.theme ? `<span class="pill">${escapeHtml(song.theme)}</span>` : "";
         const keywords = song.keywords ? `<span class="pill">${escapeHtml(song.keywords)}</span>` : "";
         const link = song.link || song.lien;
-        const album = song[whatisit(song)]?.name ? `<span class="pill">${escapeHtml(song[whatisit(song)]?.name)}</span>` : "";
-        const category = song.categories?.name ? `<span class="pill">${escapeHtml(song.categories?.name)}</span>` : "";
+        const album = getWhatever(song)?.name ? `<span class="pill">${escapeHtml(getWhatever(song)?.name)}</span>` : "";
+        const category = getCategory(song)?.name ? `<span class="pill">${escapeHtml(getCategory(song)?.name)}</span>` : "";
 
         return `
           <article class="song" data-index="${index}" data-id="${song.id}">
             ${liked}
             <div class="song-header">
               <h2 class="titre">${escapeHtml(song.title || "Sans titre")}</h2>
-              ${(song.groups?.name && type==="artist") ? `<p class="artist">${song.groups.name}</p>` : ""}
+              ${(getGroup(song)?.name && type==="artist") ? `<p class="artist">${getGroup(song).name}</p>` : ""}
             </div>
             <div class="details">${album}${year}${theme}</div>
           </article>
