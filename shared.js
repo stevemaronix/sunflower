@@ -160,6 +160,30 @@ async function getHTMLartist(song){
   }
 }
 
+function downloadCatalog() {
+      const catalog = sessionStorage.getItem("catalog");
+
+      if (!catalog) {
+          console.error("Aucun catalogue en cache");
+          return;
+      }
+
+      const blob = new Blob([catalog], {
+          type: "application/json"
+      });
+
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "catalog.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      URL.revokeObjectURL(url);
+  }
+
 function getArtist(song) {
     return catalog?.artistById[song?.artist];
 }

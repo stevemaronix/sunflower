@@ -752,6 +752,10 @@
   z-index: 20;
 }
 
+.side-menu a{
+  color: inherit;
+}
+
 .side-menu.open {
   left: 0;
 }
