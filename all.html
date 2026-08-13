@@ -110,6 +110,7 @@
 
     function render(){
         loadSongs();
+        renderListSongs();
     }
 
 
@@ -121,7 +122,7 @@
       if (likeButton) {
         event.stopPropagation();  // empêche d'ouvrir aussi la modale
         const card = likeButton.closest(".song");
-        const index = Number(card.dataset.id);
+        const id = Number(card.dataset.id);
         await toggleLike(state.songs.find(s => s.id === id), likeButton);
         refreshSession("songs",state.songs);
         renderListSongs();
