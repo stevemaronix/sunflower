@@ -41,7 +41,7 @@
 </body>
 <script src="shared.js"></script>
 <script>
-    const catalog = sessionStorage.getItem("catalog");
+    const catalog = JSON.parse(sessionStorage.getItem("catalog"));
     const state = {
         songs: [],
         fromAlbum: []
