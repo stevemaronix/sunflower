@@ -56,7 +56,7 @@
     }
 
     function renderListSongs(){
-        state.fromAlbum = state.songs.filter(song => song.albums?.id == albumId);
+        state.fromAlbum = state.songs.filter(song => song.album == albumId);
         nodes.list.innerHTML = state.fromAlbum.map(renderSongCard).join("");
         const total = state.fromAlbum.length;
         nodes.count.textContent = `${state.fromAlbum.length} chanson${state.fromAlbum.length > 1 ? "s" : ""} dans cet ${eq_col[itiswhat]}`;
@@ -65,81 +65,22 @@
 
     function renderAlbum(){
         nodes.albumTitle.textContent = state.album?.name;
-        nodes.artist.textContent = state.fromAlbum[0]?.groups?.name || state.songs[0]?.artists?.name || "";
+        nodes.artist.textContent =state.fromAlbum.filter(song => !getGroup(song).includes("ft."))[0] || getGroup(state.fromAlbum[0])?.name || getArtist(state.fromAlbum[0])?.name || "";
         nodes.cover.src = state.album?.pochette;
     }
 
-    async function loadAlbum(){
-        const type = itiswhat;
-        const response = await fetch(`${sup_url}${type}?select=id,name,sortie,pochette,link&id=eq.${albumId}`,
-        {headers: {
-            apikey: `${sup_key}`,
-            Authorization: `Bearer ${sup_key}`,
-        },
-        })
-
-        const data = await response.json()
-
-        if (!response.ok){
-            throw new Error(data.message || "Impossible de charger l'album");
-        }
-        state.album = Array.isArray(data) ? data[0] : {};
+    function loadAlbum(){
+        console.log(itiswhat);
+        state.album = getWhatever(song);
     }
 
-    async function loadSongs(forceRefresh = false){
-        try {
-
-                if (!forceRefresh) {
-                    const cached = sessionStorage.getItem("songs");
-                    if (cached) {
-                        console.table(cached);
-                        state.songs = JSON.parse(cached);
-                        renderListSongs();
-                        return
-                    };
-                    
-                }
-                const response = await fetch(`${sup_url}songs?select=id,title,description,year,artists(id,name),keywords,albums(id,pochette,link),theme,link,categories(name),groups(id,name),EP(id,pochette,link),singles(id,pochette,link),created_at&order=title.asc&${eq_col[itiswhat]}=eq.${albumId}`, {
-                headers: {
-                    apikey: `${sup_key}`,
-                    Authorization: `Bearer ${sup_key}`,
-                },
-                });
-
-                const { data: { user } } = await client.auth.getUser();
-
-                let likedIds = new Set();
-
-                if (user) {
-                const { data: likes } = await client
-                    .from("liked")
-                    .select("song_id")
-                    .eq("user_id", user.id);
-                likedIds = new Set((likes || []).map(l => l.song_id));
-                }
-
-                const data = await response.json()
-
-                if (!response.ok) {
-                throw new Error(data.message || "Impossible de charger les chansons.");
-                }
-
-                state.songs = (Array.isArray(data) ? data : []).map(song => ({
-                ...song,
-                liked: likedIds.has(song.id),
-                }));
-
-                sessionStorage.setItem("songs",JSON.stringify(state.songs));
-                renderListSongs();
-        } catch (error) {
-            nodes.count.textContent = "Catalogue indisponible";
-            nodes.list.innerHTML = `<div class="notice">${escapeHtml(error.message)}</div>`;
-        }
+    function loadSongs(forceRefresh = false){
+        state.songs = catalog.songs.filter(song => song.album == albumId);
     }
 
     async function render(){
-        await loadSongs();
-        await loadAlbum();
+        loadSongs();
+        loadAlbum();
         renderAlbum();
         document.getElementById("titleAlbum").textContent = `${document.getElementById("titleAlbum").textContent}: ${state.album?.name}`;
     }
