@@ -523,7 +523,7 @@
 
 
     loadSongs();
-    ([state.artist,state.title,state.theme,state.kw].exists(Boolean)) ? nodes.list.classList.remove("hide") : nodes.classList.add("hide");
+    ([state.artist,state.title,state.theme,state.kw].some(Boolean)) ? nodes.list.classList.remove("hide") : nodes.list.classList.add("hide");
   </script>
 </body>
 </html>
