@@ -138,6 +138,7 @@
       /* box-shadow: var(--shadow); */
       position: relative;
       margin-top: 24px;
+      margin-bottom: 20px;
       z-index: 3;
       font-weight: bold;
       backdrop-filter: blur(10px);
@@ -238,7 +239,6 @@
     }
     .hide{
       display: none;
-      margin-top: 20px;
     }
     .overlay {
       display: none;
