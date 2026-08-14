@@ -238,6 +238,7 @@
     }
     .hide{
       display: none;
+      margin-top: 20px;
     }
     .overlay {
       display: none;
