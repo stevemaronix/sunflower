@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <div class="meta">
+    <div id="metaData" class="meta hide">
       <p id="count">Chargement du catalogue...</p>
       <p class="sort-inline">
         Trier par :
@@ -159,6 +159,7 @@
       keywords: document.getElementById("kw_search"),
       reset: document.getElementById("reset"),
       sort_song: document.getElementById("sort_songs"),
+      meta: document.getElementById("metaData")
     };
 
     const modals = {
@@ -245,6 +246,7 @@
     }
 
     function renderList() {
+      ([state.artist,state.title,state.theme,state.kw].some(Boolean)) ? (nodes.list.classList.remove("hide"), nodes.meta.classList.remove("hide")) : (nodes.list.classList.add("hide"),nodes.meta.classList.add("hide"));
       const songs = sortSongs(getFilteredSongs());
       currentFilteredSongs = songs;
       sortingCriteria = nodes.sort_song.value;
@@ -523,7 +525,6 @@
 
 
     loadSongs();
-    ([state.artist,state.title,state.theme,state.kw].some(Boolean)) ? nodes.list.classList.remove("hide") : nodes.list.classList.add("hide");
   </script>
 </body>
 </html>
