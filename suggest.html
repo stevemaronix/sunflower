@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hummingbird</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Water+Brush&family=DynaPuff&family=Clicker+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="page.html" class="pill" id="retour"><- Retour</a>
+    <main class="records-global shell">
+        <h2 style="font-size: 40px">Suggestion</h2>
+        <p id="count" class="meta">Voici quelques suggestions</p>
+        <section class="grid" id="artistList" aria-live="polite">
+            <article class="song" id="ricky">
+            <div class="song-header">
+              <h2 class="titre">Sans titre</h2>
+              <p class="artist">Inconnu</p>
+            </div>
+            <div class="details"><span class="pill">???</span></div>
+          </article>
+        </section>
+
+    </main>
+    <button id="menuToggle" aria-label="Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <nav id="sideMenu" class="side-menu">
+        <a href="page.html">Recherche</a>
+        <a href="all.html">Index</a>
+        <a href="records.html">Mes records</a>
+        <a href="suggest.html">Suggestions personnalisées</a>
+        <button class="bouton-menu" onclick="downloadCatalog()">Télécharger le catalogue</button>
+        
+    </nav>
+
+    <div id="menuOverlay" class="menu-overlay"></div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="shared.js"></script>
+<script>
+    document.getElementById("ricky").addEventListener("click", () => window.open("https://youtu.be/Cxmvq1MCR3c?si=gvNTOdX-8yuH9BWr","_blank"));
+</script>
+</html>
