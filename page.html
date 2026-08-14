@@ -86,7 +86,7 @@
       </div>
     </section>
 
-    <section class="grid" id="list" aria-live="polite">
+    <section class="grid hide" id="list" aria-live="polite">
       <div class="skeleton"></div>
       <div class="skeleton"></div>
       <div class="skeleton"></div>
@@ -523,6 +523,7 @@
 
 
     loadSongs();
+    if ([state.artist,state.title,state.theme,state.kw].exists(Boolean)) nodes.list.classList.remove("hide");
   </script>
 </body>
 </html>
