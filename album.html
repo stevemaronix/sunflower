@@ -56,7 +56,7 @@
     }
 
     function renderListSongs(){
-        state.fromAlbum = state.songs.filter(song => song.album == albumId);
+        state.fromAlbum = state.songs.filter(song => song[itiswhat] == albumId);
         nodes.list.innerHTML = state.fromAlbum.map(renderSongCard).join("");
         const total = state.fromAlbum.length;
         nodes.count.textContent = `${state.fromAlbum.length} chanson${state.fromAlbum.length > 1 ? "s" : ""} dans cet ${itiswhat}`;
