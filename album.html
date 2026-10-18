@@ -74,7 +74,7 @@
     }
 
     function loadSongs(forceRefresh = false){
-        state.songs = catalog.songs.filter(song => song.album == albumId);
+        state.songs = catalog.songs.filter(song => song[itiswhat] == albumId);
     }
 
     async function render(){
