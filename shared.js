@@ -82,7 +82,7 @@ async function openModal(song) {
     modals.title.target = "_blank";
     modals.artist.innerHTML = await getHTMLartist(song);
     modals.artist.dataset.id = getGroup(song)?.id || getArtist(song)?.id || ""; 
-    modals.description.textContent = song.description || "";
+    modals.description.textContent = song.description.replace(/\\n/g,"\n") || "";
     modals.details.innerHTML = [
       {type: "theme", value : song.theme}, {value: getCategory(song)?.name, type: "category", origin: song.theme}
     ].filter(item => item.value).map(v => `<span class="pill" data-origin=${v?.origin} data-type=${v.type}>${escapeHtml(v.value)}</span>`).join("");
