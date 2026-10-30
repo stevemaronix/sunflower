@@ -49,7 +49,11 @@
     margin-top: 20px;
   }
 
-    #retour{
+.description{
+    whitespace : pre-line;
+
+}
+     #retour{
       color: var(--muted);
       position: fixed;
       font-family: inherit;
